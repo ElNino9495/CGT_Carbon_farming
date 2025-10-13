@@ -1,0 +1,14 @@
+Simulation Run Log
+Timestamp: 20250816_094600
+Output Directory: ./data/results/synergy_20250816_094600
+------------------------------
+model: synergy
+commission: 0.3
+beta: 0.44
+theta: 0.62
+training_cost: 30000.0
+fpo_id: FPO_B
+runs: 1
+max_size: 40
+seed: 2025
+datafile: ./data/synthetic/farmer_data_v3.csv

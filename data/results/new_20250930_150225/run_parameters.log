@@ -1,0 +1,14 @@
+Simulation Run Log
+Timestamp: 20250930_150225
+Output Directory: ./data/results/new_20250930_150225
+------------------------------
+model: new
+commission: 0.2
+beta: 100.0
+theta: 1.2
+training_cost: 50000
+fpo_id: FPO_B
+runs: 1
+max_size: 30
+seed: 2025
+datafile: ./data/synthetic/farmer_data_v3.csv
