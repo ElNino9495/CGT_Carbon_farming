@@ -33,9 +33,20 @@ def generate_carbon_market_data(n_farmers=250, seed=42):
     adoption_rates = np.array([p['adoption'] for p in operation_practices.values()])
     probabilities = adoption_rates / adoption_rates.sum()
 
-    farm_sizes = np.round(np.random.gamma(2, 1.5, n_farmers), 2)
+    mu_hectares = -0.5
+    sigma_hectares = 1.0
     
-    for i, size_acres in enumerate(farm_sizes):
+    # Generate sizes in hectares first
+    farm_sizes_hectares = np.random.lognormal(mean=mu_hectares, sigma=sigma_hectares, size=n_farmers)
+    
+    # Convert to acres (1 hectare = 2.47105 acres)
+    HECTARES_TO_ACRES = 2.47105
+    farm_sizes_acres = farm_sizes_hectares * HECTARES_TO_ACRES
+    
+    # Round to 2 decimal places
+    farm_sizes_acres = np.round(farm_sizes_acres, 2)
+    
+    for i, size_acres in enumerate(farm_sizes_acres):
         farmer_id = f"F{i+1:05d}"
         
         fpo_id = np.random.choice(fpo_ids, p=[0.4, 0.4, 0.2])
@@ -68,7 +79,7 @@ if __name__ == "__main__":
     parser.add_argument("-n", "--n_farmers", type=int, default=250)
     parser.add_argument("-s", "--seed", type=int, default=42)
     parser.add_argument("-o", "--output_dir", type=str, default="./data/synthetic/")
-    parser.add_argument("--filename", type=str, default="farmer_data_v3.csv" )
+    parser.add_argument("--filename", type=str, default="farmer_data_log_normal.csv" )
     
     args = parser.parse_args()
     
@@ -78,9 +89,4 @@ if __name__ == "__main__":
     output_path = os.path.join(args.output_dir, args.filename)
     df.to_csv(output_path, index=False)
     
-    print(f"Successfully generated data for {len(df)} farmers.")
-    print(f"Saved dataset to: {output_path}")
-    print("\nData Summary:")
-    print(f"  Mean Farm Size: {df['Farm_Size_Acres'].mean():.2f} acres")
-    print("\nOperational Cost Summary by Practice Type:")
-    print(df.groupby('Operation_Type')['Operational_Cost_INR'].describe().round(2))
+ 
