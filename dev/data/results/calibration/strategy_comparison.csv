@@ -1,0 +1,4 @@
+Strategy,Beta,Theta,Total Loss,Avg Payoff Range
+random,1.0,0.01,9625654412.978348,3243 - 9981
+ascending,1.0,0.01,14654150796.17949,0 - 1619
+descending,5000.0,0.99,354418605839.6641,42436 - 282959
