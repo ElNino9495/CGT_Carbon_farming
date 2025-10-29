@@ -10,7 +10,7 @@ def generate_carbon_market_data(n_farmers=250, seed=42):
     fpo_ids = ['FPO_A', 'FPO_B', 'FPO_C']
     
     operation_practices = {
-        'Reduced Tillage': {'cost': 400, 'adoption': 1.4},
+        'Lazer Land Leveling': {'cost': 400, 'adoption': 1.4},
         'Optimized Fertilizer Use': {'cost': 300, 'adoption': 20.0},
         'Soil Amendments': {'cost': 500, 'adoption': 2.5},
         'Improved Water Management (AWD)': {'cost': 600, 'adoption': 14.3},

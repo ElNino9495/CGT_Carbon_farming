@@ -1,0 +1,251 @@
+Farmer_ID,Farm_Size_Acres,FPO_ID,Operation_Type,Operational_Cost_INR,Actual_Carbon_Sequestered_tCO2e,Carbon_per_Acre
+F00001,3.59,FPO_B,Zero/Minimal Tillage,1000.0,10.18,2.84
+F00002,2.24,FPO_B,Zero/Minimal Tillage,800.0,20.01,8.93
+F00003,2.07,FPO_C,Laser Land Levelling,1800.0,7.28,3.52
+F00004,2.07,FPO_B,Laser Land Levelling,1500.0,13.85,6.69
+F00005,6.97,FPO_A,Zero/Minimal Tillage,1700.0,41.41,5.94
+F00006,4.3,FPO_A,Laser Land Levelling,2800.0,28.64,6.66
+F00007,1.7,FPO_A,Zero/Minimal Tillage,500.0,7.32,4.31
+F00008,3.7,FPO_B,Laser Land Levelling,2400.0,18.67,5.05
+F00009,3.0,FPO_A,Laser Land Levelling,2200.0,13.72,4.57
+F00010,0.32,FPO_A,Laser Land Levelling,200.0,3.05,9.53
+F00011,1.01,FPO_B,Zero/Minimal Tillage,200.0,6.12,6.06
+F00012,3.16,FPO_C,Zero/Minimal Tillage,1100.0,18.32,5.8
+F00013,6.55,FPO_B,Laser Land Levelling,4300.0,36.69,5.6
+F00014,2.09,FPO_A,Laser Land Levelling,1500.0,6.84,3.27
+F00015,1.59,FPO_B,Laser Land Levelling,1100.0,13.45,8.46
+F00016,2.72,FPO_B,Zero/Minimal Tillage,600.0,31.39,11.54
+F00017,1.51,FPO_B,Zero/Minimal Tillage,400.0,12.1,8.01
+F00018,1.98,FPO_A,Laser Land Levelling,1300.0,9.58,4.84
+F00019,2.47,FPO_C,Zero/Minimal Tillage,800.0,10.01,4.05
+F00020,0.96,FPO_B,Laser Land Levelling,700.0,5.89,6.14
+F00021,4.46,FPO_B,Laser Land Levelling,2800.0,19.85,4.45
+F00022,0.8,FPO_A,Laser Land Levelling,600.0,6.13,7.66
+F00023,0.71,FPO_C,Zero/Minimal Tillage,200.0,6.7,9.44
+F00024,2.9,FPO_A,Laser Land Levelling,1900.0,14.0,4.83
+F00025,4.22,FPO_A,Laser Land Levelling,3700.0,21.62,5.12
+F00026,2.85,FPO_A,Zero/Minimal Tillage,600.0,18.49,6.49
+F00027,2.28,FPO_A,Zero/Minimal Tillage,900.0,13.47,5.91
+F00028,1.96,FPO_C,Laser Land Levelling,1700.0,13.53,6.9
+F00029,1.71,FPO_B,Zero/Minimal Tillage,400.0,7.25,4.24
+F00030,5.16,FPO_B,Laser Land Levelling,3900.0,23.87,4.63
+F00031,3.18,FPO_A,Laser Land Levelling,2500.0,8.75,2.75
+F00032,1.83,FPO_A,Zero/Minimal Tillage,600.0,10.76,5.88
+F00033,1.4,FPO_A,Laser Land Levelling,900.0,5.35,3.82
+F00034,3.88,FPO_A,Zero/Minimal Tillage,1000.0,30.31,7.81
+F00035,5.08,FPO_B,Zero/Minimal Tillage,1600.0,25.2,4.96
+F00036,4.77,FPO_B,Laser Land Levelling,4100.0,33.57,7.04
+F00037,1.2,FPO_C,Laser Land Levelling,1000.0,6.76,5.63
+F00038,1.95,FPO_C,Laser Land Levelling,1500.0,12.0,6.15
+F00039,1.68,FPO_C,Laser Land Levelling,1400.0,9.61,5.72
+F00040,2.16,FPO_A,Laser Land Levelling,1700.0,14.49,6.71
+F00041,4.43,FPO_B,Laser Land Levelling,3800.0,23.22,5.24
+F00042,6.15,FPO_A,Zero/Minimal Tillage,1800.0,14.34,2.33
+F00043,3.27,FPO_A,Zero/Minimal Tillage,1000.0,13.69,4.19
+F00044,1.45,FPO_A,Zero/Minimal Tillage,600.0,10.86,7.49
+F00045,2.43,FPO_B,Laser Land Levelling,2100.0,4.91,2.02
+F00046,6.92,FPO_B,Laser Land Levelling,5400.0,45.74,6.61
+F00047,2.67,FPO_B,Zero/Minimal Tillage,1000.0,14.02,5.25
+F00048,1.96,FPO_A,Laser Land Levelling,1200.0,14.69,7.49
+F00049,2.1,FPO_B,Zero/Minimal Tillage,800.0,9.36,4.46
+F00050,3.26,FPO_A,Zero/Minimal Tillage,1200.0,17.98,5.52
+F00051,1.24,FPO_A,Laser Land Levelling,1000.0,5.26,4.24
+F00052,1.65,FPO_B,Zero/Minimal Tillage,400.0,11.13,6.75
+F00053,4.72,FPO_A,Laser Land Levelling,4100.0,44.27,9.38
+F00054,3.19,FPO_B,Laser Land Levelling,2100.0,22.9,7.18
+F00055,2.69,FPO_B,Zero/Minimal Tillage,900.0,15.87,5.9
+F00056,4.88,FPO_A,Zero/Minimal Tillage,1700.0,30.24,6.2
+F00057,1.37,FPO_C,Zero/Minimal Tillage,300.0,10.01,7.31
+F00058,1.92,FPO_B,Zero/Minimal Tillage,700.0,17.03,8.87
+F00059,3.12,FPO_C,Laser Land Levelling,2000.0,15.85,5.08
+F00060,3.04,FPO_C,Zero/Minimal Tillage,1000.0,18.54,6.1
+F00061,0.64,FPO_A,Laser Land Levelling,400.0,5.1,7.97
+F00062,1.77,FPO_C,Laser Land Levelling,1300.0,7.4,4.18
+F00063,2.2,FPO_C,Laser Land Levelling,1500.0,6.65,3.02
+F00064,3.37,FPO_B,Laser Land Levelling,2200.0,18.65,5.53
+F00065,3.03,FPO_A,Laser Land Levelling,2200.0,9.98,3.29
+F00066,2.36,FPO_C,Laser Land Levelling,1400.0,22.01,9.33
+F00067,0.32,FPO_B,Laser Land Levelling,300.0,2.57,8.03
+F00068,2.45,FPO_A,Laser Land Levelling,1500.0,26.05,10.63
+F00069,2.62,FPO_B,Laser Land Levelling,2300.0,16.0,6.11
+F00070,10.95,FPO_A,Laser Land Levelling,8400.0,65.05,5.94
+F00071,2.15,FPO_A,Zero/Minimal Tillage,600.0,10.8,5.02
+F00072,3.13,FPO_B,Laser Land Levelling,2000.0,25.8,8.24
+F00073,5.43,FPO_A,Zero/Minimal Tillage,2100.0,12.31,2.27
+F00074,4.26,FPO_A,Laser Land Levelling,2600.0,17.04,4.0
+F00075,6.32,FPO_A,Zero/Minimal Tillage,2100.0,57.85,9.15
+F00076,0.65,FPO_A,Laser Land Levelling,400.0,4.74,7.29
+F00077,1.03,FPO_A,Zero/Minimal Tillage,200.0,4.09,3.97
+F00078,1.56,FPO_B,Laser Land Levelling,1300.0,8.69,5.57
+F00079,0.54,FPO_C,Zero/Minimal Tillage,200.0,2.88,5.33
+F00080,2.64,FPO_B,Laser Land Levelling,1600.0,18.66,7.07
+F00081,1.11,FPO_A,Laser Land Levelling,700.0,6.04,5.44
+F00082,6.86,FPO_A,Zero/Minimal Tillage,2500.0,52.57,7.66
+F00083,1.27,FPO_A,Laser Land Levelling,900.0,7.2,5.67
+F00084,1.93,FPO_B,Laser Land Levelling,1500.0,7.13,3.69
+F00085,4.43,FPO_B,Laser Land Levelling,3900.0,40.57,9.16
+F00086,0.79,FPO_B,Laser Land Levelling,700.0,4.69,5.94
+F00087,0.5,FPO_B,Laser Land Levelling,300.0,3.99,7.98
+F00088,2.87,FPO_A,Zero/Minimal Tillage,700.0,10.26,3.57
+F00089,3.04,FPO_C,Zero/Minimal Tillage,900.0,22.31,7.34
+F00090,4.34,FPO_A,Laser Land Levelling,3000.0,27.57,6.35
+F00091,3.65,FPO_B,Zero/Minimal Tillage,1300.0,15.47,4.24
+F00092,3.12,FPO_A,Laser Land Levelling,2400.0,20.16,6.46
+F00093,1.4,FPO_B,Laser Land Levelling,1200.0,10.88,7.77
+F00094,2.98,FPO_B,Laser Land Levelling,1900.0,14.53,4.88
+F00095,3.11,FPO_B,Laser Land Levelling,2400.0,18.81,6.05
+F00096,1.36,FPO_A,Laser Land Levelling,1100.0,5.9,4.34
+F00097,8.13,FPO_A,Zero/Minimal Tillage,2400.0,29.0,3.57
+F00098,3.53,FPO_B,Zero/Minimal Tillage,700.0,15.73,4.46
+F00099,1.05,FPO_A,Zero/Minimal Tillage,200.0,7.62,7.26
+F00100,4.35,FPO_B,Zero/Minimal Tillage,1000.0,35.1,8.07
+F00101,4.87,FPO_A,Zero/Minimal Tillage,1500.0,23.06,4.74
+F00102,3.39,FPO_B,Laser Land Levelling,2800.0,24.66,7.27
+F00103,2.05,FPO_B,Laser Land Levelling,1600.0,10.22,4.99
+F00104,1.31,FPO_A,Laser Land Levelling,900.0,7.68,5.86
+F00105,2.35,FPO_B,Zero/Minimal Tillage,800.0,16.73,7.12
+F00106,3.22,FPO_C,Zero/Minimal Tillage,800.0,24.15,7.5
+F00107,2.53,FPO_B,Laser Land Levelling,2300.0,17.27,6.83
+F00108,6.5,FPO_C,Laser Land Levelling,4300.0,44.03,6.77
+F00109,3.92,FPO_B,Zero/Minimal Tillage,800.0,24.99,6.38
+F00110,1.18,FPO_B,Laser Land Levelling,1000.0,7.0,5.93
+F00111,0.95,FPO_C,Laser Land Levelling,800.0,6.87,7.23
+F00112,3.56,FPO_A,Zero/Minimal Tillage,800.0,18.58,5.22
+F00113,2.09,FPO_B,Laser Land Levelling,1700.0,11.38,5.44
+F00114,4.15,FPO_A,Laser Land Levelling,2900.0,35.71,8.6
+F00115,3.53,FPO_B,Zero/Minimal Tillage,1100.0,22.43,6.35
+F00116,2.36,FPO_A,Laser Land Levelling,2100.0,14.51,6.15
+F00117,1.19,FPO_B,Zero/Minimal Tillage,300.0,9.42,7.92
+F00118,0.56,FPO_B,Laser Land Levelling,500.0,5.68,10.14
+F00119,2.94,FPO_C,Zero/Minimal Tillage,800.0,15.72,5.35
+F00120,0.78,FPO_B,Zero/Minimal Tillage,200.0,4.09,5.24
+F00121,1.15,FPO_A,Laser Land Levelling,800.0,6.32,5.5
+F00122,2.81,FPO_A,Laser Land Levelling,2000.0,16.68,5.94
+F00123,2.61,FPO_B,Laser Land Levelling,2300.0,16.76,6.42
+F00124,0.88,FPO_B,Laser Land Levelling,800.0,6.84,7.77
+F00125,5.24,FPO_B,Zero/Minimal Tillage,1200.0,29.42,5.61
+F00126,5.15,FPO_C,Laser Land Levelling,4000.0,32.44,6.3
+F00127,3.64,FPO_B,Laser Land Levelling,2400.0,25.07,6.89
+F00128,3.63,FPO_A,Laser Land Levelling,2200.0,17.62,4.85
+F00129,3.64,FPO_C,Zero/Minimal Tillage,1400.0,29.63,8.14
+F00130,4.84,FPO_C,Laser Land Levelling,3900.0,41.42,8.56
+F00131,3.99,FPO_A,Zero/Minimal Tillage,1000.0,19.84,4.97
+F00132,1.28,FPO_A,Zero/Minimal Tillage,300.0,11.25,8.79
+F00133,2.07,FPO_C,Laser Land Levelling,1300.0,19.11,9.23
+F00134,10.19,FPO_C,Zero/Minimal Tillage,3400.0,66.38,6.51
+F00135,0.35,FPO_B,Laser Land Levelling,300.0,2.31,6.6
+F00136,1.69,FPO_A,Laser Land Levelling,1100.0,10.04,5.94
+F00137,5.26,FPO_A,Zero/Minimal Tillage,1100.0,48.55,9.23
+F00138,1.35,FPO_C,Laser Land Levelling,1100.0,14.24,10.55
+F00139,4.06,FPO_A,Zero/Minimal Tillage,1300.0,20.48,5.04
+F00140,2.59,FPO_A,Zero/Minimal Tillage,1000.0,18.29,7.06
+F00141,1.44,FPO_C,Zero/Minimal Tillage,500.0,11.51,7.99
+F00142,0.27,FPO_B,Zero/Minimal Tillage,100.0,2.29,8.48
+F00143,2.88,FPO_C,Zero/Minimal Tillage,600.0,20.64,7.17
+F00144,1.26,FPO_C,Laser Land Levelling,800.0,10.3,8.17
+F00145,2.28,FPO_C,Zero/Minimal Tillage,700.0,10.33,4.53
+F00146,3.61,FPO_A,Laser Land Levelling,2900.0,22.9,6.34
+F00147,4.58,FPO_A,Zero/Minimal Tillage,1400.0,27.86,6.08
+F00148,1.69,FPO_B,Laser Land Levelling,1500.0,10.9,6.45
+F00149,1.44,FPO_A,Zero/Minimal Tillage,600.0,12.73,8.84
+F00150,0.77,FPO_A,Zero/Minimal Tillage,200.0,4.0,5.19
+F00151,4.73,FPO_B,Laser Land Levelling,3700.0,30.03,6.35
+F00152,9.27,FPO_A,Zero/Minimal Tillage,3300.0,46.29,4.99
+F00153,5.08,FPO_A,Laser Land Levelling,3500.0,33.93,6.68
+F00154,5.84,FPO_B,Zero/Minimal Tillage,1500.0,29.2,5.0
+F00155,1.36,FPO_C,Laser Land Levelling,1000.0,12.77,9.39
+F00156,3.46,FPO_A,Zero/Minimal Tillage,700.0,14.4,4.16
+F00157,4.32,FPO_B,Zero/Minimal Tillage,1100.0,31.43,7.28
+F00158,0.99,FPO_C,Laser Land Levelling,700.0,7.1,7.17
+F00159,7.18,FPO_B,Laser Land Levelling,4900.0,41.8,5.82
+F00160,0.63,FPO_C,Laser Land Levelling,400.0,3.51,5.57
+F00161,6.46,FPO_A,Zero/Minimal Tillage,1800.0,42.85,6.63
+F00162,0.62,FPO_C,Laser Land Levelling,500.0,4.1,6.61
+F00163,1.04,FPO_C,Zero/Minimal Tillage,300.0,7.1,6.83
+F00164,3.51,FPO_A,Laser Land Levelling,2900.0,22.3,6.35
+F00165,2.64,FPO_B,Laser Land Levelling,1700.0,19.21,7.28
+F00166,1.83,FPO_B,Laser Land Levelling,1100.0,10.85,5.93
+F00167,7.0,FPO_B,Laser Land Levelling,5900.0,23.97,3.42
+F00168,0.79,FPO_A,Laser Land Levelling,600.0,4.1,5.19
+F00169,2.22,FPO_A,Zero/Minimal Tillage,800.0,3.63,1.64
+F00170,3.82,FPO_B,Laser Land Levelling,2600.0,16.27,4.26
+F00171,3.08,FPO_C,Laser Land Levelling,2300.0,18.22,5.92
+F00172,1.48,FPO_B,Zero/Minimal Tillage,400.0,8.29,5.6
+F00173,1.52,FPO_B,Laser Land Levelling,1100.0,9.19,6.05
+F00174,4.53,FPO_A,Laser Land Levelling,3500.0,19.01,4.2
+F00175,4.68,FPO_B,Zero/Minimal Tillage,1100.0,25.71,5.49
+F00176,3.14,FPO_A,Laser Land Levelling,1900.0,26.75,8.52
+F00177,1.21,FPO_C,Laser Land Levelling,900.0,9.27,7.66
+F00178,1.56,FPO_B,Zero/Minimal Tillage,400.0,11.87,7.61
+F00179,2.46,FPO_C,Laser Land Levelling,2100.0,17.57,7.14
+F00180,2.73,FPO_B,Zero/Minimal Tillage,800.0,26.58,9.74
+F00181,3.72,FPO_B,Laser Land Levelling,2300.0,17.71,4.76
+F00182,2.13,FPO_A,Laser Land Levelling,1900.0,11.55,5.42
+F00183,4.46,FPO_A,Laser Land Levelling,3700.0,30.17,6.76
+F00184,4.43,FPO_B,Laser Land Levelling,3000.0,40.36,9.11
+F00185,5.98,FPO_C,Zero/Minimal Tillage,2000.0,40.58,6.79
+F00186,2.54,FPO_A,Zero/Minimal Tillage,900.0,14.06,5.54
+F00187,3.18,FPO_B,Zero/Minimal Tillage,900.0,9.53,3.0
+F00188,2.26,FPO_A,Laser Land Levelling,1700.0,14.47,6.4
+F00189,1.23,FPO_B,Laser Land Levelling,1100.0,9.7,7.89
+F00190,9.14,FPO_C,Laser Land Levelling,8000.0,65.57,7.17
+F00191,5.48,FPO_A,Zero/Minimal Tillage,1800.0,17.33,3.16
+F00192,4.37,FPO_B,Laser Land Levelling,2900.0,30.11,6.89
+F00193,2.48,FPO_A,Zero/Minimal Tillage,600.0,16.04,6.47
+F00194,1.13,FPO_C,Laser Land Levelling,800.0,7.89,6.98
+F00195,4.9,FPO_B,Laser Land Levelling,3800.0,26.13,5.33
+F00196,2.23,FPO_A,Laser Land Levelling,1900.0,8.18,3.67
+F00197,3.39,FPO_A,Zero/Minimal Tillage,1000.0,27.42,8.09
+F00198,1.56,FPO_A,Laser Land Levelling,1100.0,9.58,6.14
+F00199,3.01,FPO_C,Laser Land Levelling,2000.0,11.11,3.69
+F00200,1.64,FPO_B,Zero/Minimal Tillage,300.0,8.81,5.37
+F00201,1.69,FPO_B,Zero/Minimal Tillage,500.0,9.08,5.37
+F00202,2.98,FPO_C,Zero/Minimal Tillage,700.0,23.41,7.86
+F00203,0.61,FPO_A,Laser Land Levelling,400.0,3.92,6.43
+F00204,0.64,FPO_B,Zero/Minimal Tillage,200.0,4.68,7.31
+F00205,1.35,FPO_B,Laser Land Levelling,900.0,7.9,5.85
+F00206,2.11,FPO_C,Zero/Minimal Tillage,600.0,16.14,7.65
+F00207,4.56,FPO_B,Laser Land Levelling,3600.0,30.2,6.62
+F00208,2.2,FPO_A,Laser Land Levelling,1500.0,17.59,8.0
+F00209,2.46,FPO_B,Zero/Minimal Tillage,500.0,10.16,4.13
+F00210,1.98,FPO_B,Laser Land Levelling,1600.0,11.2,5.66
+F00211,3.18,FPO_C,Zero/Minimal Tillage,1100.0,20.32,6.39
+F00212,1.22,FPO_B,Zero/Minimal Tillage,300.0,7.76,6.36
+F00213,2.3,FPO_C,Zero/Minimal Tillage,800.0,18.15,7.89
+F00214,3.36,FPO_A,Zero/Minimal Tillage,700.0,30.04,8.94
+F00215,2.96,FPO_B,Zero/Minimal Tillage,600.0,11.65,3.94
+F00216,2.52,FPO_C,Laser Land Levelling,1900.0,16.58,6.58
+F00217,2.55,FPO_B,Zero/Minimal Tillage,700.0,17.24,6.76
+F00218,3.59,FPO_A,Zero/Minimal Tillage,1300.0,25.4,7.08
+F00219,9.42,FPO_B,Zero/Minimal Tillage,2100.0,68.41,7.26
+F00220,1.29,FPO_B,Laser Land Levelling,900.0,5.19,4.02
+F00221,9.59,FPO_B,Laser Land Levelling,7000.0,32.68,3.41
+F00222,1.24,FPO_A,Laser Land Levelling,1000.0,11.1,8.95
+F00223,0.23,FPO_B,Laser Land Levelling,200.0,1.8,7.83
+F00224,1.61,FPO_B,Laser Land Levelling,1200.0,5.63,3.5
+F00225,3.22,FPO_B,Zero/Minimal Tillage,1100.0,9.78,3.04
+F00226,8.18,FPO_C,Zero/Minimal Tillage,2000.0,60.25,7.37
+F00227,1.13,FPO_C,Laser Land Levelling,1000.0,7.35,6.5
+F00228,3.58,FPO_A,Laser Land Levelling,2500.0,10.57,2.95
+F00229,0.72,FPO_A,Zero/Minimal Tillage,200.0,4.19,5.82
+F00230,7.99,FPO_A,Zero/Minimal Tillage,2300.0,33.71,4.22
+F00231,5.55,FPO_A,Laser Land Levelling,4500.0,42.7,7.69
+F00232,1.7,FPO_A,Zero/Minimal Tillage,500.0,8.36,4.92
+F00233,6.15,FPO_A,Zero/Minimal Tillage,1800.0,40.44,6.58
+F00234,2.28,FPO_C,Zero/Minimal Tillage,900.0,14.19,6.22
+F00235,5.74,FPO_B,Zero/Minimal Tillage,2200.0,30.0,5.23
+F00236,2.51,FPO_A,Laser Land Levelling,2100.0,8.72,3.47
+F00237,2.59,FPO_C,Laser Land Levelling,1700.0,23.7,9.15
+F00238,1.73,FPO_B,Laser Land Levelling,1400.0,9.46,5.47
+F00239,3.91,FPO_A,Zero/Minimal Tillage,1100.0,32.24,8.25
+F00240,2.74,FPO_B,Laser Land Levelling,1800.0,19.57,7.14
+F00241,3.63,FPO_A,Laser Land Levelling,2900.0,24.48,6.74
+F00242,0.55,FPO_B,Zero/Minimal Tillage,200.0,2.75,5.0
+F00243,5.88,FPO_B,Zero/Minimal Tillage,1300.0,20.78,3.53
+F00244,6.87,FPO_B,Laser Land Levelling,5500.0,61.97,9.02
+F00245,2.73,FPO_C,Laser Land Levelling,1700.0,13.66,5.0
+F00246,8.99,FPO_B,Zero/Minimal Tillage,2000.0,47.8,5.32
+F00247,7.67,FPO_C,Laser Land Levelling,5300.0,43.21,5.63
+F00248,3.97,FPO_A,Laser Land Levelling,2500.0,24.06,6.06
+F00249,6.2,FPO_C,Laser Land Levelling,4700.0,28.61,4.61
+F00250,5.16,FPO_C,Zero/Minimal Tillage,1400.0,12.44,2.41
