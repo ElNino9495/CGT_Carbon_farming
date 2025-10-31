@@ -46,7 +46,7 @@ def generate_carbon_market_data(n_farmers=250, seed=42):
     for i, size_acres in enumerate(farm_sizes_acres):
         farmer_id = f"F{i+1:05d}"
         
-        fpo_id = np.random.choice(fpo_ids, p=[0.4, 0.4, 0.2])
+        fpo_id = np.random.choice(fpo_ids, p=[1, 0, 0])
         
         operation_type = np.random.choice(practice_names, p=probabilities)
         
