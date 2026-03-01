@@ -1,0 +1,170 @@
+Optimal Practice selection Problem. Generally Farmer selects 3-8 from the list of practices for carbon farming. 
+50 practices we are listing down.
+
+A) Specific to paddy
+
+B) General to all crops
+
+---
+A) For Paddy
+## Water management for methane reduction (15)
+
+1. Alternate Wetting and Drying (AWD)
+2. AWD using field water-tube monitoring (measured thresholds)
+3. AWD with fewer flooding days (reduced continuous inundation)
+4. Mid-season drainage (MSD)
+5. Early-season drainage (shorten initial flooding period)
+6. Pre-harvest drainage (timely drainage before harvest)
+7. Intermittent irrigation scheduling (fixed wet–dry cycles)
+8. Improved drainage outlets (faster drawdown)
+9. Bund repair + leveling to enable controlled AWD (enables water control)
+10. Laser land leveling (supports uniform AWD / less waterlogging)
+11. Raised beds / furrow-irrigated rice (where applicable)
+12. Aerobic rice management (non-flooded rice system)
+13. Conversion of long-duration flooded rice to shorter-duration rice (less flooding time)
+14. Use of short-duration varieties to reduce flooded period
+15. Shift from transplanted puddled rice to systems reducing puddling/flooding duration (where defined)
+
+---
+
+## Crop establishment & field operations that reduce methane indirectly (8)
+
+16. Direct-Seeded Rice (DSR) (reduces flooded nursery/puddling period)
+17. Dry seeding (non-puddled establishment)
+18. Reduced puddling intensity (where permitted/defined)
+19. Strip till / reduced till rice establishment (where feasible)
+20. Controlled traffic / minimized soil disturbance (site-dependent)
+21. Improved field channels for precise irrigation (enables AWD)
+22. Timely weeding to maintain aerobic periods (supports AWD feasibility)
+23. Mechanized operations reducing repeated puddling passes (site-dependent)
+
+*(Some of these are “enablers” — they matter because they make AWD/aerobic feasible and consistent for MRV.)*
+
+---
+
+## Nitrogen management for N₂O reduction (15)
+
+24. Optimized N rate (reduce excess N)
+25. Split N application (better timing reduces losses)
+26. Deep placement of urea (UDP)
+27. Controlled-release urea (CRU)
+28. Nitrification inhibitors (where allowed)
+29. Urease inhibitors (where allowed)
+30. Site-Specific Nutrient Management (SSNM)
+31. Leaf Color Chart (LCC)-guided N dosing
+32. Basal N reduction with more top-dressing precision
+33. Balanced fertilization (adequate P/K to reduce excess N needs)
+34. Avoid N application just before heavy irrigation/rain (timing rule)
+35. Replace part of urea with organic sources under planned rates (avoid over-application)
+36. Precision fertilizer application (band placement, calibrated applicators)
+37. Improved manure management timing (avoid anaerobic + N surplus conditions)
+38. Inclusion of legumes in rotation where feasible (reduces synthetic N demand)
+
+---
+
+## Residue management and avoided burning (7)
+
+39. No open-field burning of rice straw (avoided emissions)
+40. Straw removal + off-field productive use (with leakage accounted)
+41. Straw composting (instead of burning)
+42. Straw incorporation with drainage/timing to reduce methane spikes (managed incorporation)
+43. Straw mulching under non-flooded/managed water (method-dependent)
+44. Use of straw for bioenergy with accounting (project/method dependent)
+45. Collection/baling systems to prevent burning (enabler for #39)
+
+---
+
+## Soil carbon / durable carbon additions (5)
+
+46. Biochar application (rice husk/straw biochar)
+47. Compost application (stabilized organic matter)
+48. Farmyard manure application under monitored rates (SOC improvement; method-dependent)
+49. Green manuring (e.g., Sesbania/dhaincha) with proper water management (SOC + N dynamics)
+50. Cover crop/legume in rice fallow (where feasible) to build SOC (rotation-based crediting)
+--------------------------------------------------------------------
+
+B) General Practices: (applicable across cereals, pulses, oilseeds, horticulture, plantations).
+
+
+---
+
+# Soil Carbon Sequestration (SOC Increase)
+
+1. Reduced tillage
+2. Zero tillage
+3. Strip tillage
+4. Permanent raised beds
+5. Cover cropping (off-season)
+6. Multi-species cover crops
+7. Legume cover crops
+8. Green manuring
+9. Crop residue retention
+10. No residue burning
+11. Mulching (organic)
+12. Compost application
+13. Farmyard manure application
+14. Biochar application
+15. Agroforestry (trees within cropland)
+16. Alley cropping
+17. Windbreaks/shelterbelts
+18. Riparian buffer strips
+19. Perennial cropping systems
+20. Grass strips in fields
+
+---
+
+#  Nutrient Management (Reduce N₂O)
+
+21. Optimized nitrogen rate
+22. Split nitrogen application
+23. Deep placement of urea
+24. Controlled-release fertilizers
+25. Nitrification inhibitors
+26. Urease inhibitors
+27. Site-specific nutrient management
+28. Leaf color chart–guided N application
+29. Precision fertilizer application (banding/variable rate)
+30. Balanced fertilization (adequate P/K to avoid excess N)
+
+---
+
+#  Water Management (Reduce Methane / Energy Use)
+
+31. Alternate Wetting and Drying (in irrigated systems)
+32. Improved irrigation scheduling
+33. Drip irrigation
+34. Sprinkler irrigation
+35. Laser land leveling
+36. Improved drainage systems
+37. Reduced flooded duration (in applicable crops)
+38. Efficient pumping schedules
+
+---
+
+#  Crop & Rotation Management
+
+39. Diversified crop rotation
+40. Inclusion of legumes in rotation
+41. Intercropping systems
+42. Relay cropping
+43. Perennial pasture introduction
+44. Silvopasture systems
+45. Conservation agriculture (full CA package)
+
+---
+
+#  Energy & Input Substitution
+
+46. Solar irrigation pumps
+47. Efficient electric/diesel pump replacement
+48. On-farm renewable energy (biogas units)
+49. Reduced synthetic fertilizer through biological inputs
+50. On-farm composting instead of synthetic fertilizer purchase
+
+---
+
+
+
+
+
+
