@@ -1,0 +1,51 @@
+practice_id,practice_name,category,is_regime_switch,exclusivity_group,K_outlay_INR_per_ha_season,S_savings_INR_per_ha_season
+1,Alternate Wetting and Drying (AWD),water,0,awd_variant,263.7,493.89
+2,AWD using field water-tube monitoring (measured thresholds),water,0,awd_variant,375.1,571.71
+3,AWD with fewer flooding days (reduced continuous inundation),water,0,awd_variant,183.77,657.07
+4,Mid-season drainage (MSD),water,0,drainage_timing,84.18,264.3
+5,Early-season drainage (shorten initial flooding period),water,0,drainage_timing,83.31,217.82
+6,Pre-harvest drainage (timely drainage before harvest),water,0,drainage_timing,58.45,195.36
+7,Intermittent irrigation scheduling (fixed wet–dry cycles),water,0,irrigation_scheduling,185.18,404.53
+8,Improved drainage outlets (faster drawdown),water,0,water_infrastructure,889.81,283.63
+9,Bund repair + leveling to enable controlled AWD (enables water control),water,0,water_infrastructure,1010.92,228.19
+10,Laser land leveling (supports uniform AWD / less waterlogging),water,0,land_leveling,2344.16,667.12
+11,Raised beds / furrow-irrigated rice (where applicable),water,1,establishment_regime,1367.1,436.91
+12,Aerobic rice management (non-flooded rice system),water,1,establishment_regime,1094.14,593.24
+13,Conversion of long-duration flooded rice to shorter-duration rice (less flooding time),water,0,duration_choice,232.25,300.46
+14,Use of short-duration varieties to reduce flooded period,water,0,duration_choice,178.8,254.45
+15,Shift from transplanted puddled rice to systems reducing puddling/flooding duration (where defined),water,1,establishment_regime,558.51,829.29
+16,Direct-Seeded Rice (DSR) (reduces flooded nursery/puddling period),establishment,1,establishment_regime,629.37,1640.25
+17,Dry seeding (non-puddled establishment),establishment,1,establishment_regime,482.58,1266.32
+18,Reduced puddling intensity (where permitted/defined),establishment,0,puddling_intensity,119.27,422.05
+19,Strip till / reduced till rice establishment (where feasible),establishment,1,establishment_regime,370.39,646.84
+20,Controlled traffic / minimized soil disturbance (site-dependent),establishment,0,field_operations,236.35,227.47
+21,Improved field channels for precise irrigation (enables AWD),establishment,0,water_infrastructure,789.94,234.64
+22,Timely weeding to maintain aerobic periods (supports AWD feasibility),establishment,0,field_operations,228.81,77
+23,Mechanized operations reducing repeated puddling passes (site-dependent),establishment,0,field_operations,746.52,848.76
+24,Optimized N rate (reduce excess N),nitrogen,0,nitrogen_strategy,117.3,526.72
+25,Split N application (better timing reduces losses),nitrogen,0,nitrogen_strategy,186.57,111.35
+26,Deep placement of urea (UDP),nitrogen,0,nitrogen_tech,300.79,198.32
+27,Controlled-release urea (CRU),nitrogen,0,nitrogen_tech,687.3,227.25
+28,Nitrification inhibitors (where allowed),nitrogen,0,nitrogen_tech,884.88,84.49
+29,Urease inhibitors (where allowed),nitrogen,0,nitrogen_tech,545.48,60.82
+30,Site-Specific Nutrient Management (SSNM),nitrogen,0,nitrogen_strategy,259.83,295.33
+31,Leaf Color Chart (LCC)-guided N dosing,nitrogen,0,nitrogen_strategy,103.37,258.5
+32,Basal N reduction with more top-dressing precision,nitrogen,0,nitrogen_strategy,141.83,252.72
+33,Balanced fertilization (adequate P/K to reduce excess N needs),nitrogen,0,nitrogen_strategy,462.12,161.71
+34,Avoid N application just before heavy irrigation/rain (timing rule),nitrogen,0,nitrogen_strategy,40.47,76.86
+35,Replace part of urea with organic sources under planned rates (avoid over-application),nitrogen,0,nitrogen_strategy,589.01,296.2
+36,"Precision fertilizer application (band placement, calibrated applicators)",nitrogen,0,nitrogen_tech,707.19,215.98
+37,Improved manure management timing (avoid anaerobic + N surplus conditions),nitrogen,0,nitrogen_strategy,128.48,56.81
+38,Inclusion of legumes in rotation where feasible (reduces synthetic N demand),nitrogen,0,rotation_diversification,319.08,430.32
+39,No open-field burning of rice straw (avoided emissions),residue,0,residue_fate,191.74,0
+40,Straw removal + off-field productive use (with leakage accounted),residue,0,residue_fate,657.41,475.55
+41,Straw composting (instead of burning),residue,0,residue_fate,568.07,215.88
+42,Straw incorporation with drainage/timing to reduce methane spikes (managed incorporation),residue,0,residue_fate,340.1,56
+43,Straw mulching under non-flooded/managed water (method-dependent),residue,0,residue_fate,379.91,110.16
+44,Use of straw for bioenergy with accounting (project/method dependent),residue,0,residue_fate,783.35,545.81
+45,Collection/baling systems to prevent burning (enabler for #39),residue,0,residue_infrastructure,1211.93,350.07
+46,Biochar application (rice husk/straw biochar),soil_carbon,0,soil_amendments,6048.01,259.82
+47,Compost application (stabilized organic matter),soil_carbon,0,soil_amendments,2176.31,341.67
+48,Farmyard manure application under monitored rates (SOC improvement; method-dependent),soil_carbon,0,soil_amendments,1920.6,307.82
+49,"Green manuring (e.g., Sesbania/dhaincha) with proper water management (SOC + N dynamics)",soil_carbon,0,soil_amendments,777.89,165.16
+50,Cover crop/legume in rice fallow (where feasible) to build SOC (rotation-based crediting),soil_carbon,0,rotation_diversification,646.52,273.09

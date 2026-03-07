@@ -1,0 +1,73 @@
+README FILE
+
+Synthetic Dataset and comments
+
+1.farmers.csv
+ farmer land size distribution/ farmer characteristics
+
+100 farmers, 
+land size in hectare,
+ Lognormal distribution but cap upper size of farmer as 2 hectare (as we are considering small farmers and min size of farm is 0.2 hectare.
+ Sizes round of to 2 decimals
+
+Note:   Ok I checked official agri census of India. .  we can ahead with i, μ (mu) = -0.5
+σ (sigma) = 1.0 ) and log normal distribution.  That gives a median land size ~0.6 ha and mean ~1.0 ha, which matches the official census summary. 
+budget_per_ha= 3500 INR/ha/season with noise=10percent, As the farmers are small and marginal, their budgets are proportional to their size.
+
+------------------------------
+
+2. Practices.csv
+
+50 practices of paddy
+Operational Costs: in INR/ha/season
+Note: One thing we forgot to modeling of the operating costs is its comparison with the base line costs, some times net costs may not be negative, it can be positive because of savings. eg. Mulching operating cost is there, but it can save money from base line costs. So included that term of savings from the base line costs.
+
+Notes on the numbers I assigned (logic)
+
+AWD/MSD/drainage rules → low outlay, moderate savings (water/pumping + fewer irrigations).
+
+Laser leveling / bund repair / drainage outlets → higher outlay (service/rental), some savings.
+
+DSR / dry seeding → moderate outlay (weed mgmt etc.) but high savings (reduced transplant/puddling labor).
+
+Inhibitors / CRU → higher outlay, low savings (more “pay to reduce emissions”).
+
+Biochar → very high outlay, small savings (mostly carbon benefit rather than cost-saving).
+
+3. farmer_practice_effects.csv
+
+Soil differences
+
+Different farmers have different:
+
+soil carbon
+soil texture,water content/Irrigation reliability
+organic matter
+CSP randomly between 0.8–1.2 tCO2e
+Yield change between −0.02 and +0.05 ton/ha
+
+Note Base yield ~4.5 ton/ha is typical for irrigated paddy systems in South Asia.
+
+So CSP, yield change varies. So for 100 farmers, 50 practices.
+We need to have synthetic data.
+
+
+4.practice_incompatibility.csv
+
+incompatible practices and its reasoning
+
+
+5. practice_interactions.csv
+
+α, δ, γ interactions
+| Parameter | Range        | Reason                           |
+| --------- | ------------ | -------------------------------- |
+| **alpha** | ~ ±0.5 tCO₂e | interaction carbon effect small  |
+| **delta** | ~ ±0.3 ton   | yield synergy limited            |
+| **gamma** | ~ ±400 ₹     | shared machinery / labor savings |
+
+
+50 C2 combinations
+
+
+These above 5 has full synthetic dataset for our optimization model.
