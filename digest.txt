@@ -1,0 +1,5102 @@
+Directory structure:
+└── CGT_Carbon_farming/
+    ├── draft.tex
+    ├── optimal_50_practices.py
+    ├── optimal_50_subgroups.py
+    ├── optimal_allocation_5_practices.py
+    ├── Practices list.txt
+    ├── .gitingestignore
+    ├── data/
+    │   └── snapshot/
+    │       ├── farmer_practice_effects.csv
+    │       ├── farmers.csv
+    │       ├── Files and Values and settings.txt
+    │       ├── practice_incompatibility.csv
+    │       ├── practice_interactions.csv
+    │       └── practices.csv
+    ├── experiments/
+    │   ├── exp1_individual_selection.py
+    │   ├── exp2_coalition_formation.py
+    │   ├── exp3_payoff_allocation.py
+    │   └── exp4_diversity_tradeoff.py
+    └── src/
+        ├── coalition.py
+        ├── config.py
+        ├── data_loader.py
+        ├── practice_selection.py
+        ├── solution_concepts.py
+        ├── solvers.py
+        └── utils.py
+
+================================================
+FILE: draft.tex
+================================================
+%%
+%% This is file `sample-sigconf.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% samples.dtx  (with options: `all,proceedings,bibtex,sigconf')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from sample-sigconf.tex.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file samples.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%
+%%
+%% Commands for TeXCount
+%TC:macro \cite [option:text,text]
+%TC:macro \citep [option:text,text]
+%TC:macro \citet [option:text,text]
+%TC:envir table 0 1
+%TC:envir table* 0 1
+%TC:envir tabular [ignore] word
+%TC:envir displaymath 0 word
+%TC:envir math 0 word
+%TC:envir comment 0 0
+%%
+%% The first command in your LaTeX source must be the \documentclass
+%% command.
+%%
+%% For submission and review of your manuscript please change the
+%% command to \documentclass[manuscript, screen, review]{acmart}.
+%%
+%% When submitting camera ready or to TAPS, please change the command
+%% to \documentclass[sigconf]{acmart} or whichever template is required
+%% for your publication.
+%%
+%%
+%\documentclass[sigconf]{acmart}
+\documentclass[manuscript, screen]{acmart}
+%%
+%% \BibTeX command to typeset BibTeX logo in the docs
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    Bib\TeX}}}
+
+%% Rights management information.  This information is sent to you
+%% when you complete the rights form.  These commands have SAMPLE
+%% values in them; it is your responsibility as an author to replace
+%% the commands and values with those provided to you when you
+%% complete the rights form.
+\setcopyright{acmlicensed}
+\copyrightyear{2026}
+\acmYear{2026}
+\acmDOI{XXXXXXX.XXXXXXX}
+%% These commands are for a PROCEEDINGS abstract or paper.
+\acmConference[Conference acronym 'XX]{Make sure to enter the correct
+  conference title from your rights confirmation email}{June 03--05,
+  2018}{Woodstock, NY}
+%%
+%%  Uncomment \acmBooktitle if the title of the proceedings is different
+%%  from ``Proceedings of ...''!
+%%
+%%\acmBooktitle{Woodstock '18: ACM Symposium on Neural Gaze Detection,
+%%  June 03--05, 2018, Woodstock, NY}
+\acmISBN{978-1-4503-XXXX-X/2018/06}
+
+
+%%
+%% Submission ID.
+%% Use this when submitting an article to a sponsored event. You'll
+%% receive a unique submission ID from the organizers
+%% of the event, and this ID should be used as the parameter to this command.
+%%\acmSubmissionID{123-A56-BU3}
+
+%%
+%% For managing citations, it is recommended to use bibliography
+%% files in BibTeX format.
+%%
+%% You can then either use BibTeX with the ACM-Reference-Format style,
+%% or BibLaTeX with the acmnumeric or acmauthoryear sytles, that include
+%% support for advanced citation of software artefact from the
+%% biblatex-software package, also separately available on CTAN.
+%%
+%% Look at the sample-*-biblatex.tex files for templates showcasing
+%% the biblatex styles.
+%%
+
+%%
+%% The majority of ACM publications use numbered citations and
+%% references.  The command \citestyle{authoryear} switches to the
+%% "author year" style.
+%%
+%% If you are preparing content for an event
+%% sponsored by ACM SIGGRAPH, you must use the "author year" style of
+%% citations and references.
+%% Uncommenting
+%% the next command will enable that style.
+%%\citestyle{acmauthoryear}
+
+
+%%
+%% end of the preamble, start of the body of the document source.
+\begin{document}
+
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+\title{Synergistic Carbon Practice Allocation and Heterogeneous Coalition Strategies for Smallholder Farmers: A Cooperative Game Theory Perspective}
+
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+%% Of note is the shared affiliation of the first two authors, and the
+%% "authornote" and "authornotemark" commands
+%% used to denote shared contribution to the research.
+
+\author{Thandava Sunkara}
+\affiliation{%
+  \institution{Indian Institute of Science}
+  \city{Bengaluru}
+  \country{India}}
+\email{thandavas@iisc.ac.in}
+
+\author{Geetha Charan}
+\affiliation{%
+  \institution{Indian Institute of Science}
+  \city{Bengaluru}
+  \country{India}}
+\email{geethacharan@iisc.ac.in}
+
+\author{Rohit Suresh}
+\affiliation{%
+  \institution{Indian Institute of Science}
+  \city{Bengaluru}
+  \country{India}}
+\email{rohitpsuresh@iisc.ac.in}
+
+\author{Priyanka V}
+\affiliation{%
+  \institution{Indian Institute of Science}
+  \city{Bengaluru}
+  \country{India}}
+\email{priyankav@iisc.ac.in}
+
+\author{Manojkumar Patil}
+\affiliation{%
+  \institution{Indian Institute of Science}
+  \city{Bengaluru}
+  \country{India}}
+\email{pmanojkumar@iisc.ac.in}
+
+\author{Y Narahari}
+\affiliation{%
+  \institution{Indian Institute of Science}
+  \city{Bengaluru}
+  \country{India}}
+\email{narahari@iisc.ac.in}
+
+%%
+%% By default, the full list of authors will be used in the page
+%% headers. Often, this list is too long, and will overlap
+%% other information printed in the page headers. This command allows
+%% the author to define a more concise list
+%% of authors' names for this purpose.
+\renewcommand{\shortauthors}{Thandava, Geetha, Rohit, Priyanka, Manojkumar, and Narahari}
+
+%%
+%% The abstract is a short summary of the work to be presented in the
+%% article.
+\begin{abstract}
+
+\end{abstract}
+
+%%
+%% The code below is generated by the tool at http://dl.acm.org/ccs.cfm.
+%% Please copy and paste the code instead of the example below.
+%%
+\begin{CCSXML}
+<ccs2012>
+   <concept>
+       <concept_id>10003752.10010070.10010099.10010102</concept_id>
+       <concept_desc>Theory of computation~Solution concepts in game theory</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10002950.10003714.10003716</concept_id>
+       <concept_desc>Mathematics of computing~Mathematical optimization</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10003752.10010070.10010099.10010100</concept_id>
+       <concept_desc>Theory of computation~Algorithmic game theory</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10010405.10010476.10010480</concept_id>
+       <concept_desc>Applied computing~Agriculture</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+ </ccs2012>
+\end{CCSXML}
+\ccsdesc[500]{Theory of computation~Algorithmic game theory}
+\ccsdesc[500]{Theory of computation~Solution concepts in game theory}
+\ccsdesc[500]{Mathematics of computing~Mathematical optimization}
+\ccsdesc[500]{Applied computing~Agriculture}
+
+%%
+%% Keywords. The author(s) should pick words that accurately describe
+%% the work being presented. Separate the keywords with commas.
+\keywords{}
+%% A "teaser" image appears between the author and affiliation
+%% information and the body of the document, and typically spans the
+%% page.
+% \begin{teaserfigure}
+%   \includegraphics[width=\textwidth]{sampleteaser}
+%   \caption{Seattle Mariners at Spring Training, 2010.}
+%   \Description{Enjoying the baseball game from the third-base
+%   seats. Ichiro Suzuki preparing to bat.}
+%   \label{fig:teaser}
+% \end{teaserfigure}
+
+\received{20 February 2007}
+\received[revised]{12 March 2009}
+\received[accepted]{5 June 2009}
+
+%%
+%% This command processes the author and affiliation and title
+%% information and builds the first part of the formatted document.
+\maketitle
+
+\section{Introduction}
+Agriculture forms the economic backbone of many developing countries, with the majority of farmers being small and marginal. In India, over 600 million people are dependent on farming for their livelihoods; the sector contributes approximately 17- 18\% of the country's gross domestic product and employs nearly half its workforce \cite{MOSPI2024}. At the heart of this vast agrarian landscape lies a defining structural characteristic: the overwhelming dominance of small and marginal farmers. According to the Agricultural Census, more than 89.4\% of farm holdings in India are smaller than two hectares, classifying their operators as small or marginal farmers \cite{MoAFW2023SmallFarmers}. These households cultivate fragmented plots, operate with limited capital, and remain acutely vulnerable to income shocks from erratic monsoons, volatile commodity prices, and rising input costs.
+
+Against this backdrop, carbon farming has emerged as a promising practice. Carbon farming refers to a suite of land management activities, including conservation tillage, cover cropping, agro-forestry, improved irrigation, and biochar application, that enhance the capacity of agricultural soils to sequester atmospheric carbon dioxide. The scientific basis is well established: healthy, organically enriched soils act as a significant carbon sink, with global estimates suggesting that improved agricultural soil management could sequester several billion tonnes of \text{CO}$_2$ annually. Beyond their climate mitigation potential, these practices yield co-benefits of direct relevance to Indian farmers: improved soil organic matter, enhanced water retention, greater resilience to drought, and, in many cases, increased crop yields over the medium to long term. Carbon farming thus offers a rare alignment between environmental imperatives and agrarian welfare.
+
+The translation of carbon sequestration into economic value occurs through carbon credit markets. Under voluntary carbon market frameworks, verified reductions or removals of greenhouse gas emissions can be certified and sold as carbon credits to emitters seeking to offset their footprint. For farmers, participation in such a programme would open an entirely new revenue stream: income derived not from what they grow, but from how they grow it. This additional income stream could benefit farmers in a meaningful way. Nevertheless, realising this potential is far from straightforward. Carbon credit programmes impose substantial fixed costs, including measurement, reporting, and verification (MRV) expenses, third-party auditing fees, and registry transaction charges, that are largely insensitive to farm size. For a smallholder cultivating one or two hectares, these costs can easily eclipse the value of credits generated, rendering solo participation economically non-viable.
+
+This economic reality points directly to the importance of \textit{cooperative farming} as an enabling institution. By pooling their land and coordinating their carbon sequestration activities, groups of small farmers can collectively generate a credit volume that justifies shared certification costs, access markets that require minimum lot sizes, and present a credible counterparty to buyers and registries. Coalition formation among farmers is not a new idea in India; cooperative dairy federations, sugarcane cooperatives, and farmer producer organisations (FPOs) have demonstrated that collective action can substantially improve smallholder bargaining power and access to markets. 
+
+Extending this cooperative logic to carbon farming, however, introduces a set of analytical challenges. Chief among these challenges is heterogeneity. Small and marginal farmers, even within the same village or watershed, differ substantially in farm size, soil composition, geographic conditions, and financial capacity. These differences imply that the carbon sequestration potential of any given practice, and the cost of adopting it, will vary across farmers. A practice that is highly profitable for one farmer may be infeasible or unprofitable for a neighbour. Consequently, farmers within a coalition may rationally choose different practice portfolios, introducing \textit{practice heterogeneity} that complicates both the measurement of coalition-level sequestration and the structure of shared certification costs. Furthermore, it is insufficient to ask merely whether a coalition is collectively beneficial; a viable and stable coalition must also distribute its monetary gains in a manner that every member prefers participation over independent action, which is a question of fair and individually rational payoff allocation.
+
+In this work, we address these challenges through the lens of \textit{cooperative game theory}, a formal framework ideally suited to analysing the formation of coalitions and the distribution of collectively generated value among self-interested agents. Our specific contributions are as follows:
+
+\begin{enumerate}
+    \item \textbf{Optimal Carbon Practice Selection at the Individual Farmer Level.}
+    We formulate the problem of selecting the most profitable combination of carbon sequestration practices for an individual farmer as a constrained optimisation problem. The objective accounts for carbon credit revenue, yield effects induced by each practice, and operational costs, subject to the farmer's budget constraint and compatibility restrictions between practices. Critically, the model incorporates pairwise synergistic interactions in both carbon sequestration and operational costs, capturing the reality that certain practice combinations amplify sequestration benefits or generate cost efficiencies beyond what each practice achieves independently. The solution yields each farmer's individually optimal practice portfolio, which serves as the foundation for coalition-level analysis.
+
+    \item \textbf{Coalition Formation Efficiency and Monetary Distribution under Heterogeneous Practice Portfolios.}
+    We study the cooperative game induced when small and marginal farmers form coalitions around carbon credit programmes, allowing each farmer to retain their individually optimal practice portfolio rather than imposing uniform practice adoption across the coalition. We define a characteristic function that captures coalition-level carbon credit revenue and shared certification costs, which scale with both total land area and the diversity of practices adopted, and analyse when coalition formation generates surplus value relative to independent participation. We then examine the distribution of this surplus, using cooperative game-theoretic solution concepts to characterise fair and stable payoff allocations that satisfy individual rationality for every coalition member. 
+    % This formulation reveals a fundamental \textit{diversity--efficiency tradeoff}: heterogeneous practice portfolios allow farmers to optimise sequestration to their local soil and geographic conditions, but expand the set of distinct practices that must be verified, raising shared certification costs.
+\end{enumerate}
+
+The remainder of this paper is organised as follows. Section~2 reviews related work on carbon markets, cooperative approaches to smallholder agriculture, and the application of cooperative game theory in agricultural and environmental settings. Section~3 presents the formal methodology, beginning with the individual practice selection problem and proceeding to the coalition formation model. Section~4 describes the data. Section~5 presents experimental results, and Section~6 concludes with policy implications and directions for future research.
+
+\section{Literature Review}
+Existing research demonstrates the viability of farmer cooperatives for various agricultural applications. Bhardwaj et al. \cite{bhardwaj2023designing} leveraged farmer collectives to design fair and cost-optimal auctions for procuring agri-inputs. Sarkar et al. \cite{sarkar2023coalition} studied agricultural cooperatives using multi-agent coalitional models, showing positive revenue generation for smallholder farmers through similarity-based coalition formation. Zheng et al. \cite{zheng2022cooperative} developed cooperative game-based incentive mechanisms for biopesticide adoption through farmer-producer organizations (FPOs).
+
+Recent work also explores cooperatives in carbon farming contexts. Mantey et al. \cite{mantey2025carbon} examined the role of dairy cooperatives in smallholder agricultural carbon projects, highlighting their importance in promoting sustainable farming. Wang et al. \cite{wang2024effects} investigated how farmer cooperatives reduce agricultural carbon emissions through reduced fertilizer inputs. Zhang et al. \cite{zhang2025can} systematically studied agricultural cooperatives’ impact on planting-industry carbon emissions using econometric models. Zheng et al. \cite{zheng2023economic} tested the role of marketing cooperatives in enhancing the economic performance of green agriculture.
+
+Li et al. \cite{li2013carbon} evaluated farming practices based on carbon sequestration capacity and household income contribution in paddy fields. Piscitelli et al. \cite{piscitelli2023carbon} developed bottom-up approaches for identifying sustainable farming strategies to enhance soil carbon stocks. Mallappa et al. \cite{MALLAPPA2025100317} investigated farmer perceptions of carbon credit program actors and technology adoption motivations.
+
+\section{Methodology}
+
+Let $F = \{F_1, F_2, \ldots, F_n\}$ be the set of $n$ farmers willing to
+participate in the carbon credit program. Each farmer $F_i$ is characterized
+by their farm size $\text{FS}_i$ (acres). Let $P = \{P_1, P_2, \ldots, P_m\}$
+denote the set of available carbon sequestration practices, where each practice
+$P_j$ is associated with an operational cost $\text{OC}_j$ (rupees/acre/year)
+and a carbon sequestration potential $\text{CSP}_j$ (tons~CO$_2$/acre/year).
+We additionally define $\text{CSP}_{ij}$ as the realised carbon sequestration
+potential of farmer $F_i$'s land under practice $P_j$, which may vary across
+farmers due to differences in soil composition, geography, or local conditions.
+
+\subsection{Optimal Practice Selection}
+
+A farmer may simultaneously adopt a subset $\Pi \subseteq P$ of practices.
+Since practices can interact among themselves, either amplifying sequestration
+benefits or producing cost synergies and redundancies, we model these pairwise
+interactions explicitly. Let $\alpha_{jk}$ denote the synergistic effect on
+carbon sequestration when practices $P_j$ and $P_k$ are jointly adopted, and
+let $\gamma_{jk}$ denote the corresponding pairwise cost interaction. The total
+carbon sequestration potential and operational cost of a practice set $\Pi$ are
+then defined as:
+
+\begin{equation}
+    \text{CSP}(\Pi) = \sum_{j:\, P_j \in \Pi} \text{CSP}_j
+    + \sum_{\substack{P_j,\, P_k \in \Pi \\ j < k}} \alpha_{jk}
+\end{equation}
+
+\begin{equation}
+    \text{OC}(\Pi) = \sum_{j:\, P_j \in \Pi} \text{OC}_j
+    + \sum_{\substack{P_j,\, P_k \in \Pi \\ j < k}} \gamma_{jk}
+\end{equation}
+
+The farmer's objective is to select the practice set $\Pi^*$ that maximises
+net profit comprising carbon credit revenue and yield-adjusted income, net of
+operational costs, subject to a budget constraint and practice compatibility
+constraints:
+
+\begin{equation}
+    \Pi^* = \arg\max_{\Pi \,\subseteq\, P}
+    \Bigl[\,\text{CSP}(\Pi) \times \text{CCP} + Y(\Pi) - \text{OC}(\Pi)\,\Bigr]
+\end{equation}
+\begin{equation*}
+    \text{s.t.} \quad \text{OC}(\Pi) \leq B
+\end{equation*}
+
+\noindent where the terms are defined as follows:
+\begin{itemize}
+    \item $\text{CSP}(\Pi)$: total carbon sequestration potential of practice set $\Pi$ (tons~CO$_2$/acre/year), as defined in Equation~(1).
+    \item $\text{OC}(\Pi)$: total operational cost of implementing practice set $\Pi$ (rupees/acre/year).
+    \item $\text{CCP}$: market price of one carbon credit (rupees/ton~CO$_2$).
+    \item $Y(\Pi)$: incremental revenue attributable to yield changes induced by the adopted practices relative to baseline (rupees/acre/year).
+    \item $B$: the farmer's maximum willingness-to-spend (rupees/acre/year).
+\end{itemize}
+
+The solution $\Pi^*$ identifies the most profitable combination of sequestration
+practices feasible within the farmer's budget and compatible with the practice
+constraints. We assume each farmer adopts their optimal portfolio $\Pi_i^*$
+both when operating independently and when participating in a coalition; that
+is, coalition membership does not alter individual practice selection.
+
+\subsection{Coalition Formation with Heterogeneous Practice Portfolios}
+
+Let each farmer $F_i \in S$ enter the coalition having independently selected
+their optimal practice portfolio $\Pi_i^* \subseteq P$ as derived in
+Section~3.1. Unlike a homogeneous setting, farmers within a coalition need not
+adopt identical practices. Moreover, even when two farmers adopt the same
+practice $P_j$, their realised sequestration $\text{CSP}_{ij}$ may differ due
+to variation in soil composition, geography, or local conditions.
+
+\subsubsection*{Farmer-Level Sequestration and Cost}
+
+Given farmer $F_i$'s chosen portfolio $\Pi_i^*$, their individual realised
+sequestration and operational cost are:
+
+\begin{equation}
+    \text{CSP}_i(\Pi_i^*) = \sum_{j:\, P_j \in \Pi_i^*} \text{CSP}_{ij}
+    + \sum_{\substack{P_j,\, P_k \in \Pi_i^* \\ j < k}} \alpha_{jk}
+\end{equation}
+
+\begin{equation}
+    \text{OC}_i(\Pi_i^*) = \sum_{j:\, P_j \in \Pi_i^*} \text{OC}_j
+    + \sum_{\substack{P_j,\, P_k \in \Pi_i^* \\ j < k}} \gamma_{jk}
+\end{equation}
+
+Here $\text{CSP}_{ij}$ is farmer $F_i$'s realised sequestration under practice
+$P_j$. Note the distinction from Equation~(1): whereas $\text{CSP}_j$ denotes
+the practice-level baseline sequestration potential used in the individual
+optimisation problem, $\text{CSP}_{ij}$ reflects farmer-specific soil and
+geographic conditions. Consequently, even if $\Pi_i^* = \Pi_\ell^*$ for two
+farmers $F_i$ and $F_\ell$, it generally holds that
+$\text{CSP}_i(\Pi_i^*) \neq \text{CSP}_\ell(\Pi_\ell^*)$. The pairwise
+interaction terms $\alpha_{jk}$ and $\gamma_{jk}$ remain practice-specific and
+uniform across farmers.
+
+\subsubsection*{Coalition Practice Profile and Aggregate Sequestration}
+
+We define the \textbf{coalition practice profile} as the tuple
+$\boldsymbol{\Pi}_S = \{\Pi_i^*\}_{i \in S}$. The coalition's total
+sequestration aggregates farmer-specific contributions weighted by farm size:
+
+\begin{equation}
+    \text{CSP}(S, \boldsymbol{\Pi}_S) = \sum_{i \in S} \text{FS}_i \times \text{CSP}_i(\Pi_i^*)
+\end{equation}
+
+\subsubsection*{Certification Costs under Practice Heterogeneity}
+
+When farmers adopt differing portfolios, the auditing burden scales not only
+with total land area but also with the number of distinct practices that must
+be verified across the coalition. Let $\mathcal{U}_S = \bigcup_{i \in S}
+\Pi_i^*$ denotes the set of all distinct practices adopted within coalition $S$.
+The three components of certification cost are:
+
+\begin{equation}
+    C_{\text{MR}}(S, \boldsymbol{\Pi}_S) = \text{Fixed}_{\text{MR}}
+    + \text{Variable}_{\text{MR}} \times \left(\sum_{i \in S} \text{FS}_i\right)^{\!\alpha}
+    + \phi_{\text{MR}} \times |\mathcal{U}_S|
+\end{equation}
+
+\begin{equation}
+    C_{\text{V}}(S, \boldsymbol{\Pi}_S) = \text{Fixed}_{\text{V}}
+    + \text{Variable}_{\text{V}} \times \left(\sum_{i \in S} \text{FS}_i\right)^{\!\beta}
+    + \phi_{\text{V}} \times |\mathcal{U}_S|
+\end{equation}
+
+\begin{equation}
+    C_{\text{T}}(S) = \text{Fixed}_{\text{T}} + \text{Variable}_{\text{T}} \times |S|
+\end{equation}
+
+where $\phi_{\text{MR}},\, \phi_{\text{V}} \geq 0$ are per-practice overhead
+parameters capturing the additional methodological complexity introduced by
+heterogeneous portfolios, and $\alpha$, $\beta$ are power-law scaling
+parameters governing economies of scale in monitoring/reporting and
+verification costs, respectively. This creates a natural
+\textbf{diversity--efficiency tradeoff}: practice heterogeneity allows each
+farmer to optimise sequestration to their land's specific conditions, but
+raises shared certification costs as $|\mathcal{U}_S|$ grows.
+
+\subsubsection*{Characteristic Function}
+
+The characteristic function under heterogeneous practice portfolios is:
+
+\begin{equation}
+\begin{split}
+v(S,\, \boldsymbol{\Pi}_S) = \;
+    & \text{CSP}(S, \boldsymbol{\Pi}_S) \times \text{CCP} - [ C_{\text{MR}}(S, \boldsymbol{\Pi}_S) + C_{\text{V}}(S, \boldsymbol{\Pi}_S) + C_{\text{T}}(S)]
+\end{split}
+\end{equation}
+
+
+\begin{equation}
+\begin{split}
+v(S,\, \boldsymbol{\Pi}_S) = \;
+    & \left[\sum_{i \in S} \text{FS}_i \times \text{CSP}_i(\Pi_i^*)\right] \times \text{CCP} \\
+    & - \left[\text{Fixed}_{\text{MR}} + \text{Variable}_{\text{MR}}
+        \times \left(\sum_{i \in S} \text{FS}_i\right)^{\!\alpha}
+        + \phi_{\text{MR}} \times |\mathcal{U}_S|\right] \\
+    & - \left[\text{Fixed}_{\text{V}} + \text{Variable}_{\text{V}}
+        \times \left(\sum_{i \in S} \text{FS}_i\right)^{\!\beta}
+        + \phi_{\text{V}} \times |\mathcal{U}_S|\right] \\
+    & - \left[\text{Fixed}_{\text{T}} + \text{Variable}_{\text{T}} \times |S|\right]
+\end{split}
+\end{equation}
+
+% The first term aggregates each farmer's gross carbon credit revenue weighted by
+% farm size and their portfolio-specific realised sequestration. The remaining
+% terms reflect the shared certification costs borne collectively by the
+% coalition. Operational costs $\text{OC}_i(\Pi_i^*)$ are farmer-specific and
+% private, and are therefore handled through the individual rationality constraint
+% rather than included in the coalition value.
+
+\subsubsection*{Individual Rationality}
+
+The singleton value for farmer $F_i$ under their individually optimal portfolio
+$\Pi_i^*$ is:
+
+\begin{equation}
+\begin{split}
+\tilde{v}\!\left(\{i\},\, \{\Pi_i^*\}\right) = \;
+    & \text{FS}_i \times \text{CSP}_i(\Pi_i^*) \times \text{CCP}
+      - \text{FS}_i \times \text{OC}_i(\Pi_i^*) \\
+    & - \left[\text{Fixed}_{\text{MR}} + \text{Variable}_{\text{MR}} \times \text{FS}_i^{\,\alpha}
+        + \phi_{\text{MR}} \times |\Pi_i^*|\right] \\
+    & - \left[\text{Fixed}_{\text{V}} + \text{Variable}_{\text{V}} \times \text{FS}_i^{\,\beta}
+        + \phi_{\text{V}} \times |\Pi_i^*|\right] \\
+    & - \left[\text{Fixed}_{\text{T}} + \text{Variable}_{\text{T}}\right]
+\end{split}
+\end{equation}
+
+\textit{Note that while $\text{OC}$ appears in $\tilde{v}(\{i\})$, it is
+excluded from $v(S)$ because operational costs are private; the IR constraint
+implicitly ensures each allocated payoff $x_i$ covers farmer $F_i$'s OC.}
+
+Here $|\Pi_i^*|$ is the number of distinct practices adopted by farmer $F_i$
+as a singleton, so $|\mathcal{U}_{\{i\}}| = |\Pi_i^*|$, and
+$C_{\text{T}}(\{i\}) = \text{Fixed}_{\text{T}} + \text{Variable}_{\text{T}}$
+since $|\{i\}| = 1$. A farmer who adopts a more diverse portfolio faces higher
+solo certification costs, which raises their individual rationality threshold
+and makes coalition participation harder to satisfy -- a subtle but
+consequential modelling feature.
+
+Since each farmer adopts the same optimal portfolio $\Pi_i^*$ regardless of
+whether they operate independently or within a coalition, farmer $F_i$
+participates in coalition $S$ only if their allocated payoff satisfies:
+
+\begin{equation}
+    x_i \geq \tilde{v}\!\left(\{i\},\, \{\Pi_i^*\}\right), \quad \forall\, i \in S
+\end{equation}
+
+The coalition is collectively rational if $\sum_{i \in S} x_i =
+v(S, \boldsymbol{\Pi}_S)$ and individual rationality holds for all $i \in S$.
+
+\subsubsection*{Special Case: Homogeneous Practice Adoption}
+
+A natural benchmark arises when all farmers in the coalition adopt the same
+practice portfolio, i.e.\ $\Pi_i^* = \Pi^*$ for all $i \in S$. In this
+case the union $\mathcal{U}_S = \Pi^*$ is fixed regardless of coalition size,
+so the per-practice overhead terms $\phi_{\text{MR}} \times |\mathcal{U}_S|$
+and $\phi_{\text{V}} \times |\mathcal{U}_S|$ become constants independent of
+$|S|$. The characteristic function reduces to:
+
+\begin{equation}
+\begin{split}
+v(S,\, \Pi^*) = \;
+    & \left[\sum_{i \in S} \text{FS}_i \times \text{CSP}_i(\Pi^*)\right] \times \text{CCP} \\
+    & - \left[\text{Fixed}_{\text{MR}} + \text{Variable}_{\text{MR}}
+        \times \left(\sum_{i \in S} \text{FS}_i\right)^{\!\alpha}
+        + \phi_{\text{MR}} \times |\Pi^*|\right] \\
+    & - \left[\text{Fixed}_{\text{V}} + \text{Variable}_{\text{V}}
+        \times \left(\sum_{i \in S} \text{FS}_i\right)^{\!\beta}
+        + \phi_{\text{V}} \times |\Pi^*|\right] \\
+    & - \left[\text{Fixed}_{\text{T}} + \text{Variable}_{\text{T}} \times |S|\right]
+\end{split}
+\end{equation}
+
+Note that farmer-specific sequestration terms $\text{CSP}_i(\Pi^*)$ still
+permit heterogeneous contributions across farmers even under identical practice
+adoption, since realised sequestration depends on individual soil and
+geographic conditions. Comparing this homogeneous benchmark against the general
+heterogeneous formulation isolates the net effect of practice diversity on
+coalition value: the gain from allowing each farmer to optimise for their local
+conditions on the revenue side, weighed against the increase in shared
+certification costs from a larger $|\mathcal{U}_S|$.
+
+
+
+\section{Datasets}
+\section{Experimental Results}
+\section{Conclusion and Future Work}
+
+
+%% The acknowledgments section is defined using the "acks" environment
+%% (and NOT an unnumbered section). This ensures the proper
+%% identification of the section in the article metadata, and the
+%% consistent spelling of the heading.
+\begin{acks}
+
+\end{acks}
+
+%%
+%% The next two lines define the bibliography style to be used, and
+%% the bibliography file.
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{sample-base}
+
+
+%%
+%% If your work has an appendix, this is the place to put it.
+% \appendix
+
+% \section{Research Methods}
+
+% \section{Online Resources}
+
+\end{document}
+\endinput
+%%
+%% End of file `sample-sigconf.tex'.
+
+
+
+================================================
+FILE: optimal_50_practices.py
+================================================
+# -*- coding: utf-8 -*-
+"""optimal 50 practices.ipynb
+
+Automatically generated by Colab.
+
+Original file is located at
+    https://colab.research.google.com/drive/1qHOuMLkagHorwd0JykGVuq4mXYcBUNt5
+"""
+
+# ============================================================
+# 50 Paddy practices: synthesize data + GRASP + warm-start MILP
+# Dense mixed-sign pairwise interactions (alpha, delta, gamma)
+# ============================================================
+
+from __future__ import annotations
+import os, math, random
+from dataclasses import dataclass
+from itertools import combinations
+from typing import Dict, List, Tuple, Set
+
+import pandas as pd
+
+# -----------------------------
+# Your 50 practices (exact list)
+# -----------------------------
+PRACTICES = [
+    "Alternate Wetting and Drying (AWD)",
+    "AWD using field water-tube monitoring (measured thresholds)",
+    "AWD with fewer flooding days (reduced continuous inundation)",
+    "Mid-season drainage (MSD)",
+    "Early-season drainage (shorten initial flooding period)",
+    "Pre-harvest drainage (timely drainage before harvest)",
+    "Intermittent irrigation scheduling (fixed wet–dry cycles)",
+    "Improved drainage outlets (faster drawdown)",
+    "Bund repair + leveling to enable controlled AWD (enables water control)",
+    "Laser land leveling (supports uniform AWD / less waterlogging)",
+    "Raised beds / furrow-irrigated rice (where applicable)",
+    "Aerobic rice management (non-flooded rice system)",
+    "Conversion of long-duration flooded rice to shorter-duration rice (less flooding time)",
+    "Use of short-duration varieties to reduce flooded period",
+    "Shift from transplanted puddled rice to systems reducing puddling/flooding duration (where defined)",
+    "Direct-Seeded Rice (DSR) (reduces flooded nursery/puddling period)",
+    "Dry seeding (non-puddled establishment)",
+    "Reduced puddling intensity (where permitted/defined)",
+    "Strip till / reduced till rice establishment (where feasible)",
+    "Controlled traffic / minimized soil disturbance (site-dependent)",
+    "Improved field channels for precise irrigation (enables AWD)",
+    "Timely weeding to maintain aerobic periods (supports AWD feasibility)",
+    "Mechanized operations reducing repeated puddling passes (site-dependent)",
+    "Optimized N rate (reduce excess N)",
+    "Split N application (better timing reduces losses)",
+    "Deep placement of urea (UDP)",
+    "Controlled-release urea (CRU)",
+    "Nitrification inhibitors (where allowed)",
+    "Urease inhibitors (where allowed)",
+    "Site-Specific Nutrient Management (SSNM)",
+    "Leaf Color Chart (LCC)-guided N dosing",
+    "Basal N reduction with more top-dressing precision",
+    "Balanced fertilization (adequate P/K to reduce excess N needs)",
+    "Avoid N application just before heavy irrigation/rain (timing rule)",
+    "Replace part of urea with organic sources under planned rates (avoid over-application)",
+    "Precision fertilizer application (band placement, calibrated applicators)",
+    "Improved manure management timing (avoid anaerobic + N surplus conditions)",
+    "Inclusion of legumes in rotation where feasible (reduces synthetic N demand)",
+    "No open-field burning of rice straw (avoided emissions)",
+    "Straw removal + off-field productive use (with leakage accounted)",
+    "Straw composting (instead of burning)",
+    "Straw incorporation with drainage/timing to reduce methane spikes (managed incorporation)",
+    "Straw mulching under non-flooded/managed water (method-dependent)",
+    "Use of straw for bioenergy with accounting (project/method dependent)",
+    "Collection/baling systems to prevent burning (enabler for #39)",
+    "Biochar application (rice husk/straw biochar)",
+    "Compost application (stabilized organic matter)",
+    "Farmyard manure application under monitored rates (SOC improvement; method-dependent)",
+    "Green manuring (e.g., Sesbania/dhaincha) with proper water management (SOC + N dynamics)",
+    "Cover crop/legume in rice fallow (where feasible) to build SOC (rotation-based crediting)",
+]
+
+# -----------------------------
+# Parameters you can edit
+# -----------------------------
+SEED = 7
+
+# Economic parameters (same style as your earlier model)
+CCP = 1200.0        # INR per tCO2e (carbon credit price)
+CROP_PRICE = 22.0   # INR per kg of rice (approx; adjust)
+
+# GRASP settings
+GRASP_ITERS = 250
+ALPHA_RCL = 0.30
+P_EXPLORE = 0.12
+
+# MILP settings
+MILP_TIME_LIMIT_SEC = 60  # set None for no limit
+USE_WARMSTART = True
+
+# Output folder for CSVs
+OUT_DIR = "synthetic_bundle_50"
+
+
+# ============================================================
+# 1) Categorization + exclusivity (logical constraints)
+# ============================================================
+def classify_practice(name: str) -> Tuple[str, str]:
+    s = name.lower()
+
+    # Categories (broad)
+    if any(k in s for k in ["awd", "drain", "irrig", "flood", "bund", "laser", "raised beds", "furrow", "aerobic", "channel"]):
+        cat = "water"
+    elif any(k in s for k in ["direct-seeded", "dsr", "dry seeding", "puddling", "strip till", "reduced till", "controlled traffic", "mechanized", "weeding"]):
+        cat = "establishment"
+    elif any(k in s for k in ["n rate", "split", "urea", "udp", "cru", "inhibitor", "ssnm", "lcc", "fertiliz", "manure", "legume", "precision fertilizer"]):
+        cat = "nitrogen"
+    elif any(k in s for k in ["straw", "burn", "mulch", "composting", "bioenergy", "baling", "incorporation"]):
+        cat = "residue"
+    elif any(k in s for k in ["biochar", "farmyard manure", "green manuring", "cover crop", "soc", "stabilized organic"]):
+        cat = "soil"
+    else:
+        cat = "general"
+
+    # Exclusivity groups (only where it makes sense)
+    ex = ""
+
+    # AWD variants: treat as alternative "ways of doing AWD"
+    if "awd" in s:
+        ex = "awd_variant"
+
+    # Establishment method: you typically pick one primary establishment style
+    if any(k in s for k in ["direct-seeded", "dsr", "dry seeding", "reduced puddling", "strip till", "reduced till",
+                            "shift from transplanted", "transplanted puddled", "non-puddled"]):
+        ex = "establishment_method"
+
+    # Aerobic/raised-bed regime (distinct from AWD-style flooding management)
+    if any(k in s for k in ["aerobic rice", "raised beds", "furrow-irrigated"]):
+        ex = "aerobic_regime"
+
+    # Duration choice: long-duration -> shorter OR short-duration varieties (treat as alternatives)
+    if "short-duration" in s or "long-duration" in s:
+        ex = "duration_choice"
+
+    # Residue fate: picking one main straw management pathway (simplification)
+    # (baling is an enabler, but we keep it under the same group; you can relax this if you want)
+    if "straw" in s or "burn" in s or "bioenergy" in s or "baling" in s:
+        ex = "residue_fate"
+
+    return cat, ex
+
+
+# Base ranges (logical-ish; units per ha per season)
+BASE_RANGES = {
+    "water":        {"CSP": (0.9, 2.8), "DY": (-140, 240), "OC": (500, 3800)},
+    "establishment":{"CSP": (0.3, 1.6), "DY": (-60, 260),  "OC": (600, 4200)},
+    "nitrogen":     {"CSP": (0.1, 0.9), "DY": (20, 240),   "OC": (600, 5200)},
+    "residue":      {"CSP": (0.4, 1.8), "DY": (-80, 180),  "OC": (400, 3800)},
+    "soil":         {"CSP": (0.8, 3.0), "DY": (-20, 220),  "OC": (800, 6500)},
+    "general":      {"CSP": (0.2, 1.0), "DY": (-40, 180),  "OC": (700, 4000)},
+}
+
+def tri(rng: random.Random, lo: float, hi: float, mode_frac: float) -> float:
+    mode = lo + mode_frac * (hi - lo)
+    return rng.triangular(lo, hi, mode)
+
+def pair_key(i: int, j: int) -> Tuple[int, int]:
+    return (i, j) if i < j else (j, i)
+
+
+# ============================================================
+# 2) Synthetic generation (CSP, OC, DY, alpha, delta, gamma, incompat)
+# ============================================================
+@dataclass
+class BundleData:
+    ids: List[str]
+    cats: List[str]
+    ex_groups: List[str]
+    CSP: List[float]
+    OC: List[float]
+    DY: List[float]
+    alpha: Dict[Tuple[int,int], float]
+    delta: Dict[Tuple[int,int], float]
+    gamma: Dict[Tuple[int,int], float]
+    incompat_idx: List[Tuple[int,int]]
+
+def generate_data(practices: List[str], seed: int, out_dir: str) -> BundleData:
+    rng = random.Random(seed)
+    ids = practices[:]
+    n = len(ids)
+
+    cats, ex_groups = [], []
+    for nm in ids:
+        c, ex = classify_practice(nm)
+        cats.append(c)
+        ex_groups.append(ex)
+
+    CSP, OC, DY = [], [], []
+    for i in range(n):
+        r = BASE_RANGES.get(cats[i], BASE_RANGES["general"])
+        csp = tri(rng, *r["CSP"], mode_frac=0.62)
+        dy  = tri(rng, *r["DY"],  mode_frac=0.55)
+        oc  = tri(rng, *r["OC"],  mode_frac=0.58)
+
+        s = ids[i].lower()
+
+        # Practical tweaks for realism
+        if cats[i] == "water":
+            # AWD/drainage can slightly reduce yield if poorly managed
+            if any(k in s for k in ["drain", "awd", "aerobic"]):
+                dy += rng.uniform(-50, 30)
+            # Laser leveling cost higher
+            if "laser" in s:
+                oc += rng.uniform(1200, 2200)
+                dy += rng.uniform(20, 80)
+
+        if cats[i] == "nitrogen":
+            # Inhibitors / CRU / UDP cost more, but yield benefit modest
+            if any(k in s for k in ["inhibitor", "controlled-release", "cru", "udp", "deep placement"]):
+                oc += rng.uniform(900, 2200)
+                dy += rng.uniform(0, 40)
+            # LCC/SSNM/precision: moderate cost, good efficiency
+            if any(k in s for k in ["lcc", "ssnm", "precision"]):
+                dy += rng.uniform(10, 60)
+
+        if cats[i] == "residue":
+            # Avoid burning / removal: cost moderate; yield depends
+            if "no open-field burning" in s:
+                oc += rng.uniform(200, 800)
+            if "incorporation" in s:
+                dy += rng.uniform(-40, 40)  # could hurt or help
+            if "compost" in s:
+                dy += rng.uniform(10, 60)
+
+        if cats[i] == "soil":
+            if "biochar" in s:
+                oc += rng.uniform(1500, 3500)
+                csp += rng.uniform(0.3, 0.9)
+                dy += rng.uniform(0, 60)
+            if "cover crop" in s or "green manuring" in s:
+                oc += rng.uniform(500, 1400)
+                csp += rng.uniform(0.2, 0.6)
+
+        # Clamp
+        csp = max(0.02, min(3.5, csp))
+        dy  = max(-400.0, min(600.0, dy))
+        oc  = max(150.0, min(9000.0, oc))
+
+        CSP.append(round(csp, 4))
+        DY.append(round(dy, 2))
+        OC.append(round(oc, 2))
+
+    # Complementarity map (to bias interactions)
+    complementary = {
+        ("water", "nitrogen"), ("water", "residue"), ("water", "soil"),
+        ("nitrogen", "soil"), ("residue", "soil"), ("establishment", "water"),
+        ("establishment", "nitrogen"), ("establishment", "water"),
+    }
+    def is_comp(a: str, b: str) -> bool:
+        return (a, b) in complementary or (b, a) in complementary
+
+    alpha: Dict[Tuple[int,int], float] = {}
+    delta: Dict[Tuple[int,int], float] = {}
+    gamma: Dict[Tuple[int,int], float] = {}
+
+    # Dense interactions: all pairs
+    for i, j in combinations(range(n), 2):
+        same = (cats[i] == cats[j])
+        comp = is_comp(cats[i], cats[j])
+
+        # Mixed-sign core driver
+        mu = (0.30 if comp else 0.0) + (-0.22 if same else 0.0)
+        z1 = rng.gauss(mu, 0.50)   # for alpha
+        z2 = rng.gauss(mu, 0.70)   # for delta
+        z3 = rng.gauss((0.18 if same else 0.0) + (-0.08 if comp else 0.0), 0.38)  # for gamma
+
+        # alpha: tCO2e interaction ~ up to 25% of min CSP
+        a = (0.25 * min(CSP[i], CSP[j])) * z1
+        a = max(-0.80, min(1.00, a))
+        alpha[(i, j)] = round(a, 4)
+
+        # delta: kg/ha interaction bounded
+        base_y = min(max(abs(DY[i]), 70.0), max(abs(DY[j]), 70.0), 280.0)
+        d = (0.25 * base_y) * z2
+        d = max(-220.0, min(260.0, d))
+        delta[(i, j)] = round(d, 2)
+
+        # gamma: INR/ha interaction bounded (coordination cost or saving)
+        g = (0.20 * min(OC[i], OC[j])) * z3
+        g = max(-1000.0, min(2200.0, g))
+        gamma[(i, j)] = round(g, 2)
+
+    # Incompatibilities:
+    incompat: Set[Tuple[int,int]] = set()
+
+    # A) Exclusive groups (all pairs within group are incompatible)
+    group_to_items: Dict[str, List[int]] = {}
+    for idx, g in enumerate(ex_groups):
+        if g:
+            group_to_items.setdefault(g, []).append(idx)
+    for g, items in group_to_items.items():
+        if len(items) >= 2:
+            for i, j in combinations(items, 2):
+                incompat.add(pair_key(i, j))
+
+    # B) Add a few extra "hard-conflict" pairs (small % of pairs)
+    # Score: very negative alpha/delta or very large positive gamma
+    all_pairs = list(combinations(range(n), 2))
+    def conflict_score(i: int, j: int) -> float:
+        a = alpha[(i, j)]
+        d = delta[(i, j)] / 200.0
+        g = gamma[(i, j)] / 1500.0
+        return a + d - g
+
+    ranked = sorted(all_pairs, key=lambda p: conflict_score(p[0], p[1]))
+    target_extra = int(0.05 * len(all_pairs))  # ~5% extra conflicts beyond exclusives
+    added = 0
+    for (i, j) in ranked:
+        if added >= target_extra:
+            break
+        if (i, j) in incompat:
+            continue
+        if conflict_score(i, j) < -0.60:
+            incompat.add((i, j))
+            added += 1
+
+    incompat_idx = sorted(incompat)
+
+    # Export CSVs
+    os.makedirs(out_dir, exist_ok=True)
+
+    df_pr = pd.DataFrame({
+        "idx": list(range(n)),
+        "practice": ids,
+        "category": cats,
+        "exclusive_group": ex_groups,
+        "CSP_tCO2e": CSP,
+        "OC_INR": OC,
+        "dY_kg_per_ha": DY,
+    })
+    df_pr.to_csv(os.path.join(out_dir, "practices.csv"), index=False)
+
+    df_int = pd.DataFrame([
+        {"i": i, "j": j, "alpha": alpha[(i, j)], "delta": delta[(i, j)], "gamma": gamma[(i, j)]}
+        for (i, j) in all_pairs
+    ])
+    df_int.to_csv(os.path.join(out_dir, "interactions.csv"), index=False)
+
+    df_inc = pd.DataFrame([{"i": i, "j": j} for (i, j) in incompat_idx])
+    df_inc.to_csv(os.path.join(out_dir, "incompatibilities.csv"), index=False)
+
+    print(f"[OK] Wrote: {out_dir}/practices.csv, interactions.csv, incompatibilities.csv")
+    print(f"n={n}, pairs={len(all_pairs)}, incompatibilities={len(incompat_idx)}")
+    print("CSP range:", (min(CSP), max(CSP)), "tCO2e")
+    print("DY  range:", (min(DY), max(DY)), "kg/ha")
+    print("OC  range:", (min(OC), max(OC)), "INR")
+
+    return BundleData(
+        ids=ids, cats=cats, ex_groups=ex_groups,
+        CSP=CSP, OC=OC, DY=DY,
+        alpha=alpha, delta=delta, gamma=gamma,
+        incompat_idx=incompat_idx
+    )
+
+
+# ============================================================
+# 3) Build objective coefficients for your bundle model
+#    Objective: sum b_i x_i + sum w_ij x_i x_j
+# ============================================================
+def build_objective(data: BundleData, CCP: float, CROP_PRICE: float):
+    n = len(data.ids)
+    b = [CCP * data.CSP[i] + CROP_PRICE * data.DY[i] - data.OC[i] for i in range(n)]
+
+    # Convert alpha/delta/gamma into one quadratic objective coefficient w_ij
+    w = [[0.0] * n for _ in range(n)]
+    gmat = [[0.0] * n for _ in range(n)]
+    for (i, j), a in data.alpha.items():
+        d = data.delta[(i, j)]
+        g = data.gamma[(i, j)]
+        wij = CCP * a + CROP_PRICE * d - g
+        w[i][j] = w[j][i] = float(wij)
+        gmat[i][j] = gmat[j][i] = float(g)
+    return b, w, gmat
+
+
+# ============================================================
+# 4) GRASP (fast heuristic) using incremental updates
+# ============================================================
+def build_incompat_sets(n: int, incompat_idx: List[Tuple[int,int]]) -> List[Set[int]]:
+    inc = [set() for _ in range(n)]
+    for i, j in incompat_idx:
+        inc[i].add(j)
+        inc[j].add(i)
+    return inc
+
+def grasp_solve(n: int, b: List[float], w: List[List[float]], OC: List[float], gmat: List[List[float]],
+                incompat: List[Set[int]], B: float,
+                iters: int = 200, alpha_rcl: float = 0.3, p_explore: float = 0.10, seed: int = 0):
+    rng = random.Random(seed)
+
+    def construct_once():
+        inS = [False]*n
+        S = []
+        sumW = [0.0]*n  # sum of w[i][j] over j in S
+        sumG = [0.0]*n  # sum of gamma[i][j] over j in S
+        cur_val = 0.0
+        cur_cost = 0.0
+
+        while True:
+            cand = []
+            for i in range(n):
+                if inS[i]:
+                    continue
+                # incompat check
+                if any(inS[j] for j in incompat[i]):
+                    continue
+                add_cost = OC[i] + sumG[i]
+                if cur_cost + add_cost > B + 1e-9:
+                    continue
+                add_gain = b[i] + sumW[i]
+                score = add_gain / max(add_cost, 1.0)
+                cand.append((i, score, add_gain, add_cost))
+
+            if not cand:
+                break
+
+            pos = [c for c in cand if c[2] > 1e-9]
+            if pos:
+                pool = pos
+            else:
+                if rng.random() > p_explore:
+                    break
+                pool = cand
+
+            scores = [c[1] for c in pool]
+            smax, smin = max(scores), min(scores)
+            cutoff = smax - alpha_rcl*(smax - smin)
+            rcl = [c for c in pool if c[1] >= cutoff]
+            i = rng.choice(rcl)[0]
+
+            # apply add
+            inS[i] = True
+            S.append(i)
+            cur_val += b[i] + sumW[i]
+            cur_cost += OC[i] + sumG[i]
+            for k in range(n):
+                if k == i:
+                    continue
+                sumW[k] += w[k][i]
+                sumG[k] += gmat[k][i]
+        return S
+
+    def local_search(S0: List[int]):
+        inS = [False]*n
+        for i in S0:
+            inS[i] = True
+
+        # build incremental sums
+        sumW = [0.0]*n
+        sumG = [0.0]*n
+        cur_val = 0.0
+        cur_cost = 0.0
+
+        for i in range(n):
+            if inS[i]:
+                cur_val += b[i]
+                cur_cost += OC[i]
+        for i, j in combinations(range(n), 2):
+            if inS[i] and inS[j]:
+                cur_val += w[i][j]
+                cur_cost += gmat[i][j]
+        for i in range(n):
+            if not inS[i]:
+                # sum over chosen
+                sw = 0.0
+                sg = 0.0
+                for j in range(n):
+                    if inS[j]:
+                        sw += w[i][j]
+                        sg += gmat[i][j]
+                sumW[i] = sw
+                sumG[i] = sg
+            else:
+                # sum to other chosen
+                sw = 0.0
+                sg = 0.0
+                for j in range(n):
+                    if inS[j] and j != i:
+                        sw += w[i][j]
+                        sg += gmat[i][j]
+                sumW[i] = sw
+                sumG[i] = sg
+
+        def feasible_add(x: int, inS_local: List[bool], cost_now: float) -> bool:
+            if inS_local[x]:
+                return False
+            if any(inS_local[j] for j in incompat[x]):
+                return False
+            return cost_now + (OC[x] + sumG[x]) <= B + 1e-9
+
+        improved = True
+        while improved:
+            improved = False
+            best_gain = 0.0
+            best_move = None
+
+            # ADD moves
+            for j in range(n):
+                if inS[j]:
+                    continue
+                if not feasible_add(j, inS, cur_cost):
+                    continue
+                gain = b[j] + sumW[j]
+                if gain > best_gain + 1e-9:
+                    best_gain = gain
+                    best_move = ("add", j)
+
+            # REMOVE moves (useful when item net contribution becomes negative due to interactions)
+            for i in range(n):
+                if not inS[i]:
+                    continue
+                gain = -(b[i] + sumW[i])  # removing increases objective if (b+sumW)<0
+                if gain > best_gain + 1e-9:
+                    best_gain = gain
+                    best_move = ("rem", i)
+
+            # SWAP moves
+            for i in range(n):
+                if not inS[i]:
+                    continue
+                # after removing i, cost/compat change
+                cost_after_rem = cur_cost - (OC[i] + sumG[i])
+                for j in range(n):
+                    if inS[j]:
+                        continue
+                    # incompat check against S\{i}
+                    if any(inS[k] for k in incompat[j] if k != i):
+                        continue
+                    add_cost_after = OC[j] + (sumG[j] - gmat[j][i])
+                    if cost_after_rem + add_cost_after > B + 1e-9:
+                        continue
+                    # add gain after removal
+                    add_gain_after = b[j] + (sumW[j] - w[j][i])
+                    rem_gain = -(b[i] + sumW[i])
+                    gain = rem_gain + add_gain_after
+                    if gain > best_gain + 1e-9:
+                        best_gain = gain
+                        best_move = ("swap", i, j)
+
+            if best_move is None:
+                break
+
+            improved = True
+            typ = best_move[0]
+
+            def apply_remove(i: int):
+                nonlocal cur_val, cur_cost
+                inS[i] = False
+                cur_val -= b[i] + sumW[i]
+                cur_cost -= OC[i] + sumG[i]
+                for k in range(n):
+                    if k == i:
+                        continue
+                    sumW[k] -= w[k][i]
+                    sumG[k] -= gmat[k][i]
+                sumW[i] = 0.0
+                sumG[i] = 0.0
+
+            def apply_add(j: int):
+                nonlocal cur_val, cur_cost
+                inS[j] = True
+                cur_val += b[j] + sumW[j]
+                cur_cost += OC[j] + sumG[j]
+                for k in range(n):
+                    if k == j:
+                        continue
+                    sumW[k] += w[k][j]
+                    sumG[k] += gmat[k][j]
+                # recompute sumW[j],sumG[j] to chosen (excluding itself)
+                sw = 0.0
+                sg = 0.0
+                for k in range(n):
+                    if inS[k] and k != j:
+                        sw += w[j][k]
+                        sg += gmat[j][k]
+                sumW[j] = sw
+                sumG[j] = sg
+
+            if typ == "add":
+                apply_add(best_move[1])
+            elif typ == "rem":
+                apply_remove(best_move[1])
+            else:
+                i, j = best_move[1], best_move[2]
+                apply_remove(i)
+                apply_add(j)
+
+        S_final = [i for i in range(n) if inS[i]]
+        return S_final, cur_val, cur_cost
+
+    best_S, best_val, best_cost = [], float("-inf"), 0.0
+    for t in range(iters):
+        S0 = construct_once()
+        S1, v1, c1 = local_search(S0)
+        if v1 > best_val:
+            best_S, best_val, best_cost = S1, v1, c1
+
+    return best_S, best_val, best_cost
+
+
+# ============================================================
+# 5) MILP (PuLP) warm-started from GRASP (linearization)
+# ============================================================
+def solve_milp(n: int, b: List[float], w: List[List[float]], OC: List[float], gmat: List[List[float]],
+              incompat_idx: List[Tuple[int,int]], B: float, start_S: List[int] | None,
+              time_limit: int | None = None, warmstart: bool = True):
+    try:
+        import pulp
+    except ImportError:
+        import sys, subprocess
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "pulp"])
+        import pulp
+
+    prob = pulp.LpProblem("QKP_Bundle", pulp.LpMaximize)
+
+    x = {i: pulp.LpVariable(f"x_{i}", cat="Binary") for i in range(n)}
+    pairs = [(i, j) for i in range(n) for j in range(i+1, n)]
+    y = {(i, j): pulp.LpVariable(f"y_{i}_{j}", cat="Binary") for (i, j) in pairs}
+
+    # objective
+    prob += pulp.lpSum(b[i] * x[i] for i in range(n)) + pulp.lpSum(w[i][j] * y[(i, j)] for (i, j) in pairs)
+
+    # incompatibilities
+    for (i, j) in incompat_idx:
+        prob += x[i] + x[j] <= 1
+
+    # linearize y_ij = x_i * x_j
+    for (i, j) in pairs:
+        prob += y[(i, j)] <= x[i]
+        prob += y[(i, j)] <= x[j]
+        prob += y[(i, j)] >= x[i] + x[j] - 1
+
+    # budget
+    prob += pulp.lpSum(OC[i] * x[i] for i in range(n)) + pulp.lpSum(gmat[i][j] * y[(i, j)] for (i, j) in pairs) <= B
+
+    # warm start
+    if warmstart and start_S is not None:
+        start_set = set(start_S)
+        for i in range(n):
+            x[i].setInitialValue(1 if i in start_set else 0)
+        for (i, j) in pairs:
+            y[(i, j)].setInitialValue(1 if (i in start_set and j in start_set) else 0)
+
+    # solve
+    # CBC supports timeLimit; warmStart might not always be available in some builds
+    solver_kwargs = {"msg": False}
+    if time_limit is not None:
+        solver_kwargs["timeLimit"] = time_limit
+    if warmstart:
+        solver_kwargs["warmStart"] = True
+
+    solver = pulp.PULP_CBC_CMD(**solver_kwargs)
+    prob.solve(solver)
+
+    status = pulp.LpStatus[prob.status]
+    chosen = [i for i in range(n) if int(pulp.value(x[i])) == 1]
+    obj = float(pulp.value(prob.objective))
+    return status, chosen, obj
+
+
+# ============================================================
+# 6) Run everything
+# ============================================================
+data = generate_data(PRACTICES, seed=SEED, out_dir=OUT_DIR)
+ids = data.ids
+n = len(ids)
+
+b, w_obj, gmat = build_objective(data, CCP=CCP, CROP_PRICE=CROP_PRICE)
+incompat_sets = build_incompat_sets(n, data.incompat_idx)
+
+# Choose a reasonable default budget (so solution isn't trivial):
+# budget ~ sum of cheapest 12 base costs * 1.25 (you can override)
+k = 12
+sorted_costs = sorted(data.OC)
+#BUDGET_INR = 1.25 * sum(sorted_costs[:k])
+BUDGET_INR = 3500
+print("\nDefault BUDGET_INR (auto):", round(BUDGET_INR, 2), f"(~ {k} cheaper practices * 1.25)")
+
+# --- GRASP ---
+Sg, Vg, Cg = grasp_solve(
+    n, b, w_obj, data.OC, gmat, incompat_sets, B=BUDGET_INR,
+    iters=GRASP_ITERS, alpha_rcl=ALPHA_RCL, p_explore=P_EXPLORE, seed=SEED
+)
+
+print("\n=== GRASP result ===")
+print("Selected:", len(Sg), "practices")
+print("Cost:", round(Cg, 2), " / Budget:", round(BUDGET_INR, 2))
+print("Objective:", round(Vg, 2))
+print("Bundle:")
+for i in sorted(Sg):
+    print(f"  - ({i+1:02d}) {ids[i]}")
+
+# --- MILP (warm-started from GRASP) ---
+status, Sm, Vm = solve_milp(
+    n, b, w_obj, data.OC, gmat, data.incompat_idx, B=BUDGET_INR,
+    start_S=Sg, time_limit=MILP_TIME_LIMIT_SEC, warmstart=USE_WARMSTART
+)
+
+print("\n=== MILP result (warm-started) ===")
+print("Status:", status)
+print("Selected:", len(Sm), "practices")
+print("Objective:", round(Vm, 2))
+print("Bundle:")
+for i in sorted(Sm):
+    print(f"  - ({i+1:02d}) {ids[i]}")
+
+print("\nObjective gap (MILP - GRASP):", round(Vm - Vg, 6))
+
+import time
+import pandas as pd
+from itertools import combinations
+
+# ---- helpers to compute cost/objective for any chosen set S ----
+def calc_cost(S, OC, gmat):
+    S = sorted(S)
+    cost = sum(OC[i] for i in S)
+    for a, b in combinations(S, 2):
+        cost += gmat[a][b]
+    return float(cost)
+
+def calc_obj(S, b, w_obj):
+    S = sorted(S)
+    val = sum(b[i] for i in S)
+    for a, c in combinations(S, 2):
+        val += w_obj[a][c]
+    return float(val)
+
+# ---- choose budgets to test ----
+# Use your auto budget as baseline (recompute it the same way)
+k = 12
+sorted_costs = sorted(data.OC)
+B_AUTO = 1.25 * sum(sorted_costs[:k])
+
+# Example: sweep from 50% to 110% of auto budget (13 points)
+budget_fracs = [0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90, 0.95, 1.00, 1.05, 1.10]
+budgets = [round(B_AUTO * f, 2) for f in budget_fracs]
+print("Budgets:", budgets)
+
+# ---- GRASP settings (try multiple seeds and keep best) ----
+GRASP_SEEDS = [1, 7, 11, 21, 42]   # more seeds = more robust
+GRASP_ITERS_LOCAL = 200            # per seed
+
+# ---- MILP settings ----
+MILP_TL = 30   # seconds per budget (increase if you want); or set None for no limit
+
+rows = []
+
+for B in budgets:
+    # ---------- GRASP (best-of-seeds) ----------
+    t0 = time.perf_counter()
+    best_Sg, best_Vg, best_Cg = [], float("-inf"), 0.0
+
+    for sd in GRASP_SEEDS:
+        Sg, Vg, Cg = grasp_solve(
+            n, b, w_obj, data.OC, gmat, incompat_sets, B=B,
+            iters=GRASP_ITERS_LOCAL, alpha_rcl=ALPHA_RCL, p_explore=P_EXPLORE, seed=sd
+        )
+        if Vg > best_Vg:
+            best_Sg, best_Vg, best_Cg = Sg, Vg, Cg
+
+    grasp_time = time.perf_counter() - t0
+
+    # ---------- MILP ----------
+    t1 = time.perf_counter()
+    status, Sm, Vm = solve_milp(
+        n, b, w_obj, data.OC, gmat, data.incompat_idx, B=B,
+        start_S=best_Sg, time_limit=MILP_TL, warmstart=True
+    )
+    milp_time = time.perf_counter() - t1
+
+    Cm = calc_cost(Sm, data.OC, gmat)
+
+    # Gap (absolute and percent)
+    gap_abs = Vm - best_Vg
+    gap_pct = (gap_abs / abs(Vm) * 100.0) if abs(Vm) > 1e-9 else 0.0
+
+    rows.append({
+        "Budget": B,
+        "GRASP_obj": round(best_Vg, 4),
+        "GRASP_cost": round(best_Cg, 2),
+        "GRASP_selected": len(best_Sg),
+        "GRASP_time_s": round(grasp_time, 3),
+
+        "MILP_status": status,
+        "MILP_obj": round(Vm, 4),
+        "MILP_cost": round(Cm, 2),
+        "MILP_selected": len(Sm),
+        "MILP_time_s": round(milp_time, 3),
+
+        "Gap_abs(MILP-GRASP)": round(gap_abs, 6),
+        "Gap_pct": round(gap_pct, 4),
+    })
+
+df = pd.DataFrame(rows)
+df
+
+import matplotlib.pyplot as plt
+
+# If you saved results and restarted, uncomment:
+# import pandas as pd
+# df = pd.read_csv("budget_sweep_results.csv")
+
+# Sort by budget (important for a clean line plot)
+df_plot = df.sort_values("Budget")
+
+plt.figure()
+plt.plot(df_plot["Budget"], df_plot["GRASP_obj"], marker="o", label="GRASP")
+plt.plot(df_plot["Budget"], df_plot["MILP_obj"], marker="o", label="MILP")
+plt.xlabel("Budget (INR)")
+plt.ylabel("Objective value")
+plt.title("Budget vs Objective (GRASP vs MILP)")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+
+================================================
+FILE: optimal_50_subgroups.py
+================================================
+# -*- coding: utf-8 -*-
+"""Optimal 50_subgroups.ipynb
+
+Automatically generated by Colab.
+
+Original file is located at
+    https://colab.research.google.com/drive/1yOXw4R5Xeol5Zqe24S3oykTK6wBKcO6H
+"""
+
+
+
+# ============================================================
+# 50 Paddy practices: synthesize data + GRASP + warm-start MILP
+# + NEW: "At most ONE (or NONE) practice from each REAL subgroup"
+#   (Water / Establishment / Nitrogen / Residue / Soil)
+# Dense mixed-sign pairwise interactions (alpha, delta, gamma)
+# ============================================================
+
+from __future__ import annotations
+import os, random
+from dataclasses import dataclass
+from itertools import combinations
+from typing import Dict, List, Tuple, Set
+
+import pandas as pd
+
+# -----------------------------
+# Your 50 practices (exact list)
+# -----------------------------
+PRACTICES = [
+    "Alternate Wetting and Drying (AWD)",
+    "AWD using field water-tube monitoring (measured thresholds)",
+    "AWD with fewer flooding days (reduced continuous inundation)",
+    "Mid-season drainage (MSD)",
+    "Early-season drainage (shorten initial flooding period)",
+    "Pre-harvest drainage (timely drainage before harvest)",
+    "Intermittent irrigation scheduling (fixed wet–dry cycles)",
+    "Improved drainage outlets (faster drawdown)",
+    "Bund repair + leveling to enable controlled AWD (enables water control)",
+    "Laser land leveling (supports uniform AWD / less waterlogging)",
+    "Raised beds / furrow-irrigated rice (where applicable)",
+    "Aerobic rice management (non-flooded rice system)",
+    "Conversion of long-duration flooded rice to shorter-duration rice (less flooding time)",
+    "Use of short-duration varieties to reduce flooded period",
+    "Shift from transplanted puddled rice to systems reducing puddling/flooding duration (where defined)",
+    "Direct-Seeded Rice (DSR) (reduces flooded nursery/puddling period)",
+    "Dry seeding (non-puddled establishment)",
+    "Reduced puddling intensity (where permitted/defined)",
+    "Strip till / reduced till rice establishment (where feasible)",
+    "Controlled traffic / minimized soil disturbance (site-dependent)",
+    "Improved field channels for precise irrigation (enables AWD)",
+    "Timely weeding to maintain aerobic periods (supports AWD feasibility)",
+    "Mechanized operations reducing repeated puddling passes (site-dependent)",
+    "Optimized N rate (reduce excess N)",
+    "Split N application (better timing reduces losses)",
+    "Deep placement of urea (UDP)",
+    "Controlled-release urea (CRU)",
+    "Nitrification inhibitors (where allowed)",
+    "Urease inhibitors (where allowed)",
+    "Site-Specific Nutrient Management (SSNM)",
+    "Leaf Color Chart (LCC)-guided N dosing",
+    "Basal N reduction with more top-dressing precision",
+    "Balanced fertilization (adequate P/K to reduce excess N needs)",
+    "Avoid N application just before heavy irrigation/rain (timing rule)",
+    "Replace part of urea with organic sources under planned rates (avoid over-application)",
+    "Precision fertilizer application (band placement, calibrated applicators)",
+    "Improved manure management timing (avoid anaerobic + N surplus conditions)",
+    "Inclusion of legumes in rotation where feasible (reduces synthetic N demand)",
+    "No open-field burning of rice straw (avoided emissions)",
+    "Straw removal + off-field productive use (with leakage accounted)",
+    "Straw composting (instead of burning)",
+    "Straw incorporation with drainage/timing to reduce methane spikes (managed incorporation)",
+    "Straw mulching under non-flooded/managed water (method-dependent)",
+    "Use of straw for bioenergy with accounting (project/method dependent)",
+    "Collection/baling systems to prevent burning (enabler for #39)",
+    "Biochar application (rice husk/straw biochar)",
+    "Compost application (stabilized organic matter)",
+    "Farmyard manure application under monitored rates (SOC improvement; method-dependent)",
+    "Green manuring (e.g., Sesbania/dhaincha) with proper water management (SOC + N dynamics)",
+    "Cover crop/legume in rice fallow (where feasible) to build SOC (rotation-based crediting)",
+]
+
+# -----------------------------
+# Parameters you can edit
+# -----------------------------
+SEED = 7
+
+# Economic parameters
+CCP = 1200.0        # INR per tCO2e
+CROP_PRICE = 22.0   # INR per kg
+
+# GRASP settings
+GRASP_ITERS = 250
+ALPHA_RCL = 0.30
+P_EXPLORE = 0.12
+
+# MILP settings
+MILP_TIME_LIMIT_SEC = 60  # set None for no limit
+USE_WARMSTART = True
+
+# Output folder for CSVs
+OUT_DIR = "synthetic_bundle_50"
+
+# -----------------------------
+# NEW: Real "subgroups" (your headings) — at most 1 per subgroup
+# Indices are 0-based:
+#  1-15  -> 0..14
+# 16-23  -> 15..22
+# 24-38  -> 23..37
+# 39-45  -> 38..44
+# 46-50  -> 45..49
+# -----------------------------
+REAL_GROUPS = {
+    "water_methane": list(range(0, 15)),
+    "establishment_ops": list(range(15, 23)),
+    "nitrogen": list(range(23, 38)),
+    "residue": list(range(38, 45)),
+    "soil_carbon": list(range(45, 50)),
+}
+
+def build_subgroup_of(n: int) -> Tuple[List[int], List[str]]:
+    """Returns subgroup_of[i] = group_id in [0..G-1] and group_names list."""
+    group_names = list(REAL_GROUPS.keys())
+    subgroup_of = [-1] * n
+    for gid, gname in enumerate(group_names):
+        for i in REAL_GROUPS[gname]:
+            if 0 <= i < n:
+                subgroup_of[i] = gid
+    if any(g == -1 for g in subgroup_of):
+        raise ValueError("Some practices were not assigned to a REAL_GROUP. Check index ranges.")
+    return subgroup_of, group_names
+
+
+# ============================================================
+# 1) Categorization + (optional) extra exclusivity (for synthetic incompatibilities)
+# ============================================================
+def classify_practice(name: str) -> Tuple[str, str]:
+    s = name.lower()
+
+    # Categories (broad)
+    if any(k in s for k in ["awd", "drain", "irrig", "flood", "bund", "laser", "raised beds", "furrow", "aerobic", "channel"]):
+        cat = "water"
+    elif any(k in s for k in ["direct-seeded", "dsr", "dry seeding", "puddling", "strip till", "reduced till", "controlled traffic", "mechanized", "weeding"]):
+        cat = "establishment"
+    elif any(k in s for k in ["n rate", "split", "urea", "udp", "cru", "inhibitor", "ssnm", "lcc", "fertiliz", "manure", "legume", "precision fertilizer"]):
+        cat = "nitrogen"
+    elif any(k in s for k in ["straw", "burn", "mulch", "composting", "bioenergy", "baling", "incorporation"]):
+        cat = "residue"
+    elif any(k in s for k in ["biochar", "farmyard manure", "green manuring", "cover crop", "soc", "stabilized organic"]):
+        cat = "soil"
+    else:
+        cat = "general"
+
+    # Optional fine exclusivity groups (these create extra incompatibilities in synthetic data)
+    ex = ""
+    if "awd" in s:
+        ex = "awd_variant"
+    if any(k in s for k in ["direct-seeded", "dsr", "dry seeding", "reduced puddling", "strip till", "reduced till",
+                            "shift from transplanted", "transplanted puddled", "non-puddled"]):
+        ex = "establishment_method"
+    if any(k in s for k in ["aerobic rice", "raised beds", "furrow-irrigated"]):
+        ex = "aerobic_regime"
+    if "short-duration" in s or "long-duration" in s:
+        ex = "duration_choice"
+    if "straw" in s or "burn" in s or "bioenergy" in s or "baling" in s:
+        ex = "residue_fate"
+
+    return cat, ex
+
+
+BASE_RANGES = {
+    "water":        {"CSP": (0.9, 2.8), "DY": (-140, 240), "OC": (500, 3800)},
+    "establishment":{"CSP": (0.3, 1.6), "DY": (-60, 260),  "OC": (600, 4200)},
+    "nitrogen":     {"CSP": (0.1, 0.9), "DY": (20, 240),   "OC": (600, 5200)},
+    "residue":      {"CSP": (0.4, 1.8), "DY": (-80, 180),  "OC": (400, 3800)},
+    "soil":         {"CSP": (0.8, 3.0), "DY": (-20, 220),  "OC": (800, 6500)},
+    "general":      {"CSP": (0.2, 1.0), "DY": (-40, 180),  "OC": (700, 4000)},
+}
+
+def tri(rng: random.Random, lo: float, hi: float, mode_frac: float) -> float:
+    mode = lo + mode_frac * (hi - lo)
+    return rng.triangular(lo, hi, mode)
+
+def pair_key(i: int, j: int) -> Tuple[int, int]:
+    return (i, j) if i < j else (j, i)
+
+
+# ============================================================
+# 2) Synthetic generation
+# ============================================================
+@dataclass
+class BundleData:
+    ids: List[str]
+    cats: List[str]
+    ex_groups: List[str]
+    CSP: List[float]
+    OC: List[float]
+    DY: List[float]
+    alpha: Dict[Tuple[int,int], float]
+    delta: Dict[Tuple[int,int], float]
+    gamma: Dict[Tuple[int,int], float]
+    incompat_idx: List[Tuple[int,int]]
+
+def generate_data(practices: List[str], seed: int, out_dir: str) -> BundleData:
+    rng = random.Random(seed)
+    ids = practices[:]
+    n = len(ids)
+
+    cats, ex_groups = [], []
+    for nm in ids:
+        c, ex = classify_practice(nm)
+        cats.append(c)
+        ex_groups.append(ex)
+
+    CSP, OC, DY = [], [], []
+    for i in range(n):
+        r = BASE_RANGES.get(cats[i], BASE_RANGES["general"])
+        csp = tri(rng, *r["CSP"], mode_frac=0.62)
+        dy  = tri(rng, *r["DY"],  mode_frac=0.55)
+        oc  = tri(rng, *r["OC"],  mode_frac=0.58)
+
+        s = ids[i].lower()
+
+        if cats[i] == "water":
+            if any(k in s for k in ["drain", "awd", "aerobic"]):
+                dy += rng.uniform(-50, 30)
+            if "laser" in s:
+                oc += rng.uniform(1200, 2200)
+                dy += rng.uniform(20, 80)
+
+        if cats[i] == "nitrogen":
+            if any(k in s for k in ["inhibitor", "controlled-release", "cru", "udp", "deep placement"]):
+                oc += rng.uniform(900, 2200)
+                dy += rng.uniform(0, 40)
+            if any(k in s for k in ["lcc", "ssnm", "precision"]):
+                dy += rng.uniform(10, 60)
+
+        if cats[i] == "residue":
+            if "no open-field burning" in s:
+                oc += rng.uniform(200, 800)
+            if "incorporation" in s:
+                dy += rng.uniform(-40, 40)
+            if "compost" in s:
+                dy += rng.uniform(10, 60)
+
+        if cats[i] == "soil":
+            if "biochar" in s:
+                oc += rng.uniform(1500, 3500)
+                csp += rng.uniform(0.3, 0.9)
+                dy += rng.uniform(0, 60)
+            if "cover crop" in s or "green manuring" in s:
+                oc += rng.uniform(500, 1400)
+                csp += rng.uniform(0.2, 0.6)
+
+        csp = max(0.02, min(3.5, csp))
+        dy  = max(-400.0, min(600.0, dy))
+        oc  = max(150.0, min(9000.0, oc))
+
+        CSP.append(round(csp, 4))
+        DY.append(round(dy, 2))
+        OC.append(round(oc, 2))
+
+    complementary = {
+        ("water", "nitrogen"), ("water", "residue"), ("water", "soil"),
+        ("nitrogen", "soil"), ("residue", "soil"), ("establishment", "water"),
+        ("establishment", "nitrogen"),
+    }
+    def is_comp(a: str, b: str) -> bool:
+        return (a, b) in complementary or (b, a) in complementary
+
+    alpha: Dict[Tuple[int,int], float] = {}
+    delta: Dict[Tuple[int,int], float] = {}
+    gamma: Dict[Tuple[int,int], float] = {}
+
+    for i, j in combinations(range(n), 2):
+        same = (cats[i] == cats[j])
+        comp = is_comp(cats[i], cats[j])
+
+        mu = (0.30 if comp else 0.0) + (-0.22 if same else 0.0)
+        z1 = rng.gauss(mu, 0.50)
+        z2 = rng.gauss(mu, 0.70)
+        z3 = rng.gauss((0.18 if same else 0.0) + (-0.08 if comp else 0.0), 0.38)
+
+        a = (0.25 * min(CSP[i], CSP[j])) * z1
+        a = max(-0.80, min(1.00, a))
+        alpha[(i, j)] = round(a, 4)
+
+        base_y = min(max(abs(DY[i]), 70.0), max(abs(DY[j]), 70.0), 280.0)
+        d = (0.25 * base_y) * z2
+        d = max(-220.0, min(260.0, d))
+        delta[(i, j)] = round(d, 2)
+
+        g = (0.20 * min(OC[i], OC[j])) * z3
+        g = max(-1000.0, min(2200.0, g))
+        gamma[(i, j)] = round(g, 2)
+
+    incompat: Set[Tuple[int,int]] = set()
+
+    # A) extra exclusivity (optional, mostly redundant once we enforce REAL_GROUPS <=1)
+    group_to_items: Dict[str, List[int]] = {}
+    for idx, g in enumerate(ex_groups):
+        if g:
+            group_to_items.setdefault(g, []).append(idx)
+    for g, items in group_to_items.items():
+        if len(items) >= 2:
+            for i, j in combinations(items, 2):
+                incompat.add(pair_key(i, j))
+
+    # B) extra hard-conflict pairs (small %)
+    all_pairs = list(combinations(range(n), 2))
+    def conflict_score(i: int, j: int) -> float:
+        a = alpha[(i, j)]
+        d = delta[(i, j)] / 200.0
+        g = gamma[(i, j)] / 1500.0
+        return a + d - g
+
+    ranked = sorted(all_pairs, key=lambda p: conflict_score(p[0], p[1]))
+    target_extra = int(0.05 * len(all_pairs))
+    added = 0
+    for (i, j) in ranked:
+        if added >= target_extra:
+            break
+        if (i, j) in incompat:
+            continue
+        if conflict_score(i, j) < -0.60:
+            incompat.add((i, j))
+            added += 1
+
+    incompat_idx = sorted(incompat)
+
+    os.makedirs(out_dir, exist_ok=True)
+
+    df_pr = pd.DataFrame({
+        "idx": list(range(n)),
+        "practice": ids,
+        "category": cats,
+        "exclusive_group": ex_groups,
+        "CSP_tCO2e": CSP,
+        "OC_INR": OC,
+        "dY_kg_per_ha": DY,
+    })
+    df_pr.to_csv(os.path.join(out_dir, "practices.csv"), index=False)
+
+    df_int = pd.DataFrame([
+        {"i": i, "j": j, "alpha": alpha[(i, j)], "delta": delta[(i, j)], "gamma": gamma[(i, j)]}
+        for (i, j) in all_pairs
+    ])
+    df_int.to_csv(os.path.join(out_dir, "interactions.csv"), index=False)
+
+    df_inc = pd.DataFrame([{"i": i, "j": j} for (i, j) in incompat_idx])
+    df_inc.to_csv(os.path.join(out_dir, "incompatibilities.csv"), index=False)
+
+    print(f"[OK] Wrote: {out_dir}/practices.csv, interactions.csv, incompatibilities.csv")
+    print(f"n={n}, pairs={len(all_pairs)}, incompatibilities={len(incompat_idx)}")
+    print("CSP range:", (min(CSP), max(CSP)), "tCO2e")
+    print("DY  range:", (min(DY), max(DY)), "kg/ha")
+    print("OC  range:", (min(OC), max(OC)), "INR")
+
+    return BundleData(
+        ids=ids, cats=cats, ex_groups=ex_groups,
+        CSP=CSP, OC=OC, DY=DY,
+        alpha=alpha, delta=delta, gamma=gamma,
+        incompat_idx=incompat_idx
+    )
+
+
+# ============================================================
+# 3) Build objective coefficients
+# ============================================================
+def build_objective(data: BundleData, CCP: float, CROP_PRICE: float):
+    n = len(data.ids)
+    b = [CCP * data.CSP[i] + CROP_PRICE * data.DY[i] - data.OC[i] for i in range(n)]
+
+    w = [[0.0] * n for _ in range(n)]
+    gmat = [[0.0] * n for _ in range(n)]
+    for (i, j), a in data.alpha.items():
+        d = data.delta[(i, j)]
+        g = data.gamma[(i, j)]
+        wij = CCP * a + CROP_PRICE * d - g
+        w[i][j] = w[j][i] = float(wij)
+        gmat[i][j] = gmat[j][i] = float(g)
+    return b, w, gmat
+
+
+# ============================================================
+# 4) GRASP with NEW subgroup constraint (<= 1 per REAL_GROUP)
+# ============================================================
+def build_incompat_sets(n: int, incompat_idx: List[Tuple[int,int]]) -> List[Set[int]]:
+    inc = [set() for _ in range(n)]
+    for i, j in incompat_idx:
+        inc[i].add(j)
+        inc[j].add(i)
+    return inc
+
+def grasp_solve(n: int, b: List[float], w: List[List[float]], OC: List[float], gmat: List[List[float]],
+                incompat: List[Set[int]], B: float,
+                subgroup_of: List[int], num_groups: int,
+                iters: int = 200, alpha_rcl: float = 0.3, p_explore: float = 0.10, seed: int = 0):
+    rng = random.Random(seed)
+
+    def construct_once():
+        inS = [False]*n
+        group_taken = [False]*num_groups
+
+        S = []
+        sumW = [0.0]*n
+        sumG = [0.0]*n
+        cur_val = 0.0
+        cur_cost = 0.0
+
+        while True:
+            cand = []
+            for i in range(n):
+                if inS[i]:
+                    continue
+
+                gi = subgroup_of[i]
+                if group_taken[gi]:
+                    continue
+
+                if any(inS[j] for j in incompat[i]):
+                    continue
+
+                add_cost = OC[i] + sumG[i]
+                if cur_cost + add_cost > B + 1e-9:
+                    continue
+
+                add_gain = b[i] + sumW[i]
+                score = add_gain / max(add_cost, 1.0)
+                cand.append((i, score, add_gain, add_cost))
+
+            if not cand:
+                break
+
+            pos = [c for c in cand if c[2] > 1e-9]
+            if pos:
+                pool = pos
+            else:
+                if rng.random() > p_explore:
+                    break
+                pool = cand
+
+            scores = [c[1] for c in pool]
+            smax, smin = max(scores), min(scores)
+            cutoff = smax - alpha_rcl*(smax - smin)
+            rcl = [c for c in pool if c[1] >= cutoff]
+            i = rng.choice(rcl)[0]
+
+            # add i
+            inS[i] = True
+            group_taken[subgroup_of[i]] = True
+            S.append(i)
+
+            cur_val += b[i] + sumW[i]
+            cur_cost += OC[i] + sumG[i]
+
+            for k in range(n):
+                if k == i:
+                    continue
+                sumW[k] += w[k][i]
+                sumG[k] += gmat[k][i]
+
+        return S
+
+    def local_search(S0: List[int]):
+        inS = [False]*n
+        group_taken = [False]*num_groups
+        for i in S0:
+            inS[i] = True
+            group_taken[subgroup_of[i]] = True
+
+        sumW = [0.0]*n
+        sumG = [0.0]*n
+        cur_val = 0.0
+        cur_cost = 0.0
+
+        for i in range(n):
+            if inS[i]:
+                cur_val += b[i]
+                cur_cost += OC[i]
+
+        for i, j in combinations(range(n), 2):
+            if inS[i] and inS[j]:
+                cur_val += w[i][j]
+                cur_cost += gmat[i][j]
+
+        for i in range(n):
+            sw = 0.0
+            sg = 0.0
+            for j in range(n):
+                if inS[j] and j != i:
+                    sw += w[i][j]
+                    sg += gmat[i][j]
+            sumW[i] = sw
+            sumG[i] = sg
+
+        def feasible_add(x: int) -> bool:
+            if inS[x]:
+                return False
+            gx = subgroup_of[x]
+            if group_taken[gx]:
+                return False
+            if any(inS[j] for j in incompat[x]):
+                return False
+            return cur_cost + (OC[x] + sumG[x]) <= B + 1e-9
+
+        improved = True
+        while improved:
+            improved = False
+            best_gain = 0.0
+            best_move = None
+
+            # ADD
+            for j in range(n):
+                if feasible_add(j):
+                    gain = b[j] + sumW[j]
+                    if gain > best_gain + 1e-9:
+                        best_gain = gain
+                        best_move = ("add", j)
+
+            # REMOVE
+            for i in range(n):
+                if inS[i]:
+                    gain = -(b[i] + sumW[i])
+                    if gain > best_gain + 1e-9:
+                        best_gain = gain
+                        best_move = ("rem", i)
+
+            # SWAP
+            for i in range(n):
+                if not inS[i]:
+                    continue
+                gi = subgroup_of[i]
+                cost_after_rem = cur_cost - (OC[i] + sumG[i])
+
+                for j in range(n):
+                    if inS[j]:
+                        continue
+
+                    gj = subgroup_of[j]
+                    # after removing i, group gi becomes free; allow adding j if:
+                    # - gj is free, OR gj == gi (because i is removed)
+                    if group_taken[gj] and gj != gi:
+                        continue
+
+                    # incompat check against S\{i}
+                    bad = False
+                    for k in incompat[j]:
+                        if inS[k] and k != i:
+                            bad = True
+                            break
+                    if bad:
+                        continue
+
+                    add_cost_after = OC[j] + (sumG[j] - gmat[j][i])
+                    if cost_after_rem + add_cost_after > B + 1e-9:
+                        continue
+
+                    add_gain_after = b[j] + (sumW[j] - w[j][i])
+                    rem_gain = -(b[i] + sumW[i])
+                    gain = rem_gain + add_gain_after
+                    if gain > best_gain + 1e-9:
+                        best_gain = gain
+                        best_move = ("swap", i, j)
+
+            if best_move is None:
+                break
+
+            improved = True
+
+            def apply_remove(i: int):
+                nonlocal cur_val, cur_cost
+                inS[i] = False
+                group_taken[subgroup_of[i]] = False
+
+                cur_val -= b[i] + sumW[i]
+                cur_cost -= OC[i] + sumG[i]
+
+                for k in range(n):
+                    if k == i:
+                        continue
+                    sumW[k] -= w[k][i]
+                    sumG[k] -= gmat[k][i]
+
+                sumW[i] = 0.0
+                sumG[i] = 0.0
+
+            def apply_add(j: int):
+                nonlocal cur_val, cur_cost
+                inS[j] = True
+                group_taken[subgroup_of[j]] = True
+
+                cur_val += b[j] + sumW[j]
+                cur_cost += OC[j] + sumG[j]
+
+                for k in range(n):
+                    if k == j:
+                        continue
+                    sumW[k] += w[k][j]
+                    sumG[k] += gmat[k][j]
+
+                sw = 0.0
+                sg = 0.0
+                for k in range(n):
+                    if inS[k] and k != j:
+                        sw += w[j][k]
+                        sg += gmat[j][k]
+                sumW[j] = sw
+                sumG[j] = sg
+
+            typ = best_move[0]
+            if typ == "add":
+                apply_add(best_move[1])
+            elif typ == "rem":
+                apply_remove(best_move[1])
+            else:
+                i, j = best_move[1], best_move[2]
+                apply_remove(i)
+                apply_add(j)
+
+        S_final = [i for i in range(n) if inS[i]]
+        return S_final, cur_val, cur_cost
+
+    best_S, best_val, best_cost = [], float("-inf"), 0.0
+    for _ in range(iters):
+        S0 = construct_once()
+        S1, v1, c1 = local_search(S0)
+        if v1 > best_val:
+            best_S, best_val, best_cost = S1, v1, c1
+
+    return best_S, best_val, best_cost
+
+
+# ============================================================
+# 5) MILP warm-started from GRASP + NEW subgroup constraints
+#     Also: we only create y_ij for CROSS-SUBGROUP pairs (smaller MILP)
+# ============================================================
+def solve_milp(n: int, b: List[float], w: List[List[float]], OC: List[float], gmat: List[List[float]],
+              incompat_idx: List[Tuple[int,int]], B: float, start_S: List[int] | None,
+              subgroup_of: List[int], group_names: List[str],
+              time_limit: int | None = None, warmstart: bool = True):
+    try:
+        import pulp
+    except ImportError:
+        import sys, subprocess
+        subprocess.check_call([sys.executable, "-m", "pip", "install", "pulp"])
+        import pulp
+
+    prob = pulp.LpProblem("QKP_Bundle_Grouped", pulp.LpMaximize)
+
+    x = {i: pulp.LpVariable(f"x_{i}", cat="Binary") for i in range(n)}
+
+    # only cross-group pairs matter (within group cannot both be 1)
+    pairs = [(i, j) for i in range(n) for j in range(i+1, n) if subgroup_of[i] != subgroup_of[j]]
+    y = {(i, j): pulp.LpVariable(f"y_{i}_{j}", cat="Binary") for (i, j) in pairs}
+
+    # objective
+    prob += pulp.lpSum(b[i] * x[i] for i in range(n)) + pulp.lpSum(w[i][j] * y[(i, j)] for (i, j) in pairs)
+
+    # incompatibilities (still allowed; many will be redundant now)
+    for (i, j) in incompat_idx:
+        prob += x[i] + x[j] <= 1
+
+    # subgroup constraints: at most one from each REAL subgroup
+    # build items per group id
+    G = len(group_names)
+    group_items = {gid: [] for gid in range(G)}
+    for i in range(n):
+        group_items[subgroup_of[i]].append(i)
+    for gid, items in group_items.items():
+        prob += pulp.lpSum(x[i] for i in items) <= 1
+
+    # linearize y_ij = x_i * x_j for cross-group pairs
+    for (i, j) in pairs:
+        prob += y[(i, j)] <= x[i]
+        prob += y[(i, j)] <= x[j]
+        prob += y[(i, j)] >= x[i] + x[j] - 1
+
+    # budget
+    prob += pulp.lpSum(OC[i] * x[i] for i in range(n)) + pulp.lpSum(gmat[i][j] * y[(i, j)] for (i, j) in pairs) <= B
+
+    # warm start
+    if warmstart and start_S is not None:
+        Sset = set(start_S)
+        for i in range(n):
+            x[i].setInitialValue(1 if i in Sset else 0)
+        for (i, j) in pairs:
+            y[(i, j)].setInitialValue(1 if (i in Sset and j in Sset) else 0)
+
+    solver_kwargs = {"msg": False}
+    if time_limit is not None:
+        solver_kwargs["timeLimit"] = time_limit
+    if warmstart:
+        solver_kwargs["warmStart"] = True
+
+    solver = pulp.PULP_CBC_CMD(**solver_kwargs)
+    prob.solve(solver)
+
+    status = pulp.LpStatus[prob.status]
+    chosen = [i for i in range(n) if int(pulp.value(x[i])) == 1]
+    obj = float(pulp.value(prob.objective))
+    return status, chosen, obj
+
+
+# ============================================================
+# 6) Run everything
+# ============================================================
+data = generate_data(PRACTICES, seed=SEED, out_dir=OUT_DIR)
+ids = data.ids
+n = len(ids)
+
+# NEW subgroup mapping
+subgroup_of, group_names = build_subgroup_of(n)
+print("\nREAL subgroups:", group_names)
+
+b, w_obj, gmat = build_objective(data, CCP=CCP, CROP_PRICE=CROP_PRICE)
+
+# incompatibilities (still used, but now most within-group ones are redundant)
+incompat_sets = build_incompat_sets(n, data.incompat_idx)
+
+# Budget (you set it)
+BUDGET_INR = 3500
+print("\nBUDGET_INR:", BUDGET_INR)
+
+# --- GRASP (with subgroup constraint) ---
+Sg, Vg, Cg = grasp_solve(
+    n, b, w_obj, data.OC, gmat, incompat_sets, B=BUDGET_INR,
+    subgroup_of=subgroup_of, num_groups=len(group_names),
+    iters=GRASP_ITERS, alpha_rcl=ALPHA_RCL, p_explore=P_EXPLORE, seed=SEED
+)
+
+print("\n=== GRASP result (<=1 per subgroup) ===")
+print("Selected:", len(Sg), "practices (max possible =", len(group_names), ")")
+print("Cost:", round(Cg, 2), " / Budget:", round(BUDGET_INR, 2))
+print("Objective:", round(Vg, 2))
+print("Bundle:")
+for i in sorted(Sg):
+    print(f"  - ({i+1:02d}) [{group_names[subgroup_of[i]]}] {ids[i]}")
+
+# --- MILP (warm-started from GRASP, with subgroup constraints) ---
+status, Sm, Vm = solve_milp(
+    n, b, w_obj, data.OC, gmat, data.incompat_idx, B=BUDGET_INR,
+    start_S=Sg,
+    subgroup_of=subgroup_of, group_names=group_names,
+    time_limit=MILP_TIME_LIMIT_SEC, warmstart=USE_WARMSTART
+)
+
+print("\n=== MILP result (<=1 per subgroup, warm-started) ===")
+print("Status:", status)
+print("Selected:", len(Sm), "practices (max possible =", len(group_names), ")")
+print("Objective:", round(Vm, 2))
+print("Bundle:")
+for i in sorted(Sm):
+    print(f"  - ({i+1:02d}) [{group_names[subgroup_of[i]]}] {ids[i]}")
+
+print("\nObjective gap (MILP - GRASP):", round(Vm - Vg, 6))
+
+import time
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# ---- choose budgets to test (you can edit these) ----
+budgets = [1500, 2000, 2500, 3000, 3500, 4500, 5500, 7000, 9000, 12000]
+
+# GRASP robustness: multiple seeds, keep best
+GRASP_SEEDS = [1, 7, 11, 21, 42]
+GRASP_ITERS_LOCAL = 200
+
+rows = []
+for B in budgets:
+    # ---------- GRASP (best-of-seeds) ----------
+    t0 = time.perf_counter()
+    best_Sg, best_Vg, best_Cg = [], float("-inf"), 0.0
+
+    for sd in GRASP_SEEDS:
+        Sg, Vg, Cg = grasp_solve(
+            n, b, w_obj, data.OC, gmat, incompat_sets, B=B,
+            subgroup_of=subgroup_of, num_groups=len(group_names),
+            iters=GRASP_ITERS_LOCAL, alpha_rcl=ALPHA_RCL, p_explore=P_EXPLORE, seed=sd
+        )
+        if Vg > best_Vg:
+            best_Sg, best_Vg, best_Cg = Sg, Vg, Cg
+
+    grasp_time = time.perf_counter() - t0
+
+    # ---------- MILP ----------
+    t1 = time.perf_counter()
+    status, Sm, Vm = solve_milp(
+        n, b, w_obj, data.OC, gmat, data.incompat_idx, B=B,
+        start_S=best_Sg,
+        subgroup_of=subgroup_of, group_names=group_names,
+        time_limit=MILP_TIME_LIMIT_SEC, warmstart=True
+    )
+    milp_time = time.perf_counter() - t1
+
+    rows.append({
+        "Budget": B,
+        "GRASP_obj": best_Vg,
+        "GRASP_selected": len(best_Sg),
+        "GRASP_time_s": grasp_time,
+        "MILP_status": status,
+        "MILP_obj": Vm,
+        "MILP_selected": len(Sm),
+        "MILP_time_s": milp_time,
+        "Gap_abs": Vm - best_Vg,
+    })
+
+df = pd.DataFrame(rows).sort_values("Budget")
+df
+
+plt.figure()
+plt.plot(df["Budget"], df["GRASP_obj"], marker="o", label="GRASP")
+plt.plot(df["Budget"], df["MILP_obj"], marker="o", label="MILP")
+plt.xlabel("Budget (INR)")
+plt.ylabel("Objective value")
+plt.title("Budget vs Objective (<=1 per subgroup)")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+plt.figure()
+plt.plot(df["Budget"], df["GRASP_selected"], marker="o", label="GRASP selected")
+plt.plot(df["Budget"], df["MILP_selected"], marker="o", label="MILP selected")
+plt.xlabel("Budget (INR)")
+plt.ylabel("# practices selected (0 to 5)")
+plt.title("Budget vs #Selected (<=1 per subgroup)")
+plt.legend()
+plt.grid(True, alpha=0.3)
+plt.show()
+
+# Choose the budget you want to inspect
+target_budget = 6000
+
+# Re-solve MILP for that budget to retrieve chosen practices
+status, Sm, Vm = solve_milp(
+    n, b, w_obj, data.OC, gmat, data.incompat_idx,
+    B=target_budget,
+    start_S=None,
+    subgroup_of=subgroup_of,
+    group_names=group_names,
+    time_limit=MILP_TIME_LIMIT_SEC,
+    warmstart=False
+)
+
+print(f"\nSelected practices at budget ₹{target_budget}:\n")
+for i in sorted(Sm):
+    print(f"- [{group_names[subgroup_of[i]]}] {ids[i]}")
+
+
+================================================
+FILE: optimal_allocation_5_practices.py
+================================================
+# -*- coding: utf-8 -*-
+"""Optimal Allocation 5 practices.ipynb
+
+Automatically generated by Colab.
+
+Original file is located at
+    https://colab.research.google.com/drive/1NK9mMdgJS_PZQdLPPjfNA3m__RazO7fC
+"""
+
+import pandas as pd
+
+# -----------------------------------------------------------
+# Synthetic yield change (ΔY) template
+# Units:
+#   dY_ton_ha_season: change in yield (ton per ha per season)
+#   delta_ton_ha_season: pairwise interaction change in yield if BOTH practices are adopted
+# Notes: Illustrative placeholders; tune with literature/field assumptions
+# -----------------------------------------------------------
+
+yield_practices = [
+    {"id": "P1", "practice": "AWD (Alternate Wetting & Drying)", "dY_ton_ha_season": +0.05,
+     "notes": "Often near-neutral; slight gain possible with better water control."},
+    {"id": "P2", "practice": "Aerobic rice (mostly non-flooded)", "dY_ton_ha_season": -0.20,
+     "notes": "Can reduce yield in some sites due to weeds/water stress if not managed."},
+    {"id": "P3", "practice": "DSR (Direct Seeded Rice)", "dY_ton_ha_season": -0.05,
+     "notes": "May reduce yield if weeds not controlled; can be neutral with good management."},
+    {"id": "P4", "practice": "Straw/residue mgmt", "dY_ton_ha_season": +0.02,
+     "notes": "Soil health improvements can slightly improve yield over time (short-run small)."},
+    {"id": "P5", "practice": "Biochar application", "dY_ton_ha_season": +0.15,
+     "notes": "Often improves soil properties; effect depends on rate/quality."},
+]
+
+df_yield = pd.DataFrame(yield_practices)
+df_yield.to_csv("rice_practices_YIELD.csv", index=False)
+print("Wrote: rice_practices_YIELD.csv")
+
+delta_pairs = [
+    ("P1", "P3", +0.03, "AWD+DSR: improved water + establishment can be slightly beneficial if managed."),
+    ("P1", "P4", +0.01, "Water mgmt + residue mgmt: minor synergy."),
+    ("P1", "P5", +0.02, "Biochar can reduce water stress; small synergy with AWD."),
+    ("P2", "P3", -0.05, "Aerobic+DSR: weed pressure/management complexity can reduce yield."),
+    ("P2", "P4",  0.00, "Mostly neutral interaction."),
+    ("P2", "P5", +0.03, "Biochar may buffer aerobic stress; small help."),
+    ("P3", "P4", +0.01, "Residue mgmt can marginally help DSR soils."),
+    ("P3", "P5", +0.02, "Biochar improves establishment/soil; slight synergy."),
+    ("P4", "P5", +0.05, "Residues to biochar / soil improvement can improve yield together."),
+    ("P1", "P2", -0.10, "Conflicting water regimes; yield risk if attempted together (also incompatible)."),
+]
+
+df_delta = pd.DataFrame(delta_pairs, columns=["p_i", "p_k", "delta_ton_ha_season", "rationale"])
+df_delta.to_csv("rice_delta_pairs.csv", index=False)
+print("Wrote: rice_delta_pairs.csv")
+
+import pandas as pd
+
+# -------- CSP data --------
+csp_data = [
+    ("P1", "AWD", 2.0),
+    ("P2", "Aerobic rice", 3.0),
+    ("P3", "DSR", 0.8),
+    ("P4", "Residue mgmt", 0.7),
+    ("P5", "Biochar", 1.5),
+]
+df_csp = pd.DataFrame(csp_data, columns=["id","practice","CSP_tCO2e_ha_season"])
+df_csp.to_csv("rice_practices_CSP.csv", index=False)
+
+# -------- OC data --------
+oc_data = [
+    ("P1", "AWD", 1200),
+    ("P2", "Aerobic rice", 2000),
+    ("P3", "DSR", 1500),
+    ("P4", "Residue mgmt", 800),
+    ("P5", "Biochar", 2500),
+]
+df_oc = pd.DataFrame(oc_data, columns=["id","practice","OC_INR_ha_season"])
+df_oc.to_csv("rice_practices_OC.csv", index=False)
+
+print("Created CSP & OC files")
+
+# -------------------------------
+# File paths
+# -------------------------------
+CSP_FILE = "rice_practices_CSP.csv"
+OC_FILE  = "rice_practices_OC.csv"
+YIELD_FILE = "rice_practices_YIELD.csv"
+DELTA_PAIRS_FILE = "rice_delta_pairs.csv"
+
+# -------------------------------
+# Load datasets
+# -------------------------------
+df_csp = pd.read_csv(CSP_FILE)
+df_oc  = pd.read_csv(OC_FILE)
+df_y   = pd.read_csv(YIELD_FILE)
+
+# -------------------------------
+# Merge CSP + OC
+# -------------------------------
+df = pd.merge(df_csp, df_oc, on="id", how="inner", suffixes=("_csp", "_oc"))
+
+# -------------------------------
+# Add Yield column
+# -------------------------------
+df = pd.merge(df, df_y[["id", "dY_ton_ha_season"]], on="id", how="inner")
+
+# -------------------------------
+# Sort
+# -------------------------------
+df = df.sort_values("id").reset_index(drop=True)
+
+DY = df["dY_ton_ha_season"].astype(float).tolist()
+
+# Create ID → index mapping
+ids = df["id"].tolist()
+id_to_idx = {pid: i for i, pid in enumerate(ids)}
+
+df_delta = pd.read_csv(DELTA_PAIRS_FILE)
+
+delta = {}
+for _, r in df_delta.iterrows():
+    i = id_to_idx[r["p_i"]]
+    k = id_to_idx[r["p_k"]]
+
+    if i == k:
+        continue
+
+    j, t = (i, k) if i < k else (k, i)
+    delta[(j, t)] = float(r["delta_ton_ha_season"])
+
+import os
+import pandas as pd
+
+def load_pair_dict_if_exists(path, col_value, id_to_idx, col_i="p_i", col_k="p_k"):
+    if not os.path.exists(path):
+        print(f"WARNING: {path} not found. Using empty dict.")
+        return {}
+    dfp = pd.read_csv(path)
+    d = {}
+    for _, r in dfp.iterrows():
+        i = id_to_idx[r[col_i]]
+        k = id_to_idx[r[col_k]]
+        if i == k:
+            continue
+        a, b = (i, k) if i < k else (k, i)
+        d[(a, b)] = float(r[col_value])
+    return d
+
+ALPHA_PAIRS_FILE = "rice_alpha_pairs.csv"
+GAMMA_PAIRS_FILE = "rice_gamma_pairs.csv"
+DELTA_PAIRS_FILE = "rice_delta_pairs.csv"
+
+alpha = load_pair_dict_if_exists(ALPHA_PAIRS_FILE, "alpha_tco2e_ha_season", id_to_idx)
+gamma = load_pair_dict_if_exists(GAMMA_PAIRS_FILE, "gamma_INR_ha_season", id_to_idx)
+delta = load_pair_dict_if_exists(DELTA_PAIRS_FILE, "delta_ton_ha_season", id_to_idx)
+
+print("Pairs loaded:", len(alpha), "alpha,", len(gamma), "gamma,", len(delta), "delta")
+
+# MASTER SETUP CELL
+
+import pandas as pd
+from itertools import combinations
+
+# Prices
+CCP = 1500.0
+CROP_PRICE = 22000.0
+
+# Load main data
+df_csp = pd.read_csv("rice_practices_CSP.csv")
+df_oc  = pd.read_csv("rice_practices_OC.csv")
+df_y   = pd.read_csv("rice_practices_YIELD.csv")
+
+df = df_csp.merge(df_oc, on="id").merge(df_y[["id","dY_ton_ha_season"]], on="id")
+df = df.sort_values("id").reset_index(drop=True)
+
+# Build arrays
+ids = df["id"].tolist()
+id_to_idx = {pid:i for i,pid in enumerate(ids)}
+m = len(ids)
+
+CSP = df["CSP_tCO2e_ha_season"].tolist()
+OC  = df["OC_INR_ha_season"].tolist()
+DY  = df["dY_ton_ha_season"].tolist()
+
+# Load delta (yield interactions)
+df_delta = pd.read_csv("rice_delta_pairs.csv")
+delta = {}
+for _, r in df_delta.iterrows():
+    i = id_to_idx[r["p_i"]]
+    k = id_to_idx[r["p_k"]]
+    if i != k:
+        j,t = (i,k) if i<k else (k,i)
+        delta[(j,t)] = r["delta_ton_ha_season"]
+
+# Optional (if files missing)
+alpha = {}
+gamma = {}
+
+# ==============================
+# GRASP (heuristic) -> MILP (exact) for your 5-practice QKP bundle model
+# Drop this cell AFTER your "MASTER SETUP CELL" (where ids, m, CSP, OC, DY,
+# alpha, delta, gamma, incompat_idx, CCP, CROP_PRICE are already defined).
+# ==============================
+
+import random
+from itertools import combinations
+
+# ---- Budget (same as your MILP example) ----
+BUDGET_INR = 3500
+
+# ---- Build objective coefficients (same logic as your MILP) ----
+def pair_key(i, j):
+    return (i, j) if i < j else (j, i)
+
+b_lin = [CCP * CSP[j] + CROP_PRICE * DY[j] - OC[j] for j in range(m)]
+pair_list = sorted(set(alpha.keys()) | set(delta.keys()) | set(gamma.keys()))
+
+w_pair_obj = {}
+for (j, k) in pair_list:
+    w_pair_obj[(j, k)] = (
+        CCP * alpha.get((j, k), 0.0)
+        + CROP_PRICE * delta.get((j, k), 0.0)
+        - gamma.get((j, k), 0.0)
+    )
+
+# ---- Feasibility + objective helpers ----
+def total_cost(S, OC, gamma):
+    """Cost = sum OC + sum gamma pair costs."""
+    cost = sum(OC[i] for i in S)
+    for a, b in combinations(sorted(S), 2):
+        cost += gamma.get(pair_key(a, b), 0.0)
+    return cost
+
+def is_feasible_set(S, incompat_idx, B, OC, gamma):
+    Sset = set(S)
+    for (i, k) in incompat_idx:
+        if i in Sset and k in Sset:
+            return False
+    return total_cost(S, OC, gamma) <= B
+
+def obj_value(S, b_lin, w_pair_obj):
+    """Net objective = linear terms + quadratic interaction terms."""
+    val = sum(b_lin[i] for i in S)
+    for a, b in combinations(sorted(S), 2):
+        val += w_pair_obj.get(pair_key(a, b), 0.0)
+    return val
+
+# ---- GRASP: randomized greedy construction ----
+def grasp_construct(m, incompat_idx, B, OC, gamma, b_lin, w_pair_obj,
+                    alpha_rcl=0.3, p_explore=0.10, rng=None):
+    """
+    Build a feasible solution with a Greedy Randomized (RCL) rule.
+    alpha_rcl in [0,1]: smaller = greedier, larger = more random.
+    p_explore: if all marginal gains are <=0, occasionally add a random feasible item to explore synergies.
+    """
+    if rng is None:
+        rng = random.Random()
+
+    S = []
+    base_obj = obj_value(S, b_lin, w_pair_obj)
+    base_cost = total_cost(S, OC, gamma)
+
+    while True:
+        candidates = []
+        for i in range(m):
+            if i in S:
+                continue
+            S2 = S + [i]
+            if not is_feasible_set(S2, incompat_idx, B, OC, gamma):
+                continue
+
+            new_obj = obj_value(S2, b_lin, w_pair_obj)
+            new_cost = total_cost(S2, OC, gamma)
+
+            marg_gain = new_obj - base_obj
+            marg_cost = new_cost - base_cost
+            score = marg_gain / (marg_cost if marg_cost > 1e-9 else 1.0)
+
+            candidates.append((i, score, marg_gain))
+
+        if not candidates:
+            break
+
+        # Prefer positive-marginal candidates if they exist
+        pos = [c for c in candidates if c[2] > 1e-12]
+        if pos:
+            pool = pos
+        else:
+            # All are non-positive: stop most of the time, but sometimes explore
+            if rng.random() > p_explore:
+                break
+            pool = candidates  # explore a random feasible move
+
+        scores = [c[1] for c in pool]
+        s_max, s_min = max(scores), min(scores)
+        cutoff = s_max - alpha_rcl * (s_max - s_min)  # standard RCL threshold
+        rcl = [c for c in pool if c[1] >= cutoff]
+
+        i_pick = rng.choice(rcl)[0]
+        S.append(i_pick)
+        base_obj = obj_value(S, b_lin, w_pair_obj)
+        base_cost = total_cost(S, OC, gamma)
+
+    return S
+
+# ---- GRASP: local search (best-improving add/remove/swap) ----
+def local_search(S, m, incompat_idx, B, OC, gamma, b_lin, w_pair_obj):
+    S = sorted(set(S))
+    improved = True
+
+    while improved:
+        improved = False
+        best_move = None
+        best_val = obj_value(S, b_lin, w_pair_obj)
+
+        # 1) Try ADD
+        for j in range(m):
+            if j in S:
+                continue
+            S2 = S + [j]
+            if not is_feasible_set(S2, incompat_idx, B, OC, gamma):
+                continue
+            v2 = obj_value(S2, b_lin, w_pair_obj)
+            if v2 > best_val + 1e-9:
+                best_val = v2
+                best_move = ("add", j)
+
+        # 2) Try REMOVE
+        for i in list(S):
+            S2 = [x for x in S if x != i]
+            if not is_feasible_set(S2, incompat_idx, B, OC, gamma):
+                continue
+            v2 = obj_value(S2, b_lin, w_pair_obj)
+            if v2 > best_val + 1e-9:
+                best_val = v2
+                best_move = ("remove", i)
+
+        # 3) Try SWAP
+        Sset = set(S)
+        for i in list(S):
+            for j in range(m):
+                if j in Sset:
+                    continue
+                S2 = [x for x in S if x != i] + [j]
+                if not is_feasible_set(S2, incompat_idx, B, OC, gamma):
+                    continue
+                v2 = obj_value(S2, b_lin, w_pair_obj)
+                if v2 > best_val + 1e-9:
+                    best_val = v2
+                    best_move = ("swap", i, j)
+
+        if best_move is not None:
+            improved = True
+            if best_move[0] == "add":
+                S.append(best_move[1])
+            elif best_move[0] == "remove":
+                S = [x for x in S if x != best_move[1]]
+            else:  # swap
+                _, i, j = best_move
+                S = [x for x in S if x != i] + [j]
+            S = sorted(set(S))
+
+    return S
+
+def run_grasp(m, incompat_idx, B, OC, gamma, b_lin, w_pair_obj,
+             iters=200, alpha_rcl=0.3, p_explore=0.10, seed=42):
+    rng = random.Random(seed)
+    best_S, best_v = [], float("-inf")
+
+    for _ in range(iters):
+        S0 = grasp_construct(
+            m, incompat_idx, B, OC, gamma, b_lin, w_pair_obj,
+            alpha_rcl=alpha_rcl, p_explore=p_explore, rng=rng
+        )
+        S1 = local_search(S0, m, incompat_idx, B, OC, gamma, b_lin, w_pair_obj)
+        v1 = obj_value(S1, b_lin, w_pair_obj)
+        if v1 > best_v:
+            best_S, best_v = S1, v1
+
+    return best_S, best_v
+
+# ---- Run GRASP first ----
+grasp_S, grasp_val = run_grasp(
+    m, incompat_idx, BUDGET_INR, OC, gamma, b_lin, w_pair_obj,
+    iters=200, alpha_rcl=0.3, p_explore=0.10, seed=7
+)
+
+print("=== GRASP result ===")
+print("Budget:", BUDGET_INR)
+print("Bundle:", [ids[i] for i in grasp_S] if grasp_S else "∅")
+print("Cost:", round(total_cost(grasp_S, OC, gamma), 2))
+print("Objective (net value):", round(grasp_val, 2))
+
+# ==============================
+# MILP (PuLP) with GRASP warm-start
+# ==============================
+
+try:
+    import pulp
+except ImportError:
+    import sys, subprocess
+    subprocess.check_call([sys.executable, "-m", "pip", "install", "pulp"])
+    import pulp
+
+def solve_milp_bundle_with_warm_start(B, start_S):
+    prob = pulp.LpProblem("Rice_Practice_Bundle", pulp.LpMaximize)
+
+    x = {j: pulp.LpVariable(f"x_{j}", cat="Binary") for j in range(m)}
+    y = {(j, k): pulp.LpVariable(f"y_{j}_{k}", cat="Binary") for (j, k) in pair_list}
+
+    # Objective
+    prob += (
+        pulp.lpSum(b_lin[j] * x[j] for j in range(m)) +
+        pulp.lpSum(w_pair_obj[(j, k)] * y[(j, k)] for (j, k) in pair_list)
+    )
+
+    # Incompatibilities
+    for (i, k) in incompat_idx:
+        prob += x[i] + x[k] <= 1
+
+    # Linearization: y_jk = x_j * x_k
+    for (j, k) in pair_list:
+        prob += y[(j, k)] <= x[j]
+        prob += y[(j, k)] <= x[k]
+        prob += y[(j, k)] >= x[j] + x[k] - 1
+
+    # Budget: sum OC_j x_j + sum gamma_jk y_jk <= B
+    prob += (
+        pulp.lpSum(OC[j] * x[j] for j in range(m)) +
+        pulp.lpSum(gamma.get((j, k), 0.0) * y[(j, k)] for (j, k) in pair_list)
+        <= B
+    )
+
+    # --- Warm start from GRASP ---
+    start_set = set(start_S)
+    for j in range(m):
+        x[j].setInitialValue(1 if j in start_set else 0)
+    for (j, k) in pair_list:
+        y[(j, k)].setInitialValue(1 if (j in start_set and k in start_set) else 0)
+
+    # Solve (try warmStart; fall back if solver wrapper doesn't support it)
+    try:
+        solver = pulp.PULP_CBC_CMD(msg=False, warmStart=True)
+    except TypeError:
+        solver = pulp.PULP_CBC_CMD(msg=False)
+
+    prob.solve(solver)
+
+    status = pulp.LpStatus[prob.status]
+    if status not in ("Optimal", "Not Solved", "Undefined", "Infeasible"):
+        raise RuntimeError(f"Unexpected solver status: {status}")
+
+    chosen = [j for j in range(m) if int(pulp.value(x[j])) == 1]
+    obj = float(pulp.value(prob.objective))
+    return status, chosen, obj
+
+milp_status, milp_S, milp_val = solve_milp_bundle_with_warm_start(BUDGET_INR, grasp_S)
+
+print("\n=== MILP result (warm-started from GRASP) ===")
+print("Status:", milp_status)
+print("Budget:", BUDGET_INR)
+print("Bundle:", [ids[i] for i in milp_S] if milp_S else "∅")
+print("Cost:", round(total_cost(milp_S, OC, gamma), 2))
+print("Objective (net value):", round(milp_val, 2))
+
+print("\n(Comparison) MILP - GRASP objective gap:", round(milp_val - grasp_val, 6))
+
+b = [CCP * CSP[j] + CROP_PRICE * DY[j] - OC[j] for j in range(m)]
+
+w_pair = {}
+pairs = set(alpha.keys()) | set(gamma.keys()) | set(delta.keys())
+
+for (j, k) in pairs:
+    w_pair[(j, k)] = (
+        CCP * alpha.get((j, k), 0.0)
+        + CROP_PRICE * delta.get((j, k), 0.0)
+        - gamma.get((j, k), 0.0)
+    )
+
+print("m =", m)
+print("b (per-practice linear terms):", b)
+print("num pair terms:", len(w_pair))
+
+incompat = [("P1","P2")]  # AWD and Aerobic (example)
+incompat_idx = [(id_to_idx[a], id_to_idx[b]) for a,b in incompat]
+
+from itertools import product
+
+def is_feasible(x, incompat_idx):
+    for (i,k) in incompat_idx:
+        if x[i] == 1 and x[k] == 1:
+            return False
+    return True
+
+best_val = -1e18
+best_x = None
+
+for x in product([0,1], repeat=m):
+    if not is_feasible(x, incompat_idx):
+        continue
+
+    val = sum(b[j] * x[j] for j in range(m))
+    for (j,k), wjk in w_pair.items():
+        val += wjk * x[j] * x[k]
+
+    if val > best_val:
+        best_val = val
+        best_x = x
+
+print("Best value:", best_val)
+print("Best x*:", best_x)
+
+chosen = [j for j in range(m) if best_x[j] == 1]
+C_star = [ids[j] for j in chosen]
+print("Selected bundle C*:", C_star)
+
+# compute totals including interactions
+V = sum(CSP[j] for j in chosen)
+W = sum(OC[j] for j in chosen)
+Y = sum(DY[j] for j in chosen)
+
+for a in range(len(chosen)):
+    for b2 in range(a+1, len(chosen)):
+        j, k = chosen[a], chosen[b2]
+        jk = (min(j,k), max(j,k))
+        # alpha/gamma might be empty in your notebook; that's okay
+        V += alpha.get(jk, 0.0)
+        W += gamma.get(jk, 0.0)
+        Y += delta.get(jk, 0.0)
+
+net = CCP * V + CROP_PRICE * Y - W
+
+print(f"Total carbon V(C*): {V:.4f} tCO2e/ha/season")
+print(f"Total yield ΔY(C*): {Y:.4f} ton/ha/season")
+print(f"Total cost W(C*): {W:.2f} INR/ha/season")
+print(f"Net value: {net:.2f} INR/ha/season")
+
+def solve_for_price(CCP_value):
+    b_local = [CCP_value * CSP[j] + CROP_PRICE * DY[j] - OC[j] for j in range(m)]
+    w_local = {}
+    pairs = set(alpha.keys()) | set(gamma.keys()) | set(delta.keys())
+    for (j,k) in pairs:
+        w_local[(j,k)] = CCP_value * alpha.get((j,k),0.0) + CROP_PRICE * delta.get((j,k),0.0) - gamma.get((j,k),0.0)
+
+    best_val = -1e18
+    best_x = None
+    for x in product([0,1], repeat=m):
+        if not is_feasible(x, incompat_idx):
+            continue
+        val = sum(b_local[j] * x[j] for j in range(m))
+        for (j,k), wjk in w_local.items():
+            val += wjk * x[j] * x[k]
+        if val > best_val:
+            best_val, best_x = val, x
+
+    chosen = tuple(ids[j] for j in range(m) if best_x[j] == 1)
+    return chosen, best_val
+
+for ptest in [500, 1000, 1500, 2000, 2500]:
+    bundle, val = solve_for_price(float(ptest))
+    print("CCP =", ptest, "->", bundle, " net =", round(val,2))
+
+# -------------------------------
+# Shapley allocation for Yield-extended model
+# g(C) = CCP*V(C) + CROP_PRICE*ΔY(C) - W(C)
+# Works with interactions: alpha (carbon), delta (yield), gamma (cost)
+# -------------------------------
+
+import math
+from itertools import combinations
+
+def bundle_components(S, CSP, DY, OC, alpha, delta, gamma):
+    """
+    Return (V, Y, W) for a subset S of practice indices.
+    V: total carbon outcome (incl alpha)
+    Y: total yield change (incl delta)
+    W: total cost (incl gamma)
+    """
+    V = sum(CSP[i] for i in S)
+    Y = sum(DY[i]  for i in S)
+    W = sum(OC[i]  for i in S)
+
+    for a, b in combinations(S, 2):
+        jk = (a, b) if a < b else (b, a)
+        V += alpha.get(jk, 0.0)
+        Y += delta.get(jk, 0.0)
+        W += gamma.get(jk, 0.0)
+
+    return V, Y, W
+
+def g_value(S, CCP, CROP_PRICE, CSP, DY, OC, alpha, delta, gamma):
+    """
+    Characteristic value for subset S (practice indices).
+    """
+    V, Y, W = bundle_components(S, CSP, DY, OC, alpha, delta, gamma)
+    return CCP * V + CROP_PRICE * Y - W
+
+def shapley_values(bundle, CCP, CROP_PRICE, CSP, DY, OC, alpha, delta, gamma):
+    """
+    Compute Shapley values for practices in 'bundle' (list of indices).
+    Uses exact enumeration over all subsets of bundle (OK since bundle small).
+    """
+    n = len(bundle)
+    if n == 0:
+        return {}
+
+    # Map local positions 0..n-1 to global practice indices
+    players = list(bundle)
+
+    # Precompute factorials for weights
+    fact = [math.factorial(i) for i in range(n+1)]
+    denom = fact[n]
+
+    phi = {i: 0.0 for i in players}
+
+    # Enumerate subsets S of players not containing i
+    # We'll build subsets by size
+    for i in players:
+        others = [p for p in players if p != i]
+        for s in range(0, n):  # size of subset from 0 to n-1
+            for S in combinations(others, s):
+                S = list(S)
+                w = fact[s] * fact[n - s - 1] / denom
+                mc = g_value(S + [i], CCP, CROP_PRICE, CSP, DY, OC, alpha, delta, gamma) - \
+                     g_value(S,        CCP, CROP_PRICE, CSP, DY, OC, alpha, delta, gamma)
+                phi[i] += w * mc
+
+    return phi
+
+# -------------------------------
+# Use it on your found optimal solution
+# You should already have:
+# ids, CCP, CROP_PRICE, CSP, DY, OC, alpha, delta, gamma
+# and best_x (or chosen indices)
+# -------------------------------
+
+# If you have best_x:
+# chosen = [j for j in range(m) if best_x[j] == 1]
+
+# Compute Shapley on chosen bundle
+phi_total = shapley_values(chosen, CCP, CROP_PRICE, CSP, DY, OC, alpha, delta, gamma)
+
+# Print results nicely
+print("\n--- Shapley allocation over practices in C* (Total Net Value) ---")
+total_net = g_value(chosen, CCP, CROP_PRICE, CSP, DY, OC, alpha, delta, gamma)
+print("C* =", [ids[i] for i in chosen])
+print("Total net g(C*) =", round(total_net, 4))
+
+for i in chosen:
+    print(f"{ids[i]}: {phi_total[i]:.4f}")
+
+print("Sum of Shapley =", round(sum(phi_total.values()), 4))
+
+# -------------------------------
+# OPTIONAL: Also decompose Shapley into 3 parts (interpretability)
+# Carbon revenue part: CCP*V(C)
+# Yield revenue part : CROP_PRICE*Y(C)
+# Cost part          : -W(C)
+# This helps you write Table II style breakdown.
+# -------------------------------
+
+def g_carbon(S, CCP, CSP, alpha):
+    V = sum(CSP[i] for i in S)
+    for a, b in combinations(S, 2):
+        jk = (a, b) if a < b else (b, a)
+        V += alpha.get(jk, 0.0)
+    return CCP * V
+
+def g_yield(S, CROP_PRICE, DY, delta):
+    Y = sum(DY[i] for i in S)
+    for a, b in combinations(S, 2):
+        jk = (a, b) if a < b else (b, a)
+        Y += delta.get(jk, 0.0)
+    return CROP_PRICE * Y
+
+def g_cost(S, OC, gamma):
+    W = sum(OC[i] for i in S)
+    for a, b in combinations(S, 2):
+        jk = (a, b) if a < b else (b, a)
+        W += gamma.get(jk, 0.0)
+    return -W  # negative because cost is subtracted
+
+def shapley_generic(bundle, value_fn):
+    n = len(bundle)
+    fact = [math.factorial(i) for i in range(n+1)]
+    denom = fact[n]
+    players = list(bundle)
+    phi = {i: 0.0 for i in players}
+
+    for i in players:
+        others = [p for p in players if p != i]
+        for s in range(0, n):
+            for S in combinations(others, s):
+                S = list(S)
+                w = fact[s] * fact[n - s - 1] / denom
+                phi[i] += w * (value_fn(S + [i]) - value_fn(S))
+    return phi
+
+phi_carbon = shapley_generic(chosen, lambda S: g_carbon(S, CCP, CSP, alpha))
+phi_yield  = shapley_generic(chosen, lambda S: g_yield(S, CROP_PRICE, DY, delta))
+phi_cost   = shapley_generic(chosen, lambda S: g_cost(S, OC, gamma))
+
+print("\n--- Shapley breakdown (Carbon, Yield, Cost) ---")
+for i in chosen:
+    print(f"{ids[i]}: carbon={phi_carbon[i]:.2f}, yield={phi_yield[i]:.2f}, cost={phi_cost[i]:.2f}, total={(phi_carbon[i]+phi_yield[i]+phi_cost[i]):.2f}")
+print("Check totals:")
+print(" sum(carbon) =", round(sum(phi_carbon.values()), 2),
+      " sum(yield) =", round(sum(phi_yield.values()), 2),
+      " sum(cost)  =", round(sum(phi_cost.values()), 2),
+      " sum(total) =", round(sum(phi_carbon.values())+sum(phi_yield.values())+sum(phi_cost.values()), 2))
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Assumes you already computed these from the Shapley breakdown cell:
+# phi_carbon, phi_yield, chosen, ids
+# (phi_carbon and phi_yield are in INR/ha/season)
+
+labels = [ids[i] for i in chosen]
+carbon_vals = np.array([phi_carbon[i] for i in chosen], dtype=float)
+yield_vals  = np.array([phi_yield[i]  for i in chosen], dtype=float)
+
+x = np.arange(len(labels))
+width = 0.38
+
+plt.figure()
+plt.bar(x - width/2, carbon_vals, width, label="Carbon contribution (INR)")
+plt.bar(x + width/2, yield_vals,  width, label="Yield contribution (INR)")
+
+plt.xticks(x, labels)
+plt.ylabel("Shapley contribution (INR/ha/season)")
+plt.title("Carbon vs Yield Shapley Contributions (for selected bundle C*)")
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+import matplotlib.pyplot as plt
+
+plt.figure()
+bars1 = plt.bar(x - width/2, carbon_vals, width, label="Carbon contribution (INR)")
+bars2 = plt.bar(x + width/2, yield_vals,  width, label="Yield contribution (INR)")
+
+for b in list(bars1) + list(bars2):
+    h = b.get_height()
+    plt.text(b.get_x() + b.get_width()/2, h, f"{h:.0f}", ha="center", va="bottom", fontsize=9)
+
+plt.xticks(x, labels)
+plt.ylabel("Shapley contribution (INR/ha/season)")
+plt.title("Carbon vs Yield Shapley Contributions (for selected bundle C*)")
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+import numpy as np
+import pandas as pd
+
+# m = number of practices
+# ids = ['P1','P2','P3','P4','P5']
+# delta = {(0,2):0.03, (0,3):0.01, ...}
+
+delta_mat = np.zeros((m, m))
+
+for (j, k), val in delta.items():
+    delta_mat[j, k] = val
+    delta_mat[k, j] = val   # symmetric
+
+# convert to dataframe for clean printing
+delta_df = pd.DataFrame(delta_mat, index=ids, columns=ids)
+print(delta_df)
+
+BUDGET_INR = 3500  # INR/ha/season (example)
+
+# ---- Budget sweep & graphs (5 practices, brute force) ----
+import itertools
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Budgets to evaluate (edit as you like)
+BUDGET_GRID = list(range(0, 6001, 50))
+
+def subset_is_feasible(S, incompat_idx, B):
+    """S = list of practice indices. Checks incompatibility + budget (cost incl. gamma)."""
+    Sset = set(S)
+
+    # incompatibility
+    for (i, k) in incompat_idx:
+        if i in Sset and k in Sset:
+            return False
+
+    # budget: total cost W(S)
+    _, _, W = bundle_components(S, CSP, DY, OC, alpha, delta, gamma)
+    return W <= B
+
+def solve_for_budget(B):
+    """Returns (best_subset_indices, best_net_value, (V,Y,W))."""
+    best_val = -1e18
+    best_S = []
+    best_comp = (0.0, 0.0, 0.0)
+
+    for r in range(m + 1):
+        for S in itertools.combinations(range(m), r):
+            S = list(S)
+            if not subset_is_feasible(S, incompat_idx, B):
+                continue
+
+            val = g_value(S, CCP, CROP_PRICE, CSP, DY, OC, alpha, delta, gamma)
+            if val > best_val + 1e-9:
+                best_val = val
+                best_S = S
+                best_comp = bundle_components(S, CSP, DY, OC, alpha, delta, gamma)
+
+    return best_S, best_val, best_comp
+
+# Sweep budgets
+rows = []
+for B in BUDGET_GRID:
+    S, net, (V, Y, W) = solve_for_budget(B)
+    rows.append({
+        "Budget_INR": B,
+        "Bundle": ",".join(ids[i] for i in S) if S else "∅",
+        "Cost_INR": W,
+        "Carbon_tCO2e": V,
+        "Yield_ton": Y,
+        "Carbon_rev_INR": CCP * V,
+        "Yield_rev_INR": CROP_PRICE * Y,
+        "Net_value_INR": net,
+    })
+
+df_budget = pd.DataFrame(rows)
+
+# Identify bundle change points (for vertical lines)
+changes = []
+prev = None
+for _, r in df_budget.iterrows():
+    if r["Bundle"] != prev:
+        changes.append((int(r["Budget_INR"]), r["Bundle"]))
+        prev = r["Bundle"]
+
+print("Bundle change points (Budget -> Bundle):")
+for b, bun in changes:
+    print(f"  B={b}: {bun}")
+
+# -------- Graph 1: Optimal net value vs budget --------
+plt.figure()
+plt.plot(df_budget["Budget_INR"], df_budget["Net_value_INR"])
+plt.xlabel("Budget (INR/ha/season)")
+plt.ylabel("Optimal net value (INR/ha/season)")
+plt.title("Optimal net value vs budget")
+for b, _ in changes[1:]:
+    plt.axvline(b, linewidth=1)
+plt.tight_layout()
+plt.savefig("net_value_vs_budget.png", dpi=200)
+plt.show()
+
+# -------- Graph 2: Practice inclusion vs budget (step lines) --------
+plt.figure()
+offset = 1.2
+yticks, yticklabels = [], []
+
+for idx, pid in enumerate(ids):
+    inc = df_budget["Bundle"].apply(lambda s: 1 if pid in s.split(",") else 0).astype(int)
+    y = inc + idx * offset
+    plt.plot(df_budget["Budget_INR"], y, drawstyle="steps-post", label=pid)
+    yticks.append(idx * offset + 0.5)
+    yticklabels.append(pid)
+
+plt.yticks(yticks, yticklabels)
+plt.ylim(-0.2, (len(ids) - 1) * offset + 1.4)
+plt.xlabel("Budget (INR/ha/season)")
+plt.title("Which practices are chosen as budget increases")
+plt.tight_layout()
+plt.savefig("practice_selection_vs_budget.png", dpi=200)
+plt.show()
+
+# -------- Graph 3: Carbon revenue, yield revenue, cost vs budget --------
+plt.figure()
+plt.plot(df_budget["Budget_INR"], df_budget["Carbon_rev_INR"], label="Carbon revenue")
+plt.plot(df_budget["Budget_INR"], df_budget["Yield_rev_INR"], label="Yield revenue")
+plt.plot(df_budget["Budget_INR"], df_budget["Cost_INR"], label="Cost")
+plt.xlabel("Budget (INR/ha/season)")
+plt.ylabel("INR/ha/season")
+plt.title("Carbon revenue, yield revenue, and cost (optimal bundle) vs budget")
+plt.legend()
+plt.tight_layout()
+plt.savefig("components_vs_budget.png", dpi=200)
+plt.show()
+
+# pip install pulp
+import pulp
+
+BUDGET_INR = 3500  # INR/ha/season
+
+def solve_milp_bundle(B):
+    # --- rebuild linear coefficients safely (do NOT use variable named `b`) ---
+    b_lin = [CCP * CSP[j] + CROP_PRICE * DY[j] - OC[j] for j in range(m)]
+
+    # Pair list: include all pairs that appear in ANY quadratic component
+    pair_list = sorted(set(alpha.keys()) | set(delta.keys()) | set(gamma.keys()))
+    # NOTE: your objective only uses delta via crop price; alpha & gamma optional
+    # Convert those to objective weights:
+    w_pair_obj = {}
+    for (j,k) in pair_list:
+        w_pair_obj[(j,k)] = CCP * alpha.get((j,k), 0.0) + CROP_PRICE * delta.get((j,k), 0.0) - gamma.get((j,k), 0.0)
+
+    prob = pulp.LpProblem("Rice_Practice_Bundle", pulp.LpMaximize)
+
+    # decision vars
+    x = {j: pulp.LpVariable(f"x_{j}", cat="Binary") for j in range(m)}
+    y = {(j,k): pulp.LpVariable(f"y_{j}_{k}", cat="Binary") for (j,k) in pair_list}
+
+    # Objective
+    prob += (
+        pulp.lpSum(b_lin[j] * x[j] for j in range(m)) +
+        pulp.lpSum(w_pair_obj[(j,k)] * y[(j,k)] for (j,k) in pair_list)
+    )
+
+    # Incompatibility
+    for (i,k) in incompat_idx:
+        prob += x[i] + x[k] <= 1
+
+    # Linearization y_jk = x_j * x_k
+    for (j,k) in pair_list:
+        prob += y[(j,k)] <= x[j]
+        prob += y[(j,k)] <= x[k]
+        prob += y[(j,k)] >= x[j] + x[k] - 1
+
+    # Budget: costs include OC + gamma pairs
+    prob += (
+        pulp.lpSum(OC[j] * x[j] for j in range(m)) +
+        pulp.lpSum(gamma.get((j,k), 0.0) * y[(j,k)] for (j,k) in pair_list)
+        <= B
+    )
+
+    # Solve
+    prob.solve(pulp.PULP_CBC_CMD(msg=False))
+    status = pulp.LpStatus[prob.status]
+    if status != "Optimal":
+        raise RuntimeError(f"Solver status: {status}")
+
+    chosen = [j for j in range(m) if int(pulp.value(x[j])) == 1]
+    obj = float(pulp.value(prob.objective))
+    return chosen, obj
+
+# ---- run once ----
+chosen, obj = solve_milp_bundle(BUDGET_INR)
+print("Budget:", BUDGET_INR)
+print("Chosen bundle:", [ids[j] for j in chosen])
+print("Objective (net value):", round(obj, 2))
+
+print("b is:", b, "type:", type(b))
+
+# -------------------------------
+# MILP Budget Sweep + 3 Plots
+# -------------------------------
+# If needed: pip install pulp
+import itertools
+import pandas as pd
+import matplotlib.pyplot as plt
+import pulp
+
+# ---- budget grid (edit as needed) ----
+BUDGET_GRID = list(range(0, 6001, 50))   # 0..6000 INR, step 50
+
+def solve_milp_bundle(B):
+    """
+    MILP:
+      max sum_j b_j x_j + sum_(j,k) w_jk y_jk
+      s.t. incompatibilities, y_jk = x_j*x_k, budget constraint
+    """
+    # linear term: CCP*CSP + CROP_PRICE*DY - OC
+    b_lin = [CCP * CSP[j] + CROP_PRICE * DY[j] - OC[j] for j in range(m)]
+
+    # all pairs that appear anywhere (objective or cost interactions)
+    pair_list = sorted(set(alpha.keys()) | set(delta.keys()) | set(gamma.keys()))
+
+    # objective pair coefficient:
+    # CCP*alpha + CROP_PRICE*delta - gamma
+    w_pair_obj = {}
+    for (j, k) in pair_list:
+        w_pair_obj[(j, k)] = (
+            CCP * alpha.get((j, k), 0.0)
+            + CROP_PRICE * delta.get((j, k), 0.0)
+            - gamma.get((j, k), 0.0)
+        )
+
+    prob = pulp.LpProblem("Rice_Practice_Bundle", pulp.LpMaximize)
+
+    # decision vars
+    x = {j: pulp.LpVariable(f"x_{j}", cat="Binary") for j in range(m)}
+    y = {(j, k): pulp.LpVariable(f"y_{j}_{k}", cat="Binary") for (j, k) in pair_list}
+
+    # objective
+    prob += (
+        pulp.lpSum(b_lin[j] * x[j] for j in range(m))
+        + pulp.lpSum(w_pair_obj[(j, k)] * y[(j, k)] for (j, k) in pair_list)
+    )
+
+    # incompatibilities: x_i + x_k <= 1
+    for (i, k) in incompat_idx:
+        prob += x[i] + x[k] <= 1
+
+    # linearization: y_jk = x_j * x_k
+    for (j, k) in pair_list:
+        prob += y[(j, k)] <= x[j]
+        prob += y[(j, k)] <= x[k]
+        prob += y[(j, k)] >= x[j] + x[k] - 1
+
+    # budget: sum OC_j x_j + sum gamma_jk y_jk <= B
+    prob += (
+        pulp.lpSum(OC[j] * x[j] for j in range(m))
+        + pulp.lpSum(gamma.get((j, k), 0.0) * y[(j, k)] for (j, k) in pair_list)
+        <= B
+    )
+
+    # solve
+    prob.solve(pulp.PULP_CBC_CMD(msg=False))
+    status = pulp.LpStatus[prob.status]
+    if status != "Optimal":
+        raise RuntimeError(f"Solver status: {status}")
+
+    chosen = [j for j in range(m) if int(pulp.value(x[j])) == 1]
+    obj = float(pulp.value(prob.objective))
+    return chosen, obj
+
+def bundle_components_from_indices(S_idx):
+    """Return (V,Y,W) including alpha/delta/gamma pair effects."""
+    V = sum(CSP[j] for j in S_idx)
+    Y = sum(DY[j] for j in S_idx)
+    W = sum(OC[j] for j in S_idx)
+    for a, b in itertools.combinations(sorted(S_idx), 2):
+        jk = (a, b) if a < b else (b, a)
+        V += alpha.get(jk, 0.0)
+        Y += delta.get(jk, 0.0)
+        W += gamma.get(jk, 0.0)
+    return V, Y, W
+
+# ---- sweep budgets ----
+rows = []
+for B in BUDGET_GRID:
+    chosen, net = solve_milp_bundle(B)
+    V, Y, W = bundle_components_from_indices(chosen)
+    rows.append({
+        "Budget_INR": B,
+        "Bundle": ",".join(ids[j] for j in chosen) if chosen else "∅",
+        "Cost_INR": W,
+        "Carbon_tCO2e": V,
+        "Yield_ton": Y,
+        "Carbon_rev_INR": CCP * V,
+        "Yield_rev_INR": CROP_PRICE * Y,
+        "Net_value_INR": net,
+    })
+
+df_budget = pd.DataFrame(rows)
+
+# ---- bundle change points (for vertical lines) ----
+changes = []
+prev = None
+for _, r in df_budget.iterrows():
+    if r["Bundle"] != prev:
+        changes.append((int(r["Budget_INR"]), r["Bundle"]))
+        prev = r["Bundle"]
+
+print("Bundle change points (Budget -> Bundle):")
+for b, bun in changes:
+    print(f"  B={b}: {bun}")
+
+# =========================
+# Plot 1: Net value vs budget
+# =========================
+plt.figure()
+plt.plot(df_budget["Budget_INR"], df_budget["Net_value_INR"])
+plt.xlabel("Budget (INR/ha/season)")
+plt.ylabel("Optimal net value (INR/ha/season)")
+plt.title("Optimal net value vs budget (MILP)")
+for b, _ in changes[1:]:
+    plt.axvline(b, linewidth=1)
+plt.tight_layout()
+plt.savefig("milp_net_value_vs_budget.png", dpi=200)
+plt.show()
+
+# ======================================
+# Plot 2: Practice selection vs budget
+# ======================================
+plt.figure()
+offset = 1.2
+yticks, yticklabels = [], []
+
+for idx, pid in enumerate(ids):
+    inc = df_budget["Bundle"].apply(lambda s: 1 if pid in s.split(",") else 0).astype(int)
+    y = inc + idx * offset
+    plt.plot(df_budget["Budget_INR"], y, drawstyle="steps-post", label=pid)
+    yticks.append(idx * offset + 0.5)
+    yticklabels.append(pid)
+
+plt.yticks(yticks, yticklabels)
+plt.ylim(-0.2, (len(ids) - 1) * offset + 1.4)
+plt.xlabel("Budget (INR/ha/season)")
+plt.title("Which practices are chosen as budget increases (MILP)")
+plt.tight_layout()
+plt.savefig("milp_practice_selection_vs_budget.png", dpi=200)
+plt.show()
+
+# ======================================
+# Plot 3: Components vs budget
+# ======================================
+plt.figure()
+plt.plot(df_budget["Budget_INR"], df_budget["Carbon_rev_INR"], label="Carbon revenue")
+plt.plot(df_budget["Budget_INR"], df_budget["Yield_rev_INR"], label="Yield revenue")
+plt.plot(df_budget["Budget_INR"], df_budget["Cost_INR"], label="Cost")
+plt.xlabel("Budget (INR/ha/season)")
+plt.ylabel("INR/ha/season")
+plt.title("Carbon revenue, yield revenue, and cost vs budget (MILP)")
+plt.legend()
+plt.tight_layout()
+plt.savefig("milp_components_vs_budget.png", dpi=200)
+plt.show()
+
+
+
+
+================================================
+FILE: Practices list.txt
+================================================
+Optimal Practice selection Problem. Generally Farmer selects 3-8 from the list of practices for carbon farming. 
+50 practices we are listing down.
+
+A) Specific to paddy
+
+B) General to all crops
+
+---
+A) For Paddy
+## Water management for methane reduction (15)
+
+1. Alternate Wetting and Drying (AWD)
+2. AWD using field water-tube monitoring (measured thresholds)
+3. AWD with fewer flooding days (reduced continuous inundation)
+4. Mid-season drainage (MSD)
+5. Early-season drainage (shorten initial flooding period)
+6. Pre-harvest drainage (timely drainage before harvest)
+7. Intermittent irrigation scheduling (fixed wet–dry cycles)
+8. Improved drainage outlets (faster drawdown)
+9. Bund repair + leveling to enable controlled AWD (enables water control)
+10. Laser land leveling (supports uniform AWD / less waterlogging)
+11. Raised beds / furrow-irrigated rice (where applicable)
+12. Aerobic rice management (non-flooded rice system)
+13. Conversion of long-duration flooded rice to shorter-duration rice (less flooding time)
+14. Use of short-duration varieties to reduce flooded period
+15. Shift from transplanted puddled rice to systems reducing puddling/flooding duration (where defined)
+
+---
+
+## Crop establishment & field operations that reduce methane indirectly (8)
+
+16. Direct-Seeded Rice (DSR) (reduces flooded nursery/puddling period)
+17. Dry seeding (non-puddled establishment)
+18. Reduced puddling intensity (where permitted/defined)
+19. Strip till / reduced till rice establishment (where feasible)
+20. Controlled traffic / minimized soil disturbance (site-dependent)
+21. Improved field channels for precise irrigation (enables AWD)
+22. Timely weeding to maintain aerobic periods (supports AWD feasibility)
+23. Mechanized operations reducing repeated puddling passes (site-dependent)
+
+*(Some of these are “enablers” — they matter because they make AWD/aerobic feasible and consistent for MRV.)*
+
+---
+
+## Nitrogen management for N₂O reduction (15)
+
+24. Optimized N rate (reduce excess N)
+25. Split N application (better timing reduces losses)
+26. Deep placement of urea (UDP)
+27. Controlled-release urea (CRU)
+28. Nitrification inhibitors (where allowed)
+29. Urease inhibitors (where allowed)
+30. Site-Specific Nutrient Management (SSNM)
+31. Leaf Color Chart (LCC)-guided N dosing
+32. Basal N reduction with more top-dressing precision
+33. Balanced fertilization (adequate P/K to reduce excess N needs)
+34. Avoid N application just before heavy irrigation/rain (timing rule)
+35. Replace part of urea with organic sources under planned rates (avoid over-application)
+36. Precision fertilizer application (band placement, calibrated applicators)
+37. Improved manure management timing (avoid anaerobic + N surplus conditions)
+38. Inclusion of legumes in rotation where feasible (reduces synthetic N demand)
+
+---
+
+## Residue management and avoided burning (7)
+
+39. No open-field burning of rice straw (avoided emissions)
+40. Straw removal + off-field productive use (with leakage accounted)
+41. Straw composting (instead of burning)
+42. Straw incorporation with drainage/timing to reduce methane spikes (managed incorporation)
+43. Straw mulching under non-flooded/managed water (method-dependent)
+44. Use of straw for bioenergy with accounting (project/method dependent)
+45. Collection/baling systems to prevent burning (enabler for #39)
+
+---
+
+## Soil carbon / durable carbon additions (5)
+
+46. Biochar application (rice husk/straw biochar)
+47. Compost application (stabilized organic matter)
+48. Farmyard manure application under monitored rates (SOC improvement; method-dependent)
+49. Green manuring (e.g., Sesbania/dhaincha) with proper water management (SOC + N dynamics)
+50. Cover crop/legume in rice fallow (where feasible) to build SOC (rotation-based crediting)
+--------------------------------------------------------------------
+
+B) General Practices: (applicable across cereals, pulses, oilseeds, horticulture, plantations).
+
+
+---
+
+# Soil Carbon Sequestration (SOC Increase)
+
+1. Reduced tillage
+2. Zero tillage
+3. Strip tillage
+4. Permanent raised beds
+5. Cover cropping (off-season)
+6. Multi-species cover crops
+7. Legume cover crops
+8. Green manuring
+9. Crop residue retention
+10. No residue burning
+11. Mulching (organic)
+12. Compost application
+13. Farmyard manure application
+14. Biochar application
+15. Agroforestry (trees within cropland)
+16. Alley cropping
+17. Windbreaks/shelterbelts
+18. Riparian buffer strips
+19. Perennial cropping systems
+20. Grass strips in fields
+
+---
+
+#  Nutrient Management (Reduce N₂O)
+
+21. Optimized nitrogen rate
+22. Split nitrogen application
+23. Deep placement of urea
+24. Controlled-release fertilizers
+25. Nitrification inhibitors
+26. Urease inhibitors
+27. Site-specific nutrient management
+28. Leaf color chart–guided N application
+29. Precision fertilizer application (banding/variable rate)
+30. Balanced fertilization (adequate P/K to avoid excess N)
+
+---
+
+#  Water Management (Reduce Methane / Energy Use)
+
+31. Alternate Wetting and Drying (in irrigated systems)
+32. Improved irrigation scheduling
+33. Drip irrigation
+34. Sprinkler irrigation
+35. Laser land leveling
+36. Improved drainage systems
+37. Reduced flooded duration (in applicable crops)
+38. Efficient pumping schedules
+
+---
+
+#  Crop & Rotation Management
+
+39. Diversified crop rotation
+40. Inclusion of legumes in rotation
+41. Intercropping systems
+42. Relay cropping
+43. Perennial pasture introduction
+44. Silvopasture systems
+45. Conservation agriculture (full CA package)
+
+---
+
+#  Energy & Input Substitution
+
+46. Solar irrigation pumps
+47. Efficient electric/diesel pump replacement
+48. On-farm renewable energy (biogas units)
+49. Reduced synthetic fertilizer through biological inputs
+50. On-farm composting instead of synthetic fertilizer purchase
+
+---
+
+
+
+
+
+
+
+
+
+================================================
+FILE: .gitingestignore
+================================================
+/data/synthetic
+
+
+================================================
+FILE: data/snapshot/farmer_practice_effects.csv
+================================================
+armer_id,practice_id,CSP_ij_tCO2e_per_ha_season,y_ij_ton_per_ha_season
+F0001,1,0.9414,-0.1044
+F0001,2,1.3765,-0.0146
+F0001,3,0.8235,-0.0671
+F0001,4,0.4505,-0.0673
+F0001,5,0.4621,-0.0547
+F0001,6,0.4483,-0.03
+F0001,7,0.7666,-0.0498
+F0001,8,0.2019,-0.0615
+F0001,9,0.2411,-0.0567
+F0001,10,0.1968,-0.0041
+F0001,11,1.1302,-0.0753
+F0001,12,1.5109,-0.1736
+F0001,13,0.5073,-0.1565
+F0001,14,0.3785,-0.1792
+F0001,15,0.5977,-0.1297
+F0001,16,0.8398,0.0186
+F0001,17,0.4729,-0.2448
+F0001,18,0.3926,-0.0878
+F0001,19,0.2253,-0.0903
+F0001,20,0.0843,-0.009
+F0001,21,0.1108,-0.0439
+F0001,22,0.0617,-0.0438
+F0001,23,0.2351,-0.0354
+F0001,24,0.1717,-0.0676
+F0001,25,0.2755,-0.1124
+F0001,26,0.1248,-0.0794
+F0001,27,0.3149,0.0029
+F0001,28,0.2855,0.0623
+F0001,29,0.1972,-0.0355
+F0001,30,0.0901,-0.1163
+F0001,31,0.2325,-0.0657
+F0001,32,0.2311,0.0092
+F0001,33,0.2561,-0.0513
+F0001,34,0.2516,-0.0386
+F0001,35,0.0618,-0.0631
+F0001,36,0.1279,-0.0415
+F0001,37,0.2774,-0.0719
+F0001,38,0.0734,-0.0907
+F0001,39,0.762,-0.1042
+F0001,40,1.1895,-0.0431
+F0001,41,0.6531,-0.0509
+F0001,42,0.3424,-0.1133
+F0001,43,0.1146,-0.097
+F0001,44,1.5333,-0.0234
+F0001,45,0.0769,-0.0804
+F0001,46,1.8753,0.0825
+F0001,47,0.4351,-0.0171
+F0001,48,0.4395,-0.0568
+F0001,49,0.4779,-0.0725
+F0001,50,0.2721,0.0503
+F0002,1,0.9628,-0.0294
+F0002,2,1.0187,0.0246
+F0002,3,0.8001,0.0426
+F0002,4,0.4795,0.0487
+F0002,5,0.3203,0.0291
+F0002,6,0.3158,0.0556
+F0002,7,0.6514,0.0495
+F0002,8,0.1371,0.0379
+F0002,9,0.1643,-0.0222
+F0002,10,0.1581,0.1072
+F0002,11,0.7785,0.0027
+F0002,12,1.2792,-0.0626
+F0002,13,0.3675,-0.086
+F0002,14,0.278,-0.0985
+F0002,15,0.4001,-0.0094
+F0002,16,0.598,-0.0174
+F0002,17,0.4645,-0.0567
+F0002,18,0.3216,-0.076
+F0002,19,0.211,-0.0346
+F0002,20,0.0712,0.0065
+F0002,21,0.1256,0.0788
+F0002,22,0.0515,0.0853
+F0002,23,0.2254,0.0585
+F0002,24,0.1388,0.0163
+F0002,25,0.2337,-0.0506
+F0002,26,0.0966,-0.0276
+F0002,27,0.2929,0.0643
+F0002,28,0.2637,0.0515
+F0002,29,0.1717,0.0666
+F0002,30,0.0725,0.0033
+F0002,31,0.2427,0.0346
+F0002,32,0.1576,0.082
+F0002,33,0.189,0.0448
+F0002,34,0.1866,-0.0285
+F0002,35,0.0429,0.0544
+F0002,36,0.0937,-0.0407
+F0002,37,0.2852,0.0217
+F0002,38,0.0542,-0.0198
+F0002,39,0.6606,0.0333
+F0002,40,1.0593,0.0155
+F0002,41,0.5675,0.0166
+F0002,42,0.3978,0.0236
+F0002,43,0.1083,0.0029
+F0002,44,1.1159,-0.0143
+F0002,45,0.0767,0.0731
+F0002,46,1.4252,0.1048
+F0002,47,0.4169,0.0515
+F0002,48,0.332,0.0086
+F0002,49,0.4099,0.0002
+F0002,50,0.1797,0.0804
+F0003,1,0.9894,0.0738
+F0003,2,1.2472,0.0906
+F0003,3,0.7374,0.1157
+F0003,4,0.6555,0.0591
+F0003,5,0.3134,0.0884
+F0003,6,0.4303,0.1149
+F0003,7,0.8405,0.1195
+F0003,8,0.166,0.0801
+F0003,9,0.2027,0.0358
+F0003,10,0.1442,0.1765
+F0003,11,0.9272,-0.0155
+F0003,12,1.5353,0.0262
+F0003,13,0.3201,-0.0563
+F0003,14,0.2792,0.0173
+F0003,15,0.4971,0.0287
+F0003,16,0.6455,0.0774
+F0003,17,0.4562,-0.0754
+F0003,18,0.3859,0.0324
+F0003,19,0.2443,0.0347
+F0003,20,0.0854,0.1201
+F0003,21,0.1086,0.0516
+F0003,22,0.0727,0.156
+F0003,23,0.1833,0.0535
+F0003,24,0.1584,0.1045
+F0003,25,0.2835,0.0728
+F0003,26,0.0999,0.0133
+F0003,27,0.2702,0.1165
+F0003,28,0.2217,0.2021
+F0003,29,0.2086,0.1471
+F0003,30,0.0787,0.0796
+F0003,31,0.2514,0.1136
+F0003,32,0.233,0.1576
+F0003,33,0.2436,0.1302
+F0003,34,0.2124,0.0251
+F0003,35,0.0564,0.0792
+F0003,36,0.0941,0.1427
+F0003,37,0.3386,0.1103
+F0003,38,0.0653,0.1162
+F0003,39,0.6663,0.0849
+F0003,40,0.8317,0.0707
+F0003,41,0.5999,0.0385
+F0003,42,0.3994,0.0584
+F0003,43,0.1239,0.1013
+F0003,44,1.275,0.0635
+F0003,45,0.0779,0.078
+F0003,46,1.4539,0.169
+F0003,47,0.4082,0.0773
+F0003,48,0.3478,0.1439
+F0003,49,0.4006,0.0759
+F0003,50,0.2809,0.1971
+F0004,1,1.7087,-0.0495
+F0004,2,1.4621,-0.065
+F0004,3,1.2103,-0.0017
+F0004,4,0.9529,-0.0091
+F0004,5,0.4841,-0.0962
+F0004,6,0.6062,-0.0285
+F0004,7,1.1735,-0.0493
+F0004,8,0.2702,-0.0651
+F0004,9,0.2761,-0.0488
+F0004,10,0.2334,0.0328
+F0004,11,1.4048,-0.1494
+F0004,12,2.0999,-0.0949
+F0004,13,0.5214,-0.2054
+F0004,14,0.3562,-0.1561
+F0004,15,0.6901,-0.1283
+F0004,16,1.035,-0.0997
+F0004,17,0.575,-0.1608
+F0004,18,0.4111,-0.1038
+F0004,19,0.2784,-0.1273
+F0004,20,0.0971,0.0083
+F0004,21,0.1944,-0.0215
+F0004,22,0.0996,-0.0091
+F0004,23,0.304,-0.0239
+F0004,24,0.2012,-0.0429
+F0004,25,0.4012,-0.0476
+F0004,26,0.1221,-0.0613
+F0004,27,0.3295,-0.0196
+F0004,28,0.3409,0.0111
+F0004,29,0.2305,-0.017
+F0004,30,0.1136,-0.0637
+F0004,31,0.2414,-0.0101
+F0004,32,0.2366,-0.0352
+F0004,33,0.2856,-0.0169
+F0004,34,0.2422,-0.0269
+F0004,35,0.0613,-0.0468
+F0004,36,0.1287,-0.0396
+F0004,37,0.3759,-0.0912
+F0004,38,0.0865,-0.0529
+F0004,39,0.6835,-0.1104
+F0004,40,1.1814,-0.0782
+F0004,41,0.7475,-0.0537
+F0004,42,0.52,-0.0412
+F0004,43,0.1183,-0.0911
+F0004,44,1.4369,-0.0657
+F0004,45,0.1105,-0.0593
+F0004,46,1.5486,-0.008
+F0004,47,0.5123,-0.0324
+F0004,48,0.402,0.0028
+F0004,49,0.5986,-0.0194
+F0004,50,0.3017,0.009
+F0005,1,1.1125,-0.0008
+F0005,2,1.1367,0.0664
+F0005,3,0.7897,0.1305
+F0005,4,0.5424,0.1157
+F0005,5,0.3285,-0.0012
+F0005,6,0.432,0.0286
+F0005,7,0.7589,0.0758
+F0005,8,0.1906,0.0273
+F0005,9,0.2217,0.0725
+F0005,10,0.1906,0.1373
+F0005,11,1.0645,-0.0758
+F0005,12,1.4633,-0.0682
+
+
+================================================
+FILE: data/snapshot/farmers.csv
+================================================
+Farmer_ID,Farm_Size_ha,Budget_per_ha_INR_per_season,Budget_total_INR_per_season
+F0001,0.82,3697.01,3031.55
+F0002,0.21,3324.54,698.15
+F0003,1.28,3724.59,4767.47
+F0004,1.55,3273.99,5074.69
+F0005,0.69,3401.63,2347.13
+F0006,0.44,3430.75,1509.53
+F0007,0.6,3359.66,2015.79
+F0008,0.26,3152.35,819.61
+F0009,1.46,3314.86,4839.69
+F0010,1.32,3386.36,4469.99
+F0011,0.65,3369.54,2190.2
+F0012,1.87,3699.89,6918.79
+F0013,0.97,3183.16,3087.66
+F0014,0.26,3422.26,889.79
+F0015,0.88,3176.26,2795.11
+F0016,0.23,3801.45,874.33
+F0017,1.46,3703.15,5406.59
+F0018,0.58,3837.51,2225.76
+F0019,0.5,3787.11,1893.56
+F0020,0.31,3371.07,1045.03
+F0021,0.52,3634.11,1889.74
+F0022,0.4,3364.59,1345.84
+F0023,0.43,3771.75,1621.85
+F0024,1.03,3437.53,3540.65
+F0025,0.87,3413.12,2969.42
+F0026,0.92,3789.85,3486.66
+F0027,0.93,3735.72,3474.22
+F0028,0.4,3826.49,1530.6
+F0029,0.36,3196.54,1150.75
+
+
+================================================
+FILE: data/snapshot/Files and Values and settings.txt
+================================================
+README FILE
+
+Synthetic Dataset and comments
+
+1.farmers.csv
+ farmer land size distribution/ farmer characteristics
+
+100 farmers, 
+land size in hectare,
+ Lognormal distribution but cap upper size of farmer as 2 hectare (as we are considering small farmers and min size of farm is 0.2 hectare.
+ Sizes round of to 2 decimals
+
+Note:   Ok I checked official agri census of India. .  we can ahead with i, μ (mu) = -0.5
+σ (sigma) = 1.0 ) and log normal distribution.  That gives a median land size ~0.6 ha and mean ~1.0 ha, which matches the official census summary. 
+budget_per_ha= 3500 INR/ha/season with noise=10percent, As the farmers are small and marginal, their budgets are proportional to their size.
+
+
+This file is only a snapshot, the actual file is in the file in the gitignore , as context window would have been filled i am ignoring the whole and have only put a snapshot.
+
+------------------------------
+
+2. Practices.csv
+
+50 practices of paddy
+Operational Costs: in INR/ha/season
+Note: One thing we forgot to modeling of the operating costs is its comparison with the base line costs, some times net costs may not be negative, it can be positive because of savings. eg. Mulching operating cost is there, but it can save money from base line costs. So included that term of savings from the base line costs.
+
+Notes on the numbers I assigned (logic)
+
+AWD/MSD/drainage rules → low outlay, moderate savings (water/pumping + fewer irrigations).
+
+Laser leveling / bund repair / drainage outlets → higher outlay (service/rental), some savings.
+
+DSR / dry seeding → moderate outlay (weed mgmt etc.) but high savings (reduced transplant/puddling labor).
+
+Inhibitors / CRU → higher outlay, low savings (more “pay to reduce emissions”).
+
+Biochar → very high outlay, small savings (mostly carbon benefit rather than cost-saving).
+
+3. farmer_practice_effects.csv
+
+Soil differences
+
+Different farmers have different:
+
+soil carbon
+soil texture,water content/Irrigation reliability
+organic matter
+CSP randomly between 0.8–1.2 tCO2e
+Yield change between −0.02 and +0.05 ton/ha
+
+Note Base yield ~4.5 ton/ha is typical for irrigated paddy systems in South Asia.
+
+So CSP, yield change varies. So for 100 farmers, 50 practices.
+We need to have synthetic data.
+
+This file is only a snapshot, the actual file is in the file in the gitignore , as context window would have been filled i am ignoring the whole and have only put a snapshot.
+
+
+4.practice_incompatibility.csv
+
+incompatible practices and its reasoning
+ 
+
+5. practice_interactions.csv
+
+α, δ, γ interactions
+| Parameter | Range        | Reason                           |
+| --------- | ------------ | -------------------------------- |
+| **alpha** | ~ ±0.5 tCO₂e | interaction carbon effect small  |
+| **delta** | ~ ±0.3 ton   | yield synergy limited            |
+| **gamma** | ~ ±400 ₹     | shared machinery / labor savings |
+
+
+50 C2 combinations
+ 
+
+These above 5 has full synthetic dataset for our optimization model.
+
+This file is only a snapshot, the actual file is in the file in the gitignore , as context window would have been filled i am ignoring the whole and have only put a snapshot.
+
+
+
+================================================
+FILE: data/snapshot/practice_incompatibility.csv
+================================================
+practice_id_1,practice_id_2,reason
+1,2,Same exclusivity group: awd_variant
+1,3,Same exclusivity group: awd_variant
+2,3,Same exclusivity group: awd_variant
+4,5,Same exclusivity group: drainage_timing
+4,6,Same exclusivity group: drainage_timing
+5,6,Same exclusivity group: drainage_timing
+8,9,Same exclusivity group: water_infrastructure
+8,21,Same exclusivity group: water_infrastructure
+9,21,Same exclusivity group: water_infrastructure
+11,12,Same exclusivity group: establishment_regime
+11,15,Same exclusivity group: establishment_regime
+11,16,Same exclusivity group: establishment_regime
+11,17,Same exclusivity group: establishment_regime
+11,19,Same exclusivity group: establishment_regime
+12,15,Same exclusivity group: establishment_regime
+12,16,Same exclusivity group: establishment_regime
+12,17,Same exclusivity group: establishment_regime
+12,19,Same exclusivity group: establishment_regime
+13,14,Same exclusivity group: duration_choice
+15,16,Same exclusivity group: establishment_regime
+15,17,Same exclusivity group: establishment_regime
+15,19,Same exclusivity group: establishment_regime
+16,17,Same exclusivity group: establishment_regime
+16,19,Same exclusivity group: establishment_regime
+17,19,Same exclusivity group: establishment_regime
+20,22,Same exclusivity group: field_operations
+20,23,Same exclusivity group: field_operations
+22,23,Same exclusivity group: field_operations
+24,25,Same exclusivity group: nitrogen_strategy
+24,30,Same exclusivity group: nitrogen_strategy
+24,31,Same exclusivity group: nitrogen_strategy
+24,32,Same exclusivity group: nitrogen_strategy
+24,33,Same exclusivity group: nitrogen_strategy
+24,34,Same exclusivity group: nitrogen_strategy
+24,35,Same exclusivity group: nitrogen_strategy
+24,37,Same exclusivity group: nitrogen_strategy
+25,30,Same exclusivity group: nitrogen_strategy
+25,31,Same exclusivity group: nitrogen_strategy
+25,32,Same exclusivity group: nitrogen_strategy
+25,33,Same exclusivity group: nitrogen_strategy
+25,34,Same exclusivity group: nitrogen_strategy
+25,35,Same exclusivity group: nitrogen_strategy
+25,37,Same exclusivity group: nitrogen_strategy
+26,27,Same exclusivity group: nitrogen_tech
+26,28,Same exclusivity group: nitrogen_tech
+26,29,Same exclusivity group: nitrogen_tech
+26,36,Same exclusivity group: nitrogen_tech
+27,28,Same exclusivity group: nitrogen_tech
+27,29,Same exclusivity group: nitrogen_tech
+27,36,Same exclusivity group: nitrogen_tech
+28,29,Same exclusivity group: nitrogen_tech
+28,36,Same exclusivity group: nitrogen_tech
+29,36,Same exclusivity group: nitrogen_tech
+30,31,Same exclusivity group: nitrogen_strategy
+30,32,Same exclusivity group: nitrogen_strategy
+30,33,Same exclusivity group: nitrogen_strategy
+30,34,Same exclusivity group: nitrogen_strategy
+30,35,Same exclusivity group: nitrogen_strategy
+30,37,Same exclusivity group: nitrogen_strategy
+31,32,Same exclusivity group: nitrogen_strategy
+31,33,Same exclusivity group: nitrogen_strategy
+31,34,Same exclusivity group: nitrogen_strategy
+31,35,Same exclusivity group: nitrogen_strategy
+31,37,Same exclusivity group: nitrogen_strategy
+32,33,Same exclusivity group: nitrogen_strategy
+32,34,Same exclusivity group: nitrogen_strategy
+32,35,Same exclusivity group: nitrogen_strategy
+32,37,Same exclusivity group: nitrogen_strategy
+33,34,Same exclusivity group: nitrogen_strategy
+33,35,Same exclusivity group: nitrogen_strategy
+33,37,Same exclusivity group: nitrogen_strategy
+34,35,Same exclusivity group: nitrogen_strategy
+34,37,Same exclusivity group: nitrogen_strategy
+35,37,Same exclusivity group: nitrogen_strategy
+38,50,Same exclusivity group: rotation_diversification
+39,40,Same exclusivity group: residue_fate
+39,41,Same exclusivity group: residue_fate
+39,42,Same exclusivity group: residue_fate
+39,43,Same exclusivity group: residue_fate
+39,44,Same exclusivity group: residue_fate
+40,41,Same exclusivity group: residue_fate
+40,42,Same exclusivity group: residue_fate
+40,43,Same exclusivity group: residue_fate
+40,44,Same exclusivity group: residue_fate
+41,42,Same exclusivity group: residue_fate
+41,43,Same exclusivity group: residue_fate
+41,44,Same exclusivity group: residue_fate
+42,43,Same exclusivity group: residue_fate
+42,44,Same exclusivity group: residue_fate
+43,44,Same exclusivity group: residue_fate
+46,47,Same exclusivity group: soil_amendments
+46,48,Same exclusivity group: soil_amendments
+46,49,Same exclusivity group: soil_amendments
+47,48,Same exclusivity group: soil_amendments
+47,49,Same exclusivity group: soil_amendments
+48,49,Same exclusivity group: soil_amendments
+
+
+
+================================================
+FILE: data/snapshot/practice_interactions.csv
+================================================
+,j,alpha,delta,gamma
+1,2,-0.0009,-0.0124,72.53
+1,3,0.0182,-0.0215,-71.15
+1,4,-0.0062,-0.0052,18.82
+1,5,-0.0356,0.0068,74.45
+1,6,-0.008,0.0093,52.73
+1,7,-0.0358,0.0017,-47.12
+1,8,0.0164,-0.0025,7.06
+1,9,-0.0304,0.0102,9.18
+1,10,-0.0228,-0.0055,57.26
+1,11,0.001,0.0021,50.16
+1,12,0.0542,-0.0061,-15.86
+1,13,-0.0344,0.0042,99.03
+1,14,-0.0134,-0.0104,-37.71
+1,15,0.0095,0.0054,58.02
+1,16,-0.0066,0.0058,-11.83
+1,17,0.0287,0.0135,-4.35
+1,18,0.0472,0.0038,0.24
+1,19,0.0453,-0.0145,-42.38
+1,20,0.0012,-0.0047,-39.26
+1,21,0.0798,-0.0074,47.78
+1,22,-0.0473,-0.001,-8.61
+1,23,0.0434,0.0115,35.53
+1,24,-0.0205,-0.0036,51.48
+1,25,-0.0157,-0.0118,-68.0
+1,26,-0.0376,0.006,8.55
+1,27,0.0107,-0.0033,9.51
+1,28,0.0088,-0.0021,27.41
+1,29,-0.0299,-0.0026,-22.9
+1,30,-0.0459,0.0059,-28.16
+1,31,-0.0096,0.0058,26.79
+1,32,0.01,0.0,-25.4
+1,33,-0.0124,-0.0159,-86.83
+1,34,-0.0497,-0.009,23.99
+1,35,-0.0372,-0.0028,77.95
+
+
+================================================
+FILE: data/snapshot/practices.csv
+================================================
+practice_id,practice_name,category,is_regime_switch,exclusivity_group,K_outlay_INR_per_ha_season,S_savings_INR_per_ha_season
+1,Alternate Wetting and Drying (AWD),water,0,awd_variant,263.7,493.89
+2,AWD using field water-tube monitoring (measured thresholds),water,0,awd_variant,375.1,571.71
+3,AWD with fewer flooding days (reduced continuous inundation),water,0,awd_variant,183.77,657.07
+4,Mid-season drainage (MSD),water,0,drainage_timing,84.18,264.3
+5,Early-season drainage (shorten initial flooding period),water,0,drainage_timing,83.31,217.82
+6,Pre-harvest drainage (timely drainage before harvest),water,0,drainage_timing,58.45,195.36
+7,Intermittent irrigation scheduling (fixed wet–dry cycles),water,0,irrigation_scheduling,185.18,404.53
+8,Improved drainage outlets (faster drawdown),water,0,water_infrastructure,889.81,283.63
+9,Bund repair + leveling to enable controlled AWD (enables water control),water,0,water_infrastructure,1010.92,228.19
+10,Laser land leveling (supports uniform AWD / less waterlogging),water,0,land_leveling,2344.16,667.12
+11,Raised beds / furrow-irrigated rice (where applicable),water,1,establishment_regime,1367.1,436.91
+12,Aerobic rice management (non-flooded rice system),water,1,establishment_regime,1094.14,593.24
+13,Conversion of long-duration flooded rice to shorter-duration rice (less flooding time),water,0,duration_choice,232.25,300.46
+14,Use of short-duration varieties to reduce flooded period,water,0,duration_choice,178.8,254.45
+15,Shift from transplanted puddled rice to systems reducing puddling/flooding duration (where defined),water,1,establishment_regime,558.51,829.29
+16,Direct-Seeded Rice (DSR) (reduces flooded nursery/puddling period),establishment,1,establishment_regime,629.37,1640.25
+17,Dry seeding (non-puddled establishment),establishment,1,establishment_regime,482.58,1266.32
+18,Reduced puddling intensity (where permitted/defined),establishment,0,puddling_intensity,119.27,422.05
+19,Strip till / reduced till rice establishment (where feasible),establishment,1,establishment_regime,370.39,646.84
+20,Controlled traffic / minimized soil disturbance (site-dependent),establishment,0,field_operations,236.35,227.47
+21,Improved field channels for precise irrigation (enables AWD),establishment,0,water_infrastructure,789.94,234.64
+22,Timely weeding to maintain aerobic periods (supports AWD feasibility),establishment,0,field_operations,228.81,77
+23,Mechanized operations reducing repeated puddling passes (site-dependent),establishment,0,field_operations,746.52,848.76
+24,Optimized N rate (reduce excess N),nitrogen,0,nitrogen_strategy,117.3,526.72
+25,Split N application (better timing reduces losses),nitrogen,0,nitrogen_strategy,186.57,111.35
+26,Deep placement of urea (UDP),nitrogen,0,nitrogen_tech,300.79,198.32
+27,Controlled-release urea (CRU),nitrogen,0,nitrogen_tech,687.3,227.25
+28,Nitrification inhibitors (where allowed),nitrogen,0,nitrogen_tech,884.88,84.49
+29,Urease inhibitors (where allowed),nitrogen,0,nitrogen_tech,545.48,60.82
+30,Site-Specific Nutrient Management (SSNM),nitrogen,0,nitrogen_strategy,259.83,295.33
+31,Leaf Color Chart (LCC)-guided N dosing,nitrogen,0,nitrogen_strategy,103.37,258.5
+32,Basal N reduction with more top-dressing precision,nitrogen,0,nitrogen_strategy,141.83,252.72
+33,Balanced fertilization (adequate P/K to reduce excess N needs),nitrogen,0,nitrogen_strategy,462.12,161.71
+34,Avoid N application just before heavy irrigation/rain (timing rule),nitrogen,0,nitrogen_strategy,40.47,76.86
+35,Replace part of urea with organic sources under planned rates (avoid over-application),nitrogen,0,nitrogen_strategy,589.01,296.2
+36,"Precision fertilizer application (band placement, calibrated applicators)",nitrogen,0,nitrogen_tech,707.19,215.98
+37,Improved manure management timing (avoid anaerobic + N surplus conditions),nitrogen,0,nitrogen_strategy,128.48,56.81
+38,Inclusion of legumes in rotation where feasible (reduces synthetic N demand),nitrogen,0,rotation_diversification,319.08,430.32
+39,No open-field burning of rice straw (avoided emissions),residue,0,residue_fate,191.74,0
+40,Straw removal + off-field productive use (with leakage accounted),residue,0,residue_fate,657.41,475.55
+41,Straw composting (instead of burning),residue,0,residue_fate,568.07,215.88
+42,Straw incorporation with drainage/timing to reduce methane spikes (managed incorporation),residue,0,residue_fate,340.1,56
+43,Straw mulching under non-flooded/managed water (method-dependent),residue,0,residue_fate,379.91,110.16
+44,Use of straw for bioenergy with accounting (project/method dependent),residue,0,residue_fate,783.35,545.81
+45,Collection/baling systems to prevent burning (enabler for #39),residue,0,residue_infrastructure,1211.93,350.07
+46,Biochar application (rice husk/straw biochar),soil_carbon,0,soil_amendments,6048.01,259.82
+47,Compost application (stabilized organic matter),soil_carbon,0,soil_amendments,2176.31,341.67
+48,Farmyard manure application under monitored rates (SOC improvement; method-dependent),soil_carbon,0,soil_amendments,1920.6,307.82
+49,"Green manuring (e.g., Sesbania/dhaincha) with proper water management (SOC + N dynamics)",soil_carbon,0,soil_amendments,777.89,165.16
+50,Cover crop/legume in rice fallow (where feasible) to build SOC (rotation-based crediting),soil_carbon,0,rotation_diversification,646.52,273.09
+
+
+
+================================================
+FILE: experiments/exp1_individual_selection.py
+================================================
+"""
+Experiment 1: Solve optimal practice selection for all farmers.
+"""
+import sys
+sys.path.insert(0, ".")
+
+from src.config import ModelConfig
+from src.data_loader import load_data
+from src.practice_selection import solve_all_farmers
+
+import pandas as pd
+
+
+def main():
+    config = ModelConfig(
+        CCP=1500.0,
+        CROP_PRICE=22000.0,
+        solver="gurobi",  # change to "pulp" if no Gurobi license
+        time_limit=60,
+    )
+
+    print("Loading data...")
+    data = load_data("data/synthetic")
+    print(f"  {len(data.farmers)} farmers, {len(data.practices)} practices")
+    print(f"  {len(data.alpha)} alpha pairs, {len(data.gamma)} gamma pairs, "
+          f"{len(data.delta)} delta pairs")
+    print(f"  {len(data.incompatible)} incompatible pairs")
+
+    print("\nSolving optimal practice selection for each farmer...")
+    results = solve_all_farmers(data, config)
+
+    # Save results
+    rows = []
+    for fid, (selected, obj, cost) in results.items():
+        farmer = next(f for f in data.farmers if f.farmer_id == fid)
+        practice_names = [data.practices[j].name for j in sorted(selected)]
+        rows.append({
+            "farmer_id": fid,
+            "farm_size_ha": farmer.farm_size_ha,
+            "budget": farmer.budget_per_ha,
+            "n_practices": len(selected),
+            "practices": "; ".join(practice_names),
+            "objective_INR": round(obj, 2),
+            "cost_INR": round(cost, 2),
+        })
+
+    df = pd.DataFrame(rows)
+    df.to_csv("results/individual_selection.csv", index=False)
+    print(f"\nSaved to results/individual_selection.csv")
+    print(df.describe())
+
+
+if __name__ == "__main__":
+    main()
+
+
+================================================
+FILE: experiments/exp2_coalition_formation.py
+================================================
+"""
+Experiment 2: Coalition formation analysis.
+  - Compute characteristic function for all sub-coalitions
+  - Shapley values
+  - Core check
+  - Diversity-efficiency tradeoff
+"""
+import sys
+sys.path.insert(0, ".")
+
+from src.config import ModelConfig
+from src.data_loader import load_data
+from src.practice_selection import solve_all_farmers
+from src.coalition import CoalitionGame
+from src.solution_concepts import shapley_value, shapley_value_sampling, is_in_core, nucleolus
+
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+def main():
+    config = ModelConfig(CCP=1500.0, CROP_PRICE=22000.0, solver="gurobi")
+    data = load_data("data/synthetic")
+
+    # Step 1: Solve individual selections
+    print("Solving individual practice selections...")
+    ind_results = solve_all_farmers(data, config)
+    portfolios = {fid: sel for fid, (sel, _, _) in ind_results.items()}
+
+    # Step 2: Form coalition game
+    game = CoalitionGame(data, config, portfolios)
+
+    # Select a subset for exact analysis (Shapley is O(2^n))
+    # For n <= 15, exact is feasible; for larger n, use sampling
+    farmer_subset = [f.farmer_id for f in data.farmers[:10]]  # first 10
+    grand_coalition = frozenset(farmer_subset)
+
+    print(f"\n=== Coalition analysis for {len(farmer_subset)} farmers ===")
+
+    # Singleton values
+    print("\nSingleton values:")
+    for fid in farmer_subset:
+        sv = game.singleton_value(fid)
+        print(f"  {fid}: v_tilde = {sv:.2f} INR")
+
+    # Grand coalition value
+    v_grand = game.characteristic_value(grand_coalition)
+    print(f"\nGrand coalition value v(N) = {v_grand:.2f} INR")
+    print(f"Practice diversity |U_S| = {game.practice_diversity(grand_coalition)}")
+
+    surplus = game.coalition_surplus(grand_coalition)
+    print(f"Coalition surplus = {surplus:.2f} INR")
+
+    # Shapley values
+    n = len(farmer_subset)
+    if n <= 18:
+        print(f"\nComputing exact Shapley values (n={n})...")
+        phi = shapley_value(game, grand_coalition)
+    else:
+        print(f"\nComputing approximate Shapley values (n={n}, 10000 samples)...")
+        phi = shapley_value_sampling(game, grand_coalition, n_samples=10000)
+
+    print("\nShapley allocation:")
+    for fid in farmer_subset:
+        farmer = next(f for f in data.farmers if f.farmer_id == fid)
+        print(f"  {fid} (size={farmer.farm_size_ha:.2f}ha): "
+              f"phi={phi[fid]:.2f}, singleton={game.singleton_value(fid):.2f}, "
+              f"IR={'✓' if phi[fid] >= game.singleton_value(fid) else '✗'}")
+
+    print(f"\nSum of Shapley = {sum(phi.values()):.2f}, v(N) = {v_grand:.2f}")
+
+    # Core check
+    if n <= 15:
+        in_core = is_in_core(game, phi, grand_coalition)
+        print(f"Shapley in core: {in_core}")
+
+    # Diversity-efficiency tradeoff
+    print("\n=== Diversity-Efficiency Tradeoff ===")
+    for k in range(2, min(n + 1, 8)):
+        from itertools import combinations
+        best_surplus = -float("inf")
+        best_coalition = None
+        for combo in combinations(farmer_subset, k):
+            S = frozenset(combo)
+            s = game.coalition_surplus(S)
+            if s > best_surplus:
+                best_surplus = s
+                best_coalition = S
+        if best_coalition:
+            div = game.practice_diversity(best_coalition)
+            print(f"  k={k}: best surplus={best_surplus:.2f}, diversity={div}")
+
+
+if __name__ == "__main__":
+    main()
+
+
+================================================
+FILE: experiments/exp3_payoff_allocation.py
+================================================
+[Empty file]
+
+
+================================================
+FILE: experiments/exp4_diversity_tradeoff.py
+================================================
+[Empty file]
+
+
+================================================
+FILE: src/coalition.py
+================================================
+"""
+Coalition formation with heterogeneous practice portfolios (Section 3.2).
+
+Implements:
+  - Characteristic function v(S, Pi_S)
+  - Singleton value v_tilde({i}, Pi_i*)
+  - Individual rationality checks
+  - Homogeneous vs heterogeneous comparison
+"""
+from typing import Dict, FrozenSet, List, Set, Tuple
+from itertools import combinations
+import numpy as np
+
+from .config import ModelConfig
+from .data_loader import DataBundle, FarmerData, _pair_key
+
+
+class CoalitionGame:
+    def __init__(
+        self,
+        data: DataBundle,
+        config: ModelConfig,
+        farmer_portfolios: Dict[str, Set[int]],  # farmer_id -> set of practice indices
+    ):
+        self.data = data
+        self.config = config
+        self.portfolios = farmer_portfolios
+
+        # Pre-compute farmer-level sequestration and cost
+        self._farmer_csp: Dict[str, float] = {}
+        self._farmer_oc: Dict[str, float] = {}
+        self._farmer_yield: Dict[str, float] = {}
+
+        for farmer in data.farmers:
+            fid = farmer.farmer_id
+            portfolio = farmer_portfolios.get(fid, set())
+            csp, oc, dy = self._compute_farmer_values(farmer, portfolio)
+            self._farmer_csp[fid] = csp
+            self._farmer_oc[fid] = oc
+            self._farmer_yield[fid] = dy
+
+    def _compute_farmer_values(
+        self, farmer: FarmerData, portfolio: Set[int]
+    ) -> Tuple[float, float, float]:
+        """Compute CSP_i(Pi_i*), OC_i(Pi_i*), Y_i(Pi_i*) for a farmer."""
+        effects = self.data.farmer_practice_effects.get(farmer.farmer_id, {})
+        practices = self.data.practices
+        pid_to_idx = {p.practice_id: i for i, p in enumerate(practices)}
+
+        # Linear terms
+        csp = 0.0
+        oc = 0.0
+        dy = 0.0
+        practice_ids_in_portfolio = []
+
+        for j in portfolio:
+            p = practices[j]
+            pid = p.practice_id
+            practice_ids_in_portfolio.append(pid)
+
+            if pid in effects:
+                csp_ij, y_ij = effects[pid]
+            else:
+                csp_ij, y_ij = p.base_CSP, p.base_dY
+
+            csp += csp_ij
+            oc += p.base_OC
+            dy += y_ij
+
+        # Pairwise interaction terms
+        for j, k in combinations(sorted(portfolio), 2):
+            pj = practices[j].practice_id
+            pk = practices[k].practice_id
+            pair = _pair_key(pj, pk)
+
+            csp += self.data.alpha.get(pair, 0.0)
+            oc += self.data.gamma.get(pair, 0.0)
+            dy += self.data.delta.get(pair, 0.0)
+
+        return csp, oc, dy
+
+    def _certification_cost(
+        self,
+        coalition_farmer_ids: List[str],
+        union_practices: Set[int],
+    ) -> float:
+        """
+        Compute total certification cost: C_MR + C_V + C_T (Equations 7-9).
+        """
+        cfg = self.config
+        total_area = sum(
+            f.farm_size_ha for f in self.data.farmers
+            if f.farmer_id in coalition_farmer_ids
+        )
+        n_farmers = len(coalition_farmer_ids)
+        n_distinct = len(union_practices)
+
+        c_mr = (cfg.fixed_MR
+                + cfg.variable_MR * (total_area ** cfg.alpha_MR)
+                + cfg.phi_MR * n_distinct)
+
+        c_v = (cfg.fixed_V
+               + cfg.variable_V * (total_area ** cfg.beta_V)
+               + cfg.phi_V * n_distinct)
+
+        c_t = cfg.fixed_T + cfg.variable_T * n_farmers
+
+        return c_mr + c_v + c_t
+
+    def characteristic_value(self, coalition: FrozenSet[str]) -> float:
+        """
+        Compute v(S, Pi_S) — Equation 10.
+        Coalition-level carbon credit revenue minus shared certification costs.
+        OC is excluded (private cost handled via IR).
+        """
+        farmer_ids = list(coalition)
+        if not farmer_ids:
+            return 0.0
+
+        # Aggregate sequestration weighted by farm size
+        total_csp = 0.0
+        union_practices: Set[int] = set()
+
+        for fid in farmer_ids:
+            farmer = next(f for f in self.data.farmers if f.farmer_id == fid)
+            portfolio = self.portfolios.get(fid, set())
+            total_csp += farmer.farm_size_ha * self._farmer_csp[fid]
+            union_practices.update(portfolio)
+
+        revenue = total_csp * self.config.CCP
+        cert_cost = self._certification_cost(farmer_ids, union_practices)
+
+        return revenue - cert_cost
+
+    def singleton_value(self, farmer_id: str) -> float:
+        """
+        Compute v_tilde({i}, Pi_i*) — Equation 12.
+        Includes carbon revenue, yield revenue, OC, and solo certification costs.
+        """
+        farmer = next(f for f in self.data.farmers if f.farmer_id == farmer_id)
+        portfolio = self.portfolios.get(farmer_id, set())
+
+        csp = self._farmer_csp[farmer_id]
+        oc = self._farmer_oc[farmer_id]
+        dy = self._farmer_yield[farmer_id]
+
+        revenue = (farmer.farm_size_ha * csp * self.config.CCP
+                   + farmer.farm_size_ha * dy * self.config.CROP_PRICE)
+        cost = farmer.farm_size_ha * oc
+        cert_cost = self._certification_cost([farmer_id], portfolio)
+
+        return revenue - cost - cert_cost
+
+    def coalition_surplus(self, coalition: FrozenSet[str]) -> float:
+        """
+        Surplus from coalition formation = v(S) - sum of singleton values.
+        """
+        v_coalition = self.characteristic_value(coalition)
+        v_singletons = sum(self.singleton_value(fid) for fid in coalition)
+        return v_coalition - v_singletons
+
+    def is_individually_rational(
+        self, allocation: Dict[str, float], coalition: FrozenSet[str]
+    ) -> bool:
+        """Check if allocation satisfies IR for all members (Equation 13)."""
+        for fid in coalition:
+            if allocation.get(fid, 0.0) < self.singleton_value(fid):
+                return False
+        return True
+
+    def practice_diversity(self, coalition: FrozenSet[str]) -> int:
+        """Number of distinct practices in the coalition's union."""
+        union = set()
+        for fid in coalition:
+            union.update(self.portfolios.get(fid, set()))
+        return len(union)
+
+    def enumerate_coalitions(
+        self, farmer_ids: List[str], min_size: int = 2, max_size: int = None
+    ) -> List[FrozenSet[str]]:
+        """Generate all coalitions of size [min_size, max_size]."""
+        if max_size is None:
+            max_size = len(farmer_ids)
+
+        coalitions = []
+        for k in range(min_size, max_size + 1):
+            for combo in combinations(farmer_ids, k):
+                coalitions.append(frozenset(combo))
+        return coalitions
+
+
+================================================
+FILE: src/config.py
+================================================
+from dataclasses import dataclass, field
+from typing import Dict, Tuple
+
+@dataclass
+class ModelConfig:
+    # Economic parameters
+    CCP: float = 1500.0              # INR per tCO2e (carbon credit price)
+    CROP_PRICE: float = 22000.0      # INR per ton of crop
+
+    # Certification cost parameters
+    fixed_MR: float = 50000.0        # Fixed monitoring/reporting cost (INR)
+    variable_MR: float = 500.0       # Variable MR cost
+    alpha_MR: float = 0.7            # Economies of scale exponent for MR
+    phi_MR: float = 5000.0           # Per-practice MR overhead (INR)
+
+    fixed_V: float = 80000.0         # Fixed verification cost (INR)
+    variable_V: float = 300.0        # Variable verification cost
+    beta_V: float = 0.6              # Economies of scale exponent for verification
+    phi_V: float = 8000.0            # Per-practice verification overhead (INR)
+
+    fixed_T: float = 10000.0         # Fixed transaction/registry cost (INR)
+    variable_T: float = 500.0        # Per-farmer transaction cost (INR)
+
+    # Solver settings
+    solver: str = "gurobi"           # "gurobi", "pulp", "cplex"
+    time_limit: int = 120            # seconds per solve
+    mip_gap: float = 1e-4
+
+    # GRASP heuristic settings (fallback / warm-start)
+    grasp_iters: int = 300
+    grasp_alpha: float = 0.3
+    grasp_seeds: list = field(default_factory=lambda: [1, 7, 11, 21, 42])
+
+
+================================================
+FILE: src/data_loader.py
+================================================
+import pandas as pd
+import numpy as np
+from pathlib import Path
+from dataclasses import dataclass
+from typing import Dict, List, Tuple, Set
+
+@dataclass
+class FarmerData:
+    farmer_id: str
+    farm_size_ha: float
+    budget_per_ha: float
+    budget_total: float
+
+@dataclass
+class PracticeData:
+    practice_id: int
+    name: str
+    base_CSP: float       # tCO2e/ha/season
+    base_OC: float        # INR/ha/season
+    base_dY: float        # ton/ha/season
+    subgroup: str
+
+@dataclass
+class DataBundle:
+    farmers: List[FarmerData]
+    practices: List[PracticeData]
+    # farmer_id -> {practice_id: (CSP_ij, y_ij)}
+    farmer_practice_effects: Dict[str, Dict[int, Tuple[float, float]]]
+    # (i, j) -> alpha_ij (sequestration synergy)
+    alpha: Dict[Tuple[int, int], float]
+    # (i, j) -> gamma_ij (cost interaction)
+    gamma: Dict[Tuple[int, int], float]
+    # (i, j) -> delta_ij (yield interaction)
+    delta: Dict[Tuple[int, int], float]
+    # Set of incompatible practice pairs
+    incompatible: Set[Tuple[int, int]]
+    # Subgroup mapping: practice_id -> subgroup_id
+    subgroup_map: Dict[int, int]
+    # Subgroup names
+    subgroup_names: List[str]
+
+
+def _pair_key(i: int, j: int) -> Tuple[int, int]:
+    return (min(i, j), max(i, j))
+
+
+def load_data(data_dir: str = "data/synthetic") -> DataBundle:
+    data_path = Path(data_dir)
+
+    # --- Load farmers ---
+    df_farmers = pd.read_csv(data_path / "farmers.csv")
+    farmers = []
+    for _, row in df_farmers.iterrows():
+        farmers.append(FarmerData(
+            farmer_id=row["Farmer_ID"],
+            farm_size_ha=row["Farm_Size_ha"],
+            budget_per_ha=row["Budget_per_ha_INR_per_season"],
+            budget_total=row["Budget_total_INR_per_season"],
+        ))
+
+    # --- Load practices ---
+    df_practices = pd.read_csv(data_path / "practices.csv")
+    practices = []
+    for _, row in df_practices.iterrows():
+        practices.append(PracticeData(
+            practice_id=int(row["practice_id"]),
+            name=row.get("practice_name", f"P{int(row['practice_id'])}"),
+            base_CSP=float(row.get("CSP_tCO2e_ha_season", 0)),
+            base_OC=float(row.get("OC_INR_ha_season", 0)),
+            base_dY=float(row.get("dY_ton_ha_season", 0)),
+            subgroup=str(row.get("subgroup", "general")),
+        ))
+
+    # --- Load farmer-specific practice effects ---
+    df_effects = pd.read_csv(data_path / "farmer_practice_effects.csv")
+    farmer_practice_effects: Dict[str, Dict[int, Tuple[float, float]]] = {}
+    for _, row in df_effects.iterrows():
+        fid = row["farmer_id"]
+        pid = int(row["practice_id"])
+        csp = float(row["CSP_ij_tCO2e_per_ha_season"])
+        y = float(row["y_ij_ton_per_ha_season"])
+        if fid not in farmer_practice_effects:
+            farmer_practice_effects[fid] = {}
+        farmer_practice_effects[fid][pid] = (csp, y)
+
+    # --- Load pairwise interactions ---
+    alpha, gamma, delta = {}, {}, {}
+    try:
+        df_inter = pd.read_csv(data_path / "practice_interactions.csv")
+        for _, row in df_inter.iterrows():
+            pk = _pair_key(int(row["practice_i"]), int(row["practice_j"]))
+            if "alpha" in row and pd.notna(row["alpha"]):
+                alpha[pk] = float(row["alpha"])
+            if "gamma" in row and pd.notna(row["gamma"]):
+                gamma[pk] = float(row["gamma"])
+            if "delta" in row and pd.notna(row["delta"]):
+                delta[pk] = float(row["delta"])
+    except FileNotFoundError:
+        print("Warning: practice_interactions.csv not found, using empty interactions")
+
+    # --- Load incompatibilities ---
+    incompatible: Set[Tuple[int, int]] = set()
+    try:
+        df_incompat = pd.read_csv(data_path / "practice_incompatibility.csv")
+        for _, row in df_incompat.iterrows():
+            incompatible.add(_pair_key(int(row["practice_i"]), int(row["practice_j"])))
+    except FileNotFoundError:
+        print("Warning: practice_incompatibility.csv not found")
+
+    # --- Build subgroup map ---
+    subgroup_names_unique = sorted(set(p.subgroup for p in practices))
+    sg_name_to_id = {name: idx for idx, name in enumerate(subgroup_names_unique)}
+    subgroup_map = {p.practice_id: sg_name_to_id[p.subgroup] for p in practices}
+
+    return DataBundle(
+        farmers=farmers,
+        practices=practices,
+        farmer_practice_effects=farmer_practice_effects,
+        alpha=alpha,
+        gamma=gamma,
+        delta=delta,
+        incompatible=incompatible,
+        subgroup_map=subgroup_map,
+        subgroup_names=subgroup_names_unique,
+    )
+
+
+================================================
+FILE: src/practice_selection.py
+================================================
+"""
+Optimal Practice Selection for individual farmers (Section 3.1).
+
+Solves:
+  max  CSP(Pi) * CCP + Y(Pi) * CROP_PRICE - OC(Pi)
+  s.t. OC(Pi) <= B
+       incompatibility constraints
+       at most one practice per subgroup
+"""
+from typing import Dict, List, Set, Tuple, Optional
+from itertools import combinations
+import numpy as np
+
+from .config import ModelConfig
+from .data_loader import DataBundle, FarmerData, _pair_key
+
+
+def _compute_farmer_coefficients(
+    farmer: FarmerData,
+    data: DataBundle,
+    config: ModelConfig,
+) -> Tuple[List[float], Dict[Tuple[int, int], float], List[float], Dict[Tuple[int, int], float]]:
+    """
+    Compute linear and pairwise objective terms for a farmer.
+
+    Returns:
+        b: linear objective coefficient for each practice
+        w: pairwise objective coefficient for each interacting pair
+        oc: operational cost per practice
+        gc: pairwise cost interactions
+    """
+    fid = farmer.farmer_id
+    effects = data.farmer_practice_effects.get(fid, {})
+    practice_ids = [p.practice_id for p in data.practices]
+    m = len(practice_ids)
+
+    b = []
+    oc = []
+    for p in data.practices:
+        pid = p.practice_id
+        if pid in effects:
+            csp_ij, y_ij = effects[pid]
+        else:
+            csp_ij, y_ij = p.base_CSP, p.base_dY
+
+        revenue = config.CCP * csp_ij + config.CROP_PRICE * y_ij
+        cost = p.base_OC
+        b.append(revenue - cost)
+        oc.append(cost)
+
+    # Pairwise terms
+    w = {}
+    gc = {}
+    pid_to_idx = {p.practice_id: i for i, p in enumerate(data.practices)}
+
+    all_pairs = set(data.alpha.keys()) | set(data.delta.keys()) | set(data.gamma.keys())
+    for (pi, pj) in all_pairs:
+        if pi not in pid_to_idx or pj not in pid_to_idx:
+            continue
+        i, j = pid_to_idx[pi], pid_to_idx[pj]
+        key = _pair_key(i, j)
+
+        alpha_val = data.alpha.get(_pair_key(pi, pj), 0.0)
+        delta_val = data.delta.get(_pair_key(pi, pj), 0.0)
+        gamma_val = data.gamma.get(_pair_key(pi, pj), 0.0)
+
+        w_val = config.CCP * alpha_val + config.CROP_PRICE * delta_val - gamma_val
+        if abs(w_val) > 1e-12:
+            w[key] = w_val
+        if abs(gamma_val) > 1e-12:
+            gc[key] = gamma_val
+
+    return b, w, oc, gc
+
+
+def solve_practice_selection_gurobi(
+    farmer: FarmerData,
+    data: DataBundle,
+    config: ModelConfig,
+) -> Tuple[Set[int], float, float]:
+    """
+    Solve the optimal practice selection using Gurobi MIQP.
+
+    Returns:
+        selected: set of selected practice indices (0-based)
+        obj_value: optimal objective value (INR/ha/season)
+        total_cost: total operational cost
+    """
+    import gurobipy as gp
+    from gurobipy import GRB
+
+    b, w, oc, gc = _compute_farmer_coefficients(farmer, data, config)
+    m = len(data.practices)
+    budget = farmer.budget_per_ha
+
+    pid_to_idx = {p.practice_id: i for i, p in enumerate(data.practices)}
+
+    model = gp.Model(f"practice_selection_{farmer.farmer_id}")
+    model.setParam("OutputFlag", 0)
+    model.setParam("TimeLimit", config.time_limit)
+    model.setParam("MIPGap", config.mip_gap)
+
+    # Decision variables
+    x = model.addVars(m, vtype=GRB.BINARY, name="x")
+
+    # Objective: maximize linear + quadratic terms
+    obj = gp.QuadExpr()
+    for j in range(m):
+        obj += b[j] * x[j]
+    for (i, j), w_val in w.items():
+        obj += w_val * x[i] * x[j]
+
+    model.setObjective(obj, GRB.MAXIMIZE)
+
+    # Budget constraint: OC(Pi) <= B
+    cost_expr = gp.QuadExpr()
+    for j in range(m):
+        cost_expr += oc[j] * x[j]
+    for (i, j), g_val in gc.items():
+        cost_expr += g_val * x[i] * x[j]
+
+    model.addQConstr(cost_expr <= budget, name="budget")
+
+    # Incompatibility constraints
+    for (pi, pj) in data.incompatible:
+        if pi in pid_to_idx and pj in pid_to_idx:
+            i, j = pid_to_idx[pi], pid_to_idx[pj]
+            model.addConstr(x[i] + x[j] <= 1, name=f"incompat_{pi}_{pj}")
+
+    # Subgroup constraints: at most one per subgroup
+    subgroups: Dict[int, List[int]] = {}
+    for i, p in enumerate(data.practices):
+        sg = data.subgroup_map[p.practice_id]
+        subgroups.setdefault(sg, []).append(i)
+    for sg_id, members in subgroups.items():
+        if len(members) > 1:
+            model.addConstr(
+                gp.quicksum(x[i] for i in members) <= 1,
+                name=f"subgroup_{sg_id}"
+            )
+
+    model.optimize()
+
+    if model.status in (GRB.OPTIMAL, GRB.TIME_LIMIT):
+        selected = {j for j in range(m) if x[j].X > 0.5}
+        return selected, model.ObjVal, sum(oc[j] for j in selected)
+    else:
+        return set(), 0.0, 0.0
+
+
+def solve_practice_selection_pulp(
+    farmer: FarmerData,
+    data: DataBundle,
+    config: ModelConfig,
+) -> Tuple[Set[int], float, float]:
+    """
+    Fallback: linearized MILP via PuLP (for users without Gurobi).
+    Introduces auxiliary y_ij = x_i * x_j variables.
+    """
+    import pulp
+
+    b, w, oc, gc = _compute_farmer_coefficients(farmer, data, config)
+    m = len(data.practices)
+    budget = farmer.budget_per_ha
+    pid_to_idx = {p.practice_id: i for i, p in enumerate(data.practices)}
+
+    prob = pulp.LpProblem(f"practice_{farmer.farmer_id}", pulp.LpMaximize)
+
+    x = [pulp.LpVariable(f"x_{j}", cat="Binary") for j in range(m)]
+
+    # Auxiliary variables for quadratic terms
+    y_vars = {}
+    for (i, j) in set(w.keys()) | set(gc.keys()):
+        y = pulp.LpVariable(f"y_{i}_{j}", cat="Binary")
+        y_vars[(i, j)] = y
+        # McCormick / linearization: y <= x_i, y <= x_j, y >= x_i + x_j - 1
+        prob += y <= x[i]
+        prob += y <= x[j]
+        prob += y >= x[i] + x[j] - 1
+
+    # Objective
+    obj = pulp.lpSum(b[j] * x[j] for j in range(m))
+    obj += pulp.lpSum(w_val * y_vars[key] for key, w_val in w.items() if key in y_vars)
+    prob += obj
+
+    # Budget
+    cost_expr = pulp.lpSum(oc[j] * x[j] for j in range(m))
+    cost_expr += pulp.lpSum(g_val * y_vars[key] for key, g_val in gc.items() if key in y_vars)
+    prob += cost_expr <= budget
+
+    # Incompatibility
+    for (pi, pj) in data.incompatible:
+        if pi in pid_to_idx and pj in pid_to_idx:
+            i, j = pid_to_idx[pi], pid_to_idx[pj]
+            prob += x[i] + x[j] <= 1
+
+    # Subgroup constraints
+    subgroups: Dict[int, List[int]] = {}
+    for i, p in enumerate(data.practices):
+        sg = data.subgroup_map[p.practice_id]
+        subgroups.setdefault(sg, []).append(i)
+    for sg_id, members in subgroups.items():
+        if len(members) > 1:
+            prob += pulp.lpSum(x[i] for i in members) <= 1
+
+    prob.solve(pulp.PULP_CBC_CMD(msg=0, timeLimit=config.time_limit))
+
+    if prob.status == pulp.constants.LpStatusOptimal:
+        selected = {j for j in range(m) if x[j].varValue > 0.5}
+        return selected, pulp.value(prob.objective), sum(oc[j] for j in selected)
+    else:
+        return set(), 0.0, 0.0
+
+
+def solve_all_farmers(
+    data: DataBundle,
+    config: ModelConfig,
+) -> Dict[str, Tuple[Set[int], float, float]]:
+    """
+    Solve optimal practice selection for all farmers.
+
+    Returns:
+        dict mapping farmer_id -> (selected_practices, obj_value, total_cost)
+    """
+    solver_fn = (
+        solve_practice_selection_gurobi if config.solver == "gurobi"
+        else solve_practice_selection_pulp
+    )
+
+    results = {}
+    for farmer in data.farmers:
+        selected, obj, cost = solver_fn(farmer, data, config)
+        results[farmer.farmer_id] = (selected, obj, cost)
+        practice_names = [data.practices[j].name for j in sorted(selected)]
+        print(f"  {farmer.farmer_id}: {len(selected)} practices, "
+              f"obj={obj:.2f}, cost={cost:.2f} — {practice_names}")
+
+    return results
+
+
+================================================
+FILE: src/solution_concepts.py
+================================================
+"""
+Cooperative game theory solution concepts:
+  - Shapley value
+  - Core membership check
+  - Nucleolus (via LP)
+"""
+import math
+from typing import Dict, FrozenSet, List
+from itertools import combinations
+
+from .coalition import CoalitionGame
+
+
+def shapley_value(
+    game: CoalitionGame,
+    grand_coalition: FrozenSet[str],
+) -> Dict[str, float]:
+    """
+    Compute exact Shapley values for the grand coalition.
+
+    Warning: O(2^n) — feasible for n <= ~20-22 farmers.
+    For larger n, use sampling-based approximation.
+    """
+    players = list(grand_coalition)
+    n = len(players)
+    phi = {p: 0.0 for p in players}
+
+    # Pre-compute all coalition values
+    value_cache: Dict[FrozenSet[str], float] = {}
+
+    def v(S: FrozenSet[str]) -> float:
+        if S not in value_cache:
+            value_cache[S] = game.characteristic_value(S)
+        return value_cache[S]
+
+    for i, player in enumerate(players):
+        others = [p for p in players if p != player]
+        for k in range(0, n):
+            # Subsets of others of size k
+            for combo in combinations(others, k):
+                S = frozenset(combo)
+                S_with_i = S | {player}
+                marginal = v(S_with_i) - v(S)
+                weight = math.factorial(k) * math.factorial(n - k - 1) / math.factorial(n)
+                phi[player] += weight * marginal
+
+    return phi
+
+
+def shapley_value_sampling(
+    game: CoalitionGame,
+    grand_coalition: FrozenSet[str],
+    n_samples: int = 10000,
+    seed: int = 42,
+) -> Dict[str, float]:
+    """
+    Approximate Shapley values via random permutation sampling.
+    Suitable for n > 20.
+    """
+    import random
+    rng = random.Random(seed)
+    players = list(grand_coalition)
+    n = len(players)
+    phi = {p: 0.0 for p in players}
+    value_cache: Dict[FrozenSet[str], float] = {}
+
+    def v(S: FrozenSet[str]) -> float:
+        if S not in value_cache:
+            value_cache[S] = game.characteristic_value(S)
+        return value_cache[S]
+
+    for _ in range(n_samples):
+        perm = players[:]
+        rng.shuffle(perm)
+        S = frozenset()
+        for player in perm:
+            S_with = S | {player}
+            marginal = v(S_with) - v(S)
+            phi[player] += marginal
+            S = S_with
+
+    for p in phi:
+        phi[p] /= n_samples
+
+    return phi
+
+
+def is_in_core(
+    game: CoalitionGame,
+    allocation: Dict[str, float],
+    grand_coalition: FrozenSet[str],
+) -> bool:
+    """
+    Check if an allocation is in the core.
+    An allocation x is in the core if for every sub-coalition S:
+      sum_{i in S} x_i >= v(S)
+    and sum_{i in N} x_i = v(N).
+    """
+    players = list(grand_coalition)
+    n = len(players)
+
+    # Check efficiency
+    total_alloc = sum(allocation[p] for p in players)
+    v_grand = game.characteristic_value(grand_coalition)
+    if abs(total_alloc - v_grand) > 1e-6:
+        return False
+
+    # Check all sub-coalitions
+    for k in range(1, n):
+        for combo in combinations(players, k):
+            S = frozenset(combo)
+            v_S = game.characteristic_value(S)
+            alloc_S = sum(allocation[p] for p in S)
+            if alloc_S < v_S - 1e-6:
+                return False
+
+    return True
+
+
+def nucleolus(
+    game: CoalitionGame,
+    grand_coalition: FrozenSet[str],
+) -> Dict[str, float]:
+    """
+    Compute the nucleolus via iterated LP (Maschler et al.).
+    Uses Gurobi if available, else PuLP.
+    """
+    try:
+        return _nucleolus_gurobi(game, grand_coalition)
+    except ImportError:
+        return _nucleolus_pulp(game, grand_coalition)
+
+
+def _nucleolus_gurobi(
+    game: CoalitionGame,
+    grand_coalition: FrozenSet[str],
+) -> Dict[str, float]:
+    import gurobipy as gp
+    from gurobipy import GRB
+
+    players = list(grand_coalition)
+    n = len(players)
+    v_grand = game.characteristic_value(grand_coalition)
+
+    # Enumerate all proper sub-coalitions
+    sub_coalitions = []
+    for k in range(1, n):
+        for combo in combinations(players, k):
+            sub_coalitions.append(frozenset(combo))
+
+    v_sub = {S: game.characteristic_value(S) for S in sub_coalitions}
+
+    model = gp.Model("nucleolus")
+    model.setParam("OutputFlag", 0)
+
+    x = {p: model.addVar(lb=-GRB.INFINITY, name=f"x_{p}") for p in players}
+    epsilon = model.addVar(lb=-GRB.INFINITY, name="epsilon")
+
+    model.setObjective(epsilon, GRB.MAXIMIZE)
+
+    # Efficiency: sum x_i = v(N)
+    model.addConstr(gp.quicksum(x[p] for p in players) == v_grand)
+
+    # For each sub-coalition S: sum_{i in S} x_i >= v(S) + epsilon
+    for S in sub_coalitions:
+        model.addConstr(
+            gp.quicksum(x[p] for p in S) >= v_sub[S] + epsilon,
+            name=f"excess_{hash(S)}"
+        )
+
+    model.optimize()
+
+    return {p: x[p].X for p in players}
+
+
+def _nucleolus_pulp(
+    game: CoalitionGame,
+    grand_coalition: FrozenSet[str],
+) -> Dict[str, float]:
+    import pulp
+
+    players = list(grand_coalition)
+    n = len(players)
+    v_grand = game.characteristic_value(grand_coalition)
+
+    sub_coalitions = []
+    for k in range(1, n):
+        for combo in combinations(players, k):
+            sub_coalitions.append(frozenset(combo))
+
+    v_sub = {S: game.characteristic_value(S) for S in sub_coalitions}
+
+    prob = pulp.LpProblem("nucleolus", pulp.LpMaximize)
+
+    x = {p: pulp.LpVariable(f"x_{p}") for p in players}
+    epsilon = pulp.LpVariable("epsilon")
+
+    prob += epsilon
+
+    prob += pulp.lpSum(x[p] for p in players) == v_grand
+
+    for S in sub_coalitions:
+        prob += pulp.lpSum(x[p] for p in S) >= v_sub[S] + epsilon
+
+    prob.solve(pulp.PULP_CBC_CMD(msg=0))
+
+    return {p: x[p].varValue for p in players}
+
+
+================================================
+FILE: src/solvers.py
+================================================
+[Empty file]
+
+
+================================================
+FILE: src/utils.py
+================================================
+[Empty file]
+
