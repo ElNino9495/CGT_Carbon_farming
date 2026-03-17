@@ -1,0 +1,191 @@
+Practice_1,Practice_2,Category,A_value,G_value,H_value,Incompatible
+AWD,Intermittent irrigation,X,0.0,0.0,0.0,1
+AWD,Mid-season drainage,X,0.0,0.0,0.0,1
+AWD,Shortened flooding period,X,0.0,0.0,0.0,1
+AWD,Controlled irrigation by crop stage,zero_like,0.006094341595088627,-20.79968212480991,112.5676793709686,0
+AWD,Aerobic rice cultivation,X,0.0,0.0,0.0,1
+AWD,DSR,zero_like,0.01881129432782428,-39.02070377307673,-195.3269260293477,0
+AWD,Dry direct seeding,zero_like,0.002556808063345707,-6.324851846871644,-2.520173625643319,0
+AWD,Wet direct seeding,zero_like,-0.0170608785514716,17.58795949725657,116.6687903143422,0
+AWD,Mechanical transplanting,zero_like,0.001320613951224321,22.54482413936066,70.12640133780684,0
+AWD,Reduced puddling,pos,0.08562830148467046,79.21876960206247,608.2234798342002,0
+AWD,SSNM,pos,0.1551380120522909,68.75185222534368,763.0275272909479,0
+AWD,Split nitrogen application,pos,0.09276281822384234,100.5635334668508,769.0941035862396,0
+AWD,LCC-based nitrogen management,pos,0.1028668871134757,61.19666123779426,906.4618371106698,0
+AWD,Deep placement of urea briquettes,pos,0.1346177625745631,80.31831528989972,886.1642006015766,0
+AWD,No straw burning,zero_like,0.04283295201740923,-8.128300327692312,-76.8364093607306,0
+AWD,Off-field use of rice straw,zero_like,-0.01627545456495755,12.31958845150991,169.3458439081337,0
+AWD,Rice-straw composting,zero_like,-0.002278949153097501,-16.80312953925056,-123.6721823536859,0
+AWD,Timed straw incorporation,strong_pos,0.3125296393912351,209.7301668481377,1962.946280491559,0
+AWD,Biochar application,strong_pos,0.2467245146355653,189.2864529226688,1835.005742742218,0
+Intermittent irrigation,Mid-season drainage,X,0.0,0.0,0.0,1
+Intermittent irrigation,Shortened flooding period,X,0.0,0.0,0.0,1
+Intermittent irrigation,Controlled irrigation by crop stage,zero_like,0.004373771934580259,17.4285755589638,33.53933231620234,0
+Intermittent irrigation,Aerobic rice cultivation,zero_like,0.0135782712614379,1.351581389777829,43.36790980349762,0
+Intermittent irrigation,DSR,zero_like,0.01262576451677081,-29.14311639711333,-47.9506824535952,0
+Intermittent irrigation,Dry direct seeding,zero_like,-0.00940745308585591,-12.77755696486684,-41.27133768400256,0
+Intermittent irrigation,Wet direct seeding,zero_like,0.02989882622468792,-17.31662231386487,145.2417531887221,0
+Intermittent irrigation,Mechanical transplanting,zero_like,-0.0336573954323161,-6.697700599715497,24.41295976575084,0
+Intermittent irrigation,Reduced puddling,zero_like,0.01172444662718556,14.2245315958571,119.0020852799888,0
+Intermittent irrigation,SSNM,pos,0.1060509971100625,58.44120518338582,971.5951762514308,0
+Intermittent irrigation,Split nitrogen application,zero_like,-0.003826086497632298,-25.51372646675844,-169.9930821005221,0
+Intermittent irrigation,LCC-based nitrogen management,zero_like,-0.01838904572003223,9.943214881075281,21.36386041058479,0
+Intermittent irrigation,Deep placement of urea briquettes,zero_like,0.01380970708135536,-8.545052926730685,23.78095366150713,0
+Intermittent irrigation,No straw burning,zero_like,0.01251180787934673,-6.186930794404768,68.51628563361172,0
+Intermittent irrigation,Off-field use of rice straw,zero_like,-0.01323851882133303,-7.261076931301435,-57.26068409974936,0
+Intermittent irrigation,Rice-straw composting,zero_like,-0.02391679291178079,9.739449615711637,-70.41035103040858,0
+Intermittent irrigation,Timed straw incorporation,pos,0.1204997647491075,82.01866647264772,889.3062352059889,0
+Intermittent irrigation,Biochar application,zero_like,0.01330770217945573,-1.969709690188472,-63.49474680662306,0
+Mid-season drainage,Shortened flooding period,zero_like,-0.001594364218127981,-33.7466886791606,-217.0668708634631,0
+Mid-season drainage,Controlled irrigation by crop stage,zero_like,-0.02645399224708805,-19.94493655202963,59.96613400851549,0
+Mid-season drainage,Aerobic rice cultivation,X,0.0,0.0,0.0,1
+Mid-season drainage,DSR,zero_like,-0.01810958110720122,-7.563251080787794,194.8842446679098,0
+Mid-season drainage,Dry direct seeding,zero_like,-0.007125279421228519,14.75031136934173,-140.0426520014815,0
+Mid-season drainage,Wet direct seeding,pos,0.1117824976852948,46.24944862723547,732.1933848198875,0
+Mid-season drainage,Mechanical transplanting,zero_like,0.01680616274914791,-34.54640846384697,65.1635465318786,0
+Mid-season drainage,Reduced puddling,zero_like,0.004754712046645558,-11.88299911393589,-216.9086781582682,0
+Mid-season drainage,SSNM,zero_like,0.00144259015427739,-10.58985418127605,34.9014317032056,0
+Mid-season drainage,Split nitrogen application,pos,0.1208740858209377,110.0444722830229,752.1288745053952,0
+Mid-season drainage,LCC-based nitrogen management,zero_like,-0.0204699498524373,3.585512699126323,32.99950259576477,0
+Mid-season drainage,Deep placement of urea briquettes,zero_like,0.02718375150480873,16.70222491829157,53.5306588724264,0
+Mid-season drainage,No straw burning,zero_like,0.02926605782439124,-23.77526108645702,-95.96272991246215,0
+Mid-season drainage,Off-field use of rice straw,zero_like,-0.0185315188281105,-7.796196063115359,-206.5029221334463,0
+Mid-season drainage,Rice-straw composting,zero_like,0.01270301893628809,-4.444453941975468,-220.6209441753987,0
+Mid-season drainage,Timed straw incorporation,pos,0.07937683675169832,77.83784618625488,967.6253135788762,0
+Mid-season drainage,Biochar application,zero_like,0.03993461783383573,58.27724932014659,62.16141499139946,0
+Shortened flooding period,Controlled irrigation by crop stage,zero_like,-0.01979076240063728,-42.64092561462618,40.15671935157537,0
+Shortened flooding period,Aerobic rice cultivation,zero_like,-0.01625882190620652,-8.307145203593706,-91.81451985897121,0
+Shortened flooding period,DSR,zero_like,-0.002815817728327705,21.31960461575287,23.55728511680169,0
+Shortened flooding period,Dry direct seeding,neg,-0.1047590451111607,-80.71307505651623,-1034.936588940871,0
+Shortened flooding period,Wet direct seeding,zero_like,-0.009726158181466618,-1.07565101636641,265.1894870369824,0
+Shortened flooding period,Mechanical transplanting,zero_like,0.002605490429457717,19.65479022046115,-74.89433978087281,0
+Shortened flooding period,Reduced puddling,zero_like,-0.02369887532834049,-19.30233524464744,-108.783909680363,0
+Shortened flooding period,SSNM,zero_like,0.04256939464870329,-16.42773358448772,125.7733805604517,0
+Shortened flooding period,Split nitrogen application,zero_like,-0.01805854356174053,18.63146025748488,57.74264491587947,0
+Shortened flooding period,LCC-based nitrogen management,zero_like,-0.003132757953161808,-0.8152505227086805,-98.21815431440857,0
+Shortened flooding period,Deep placement of urea briquettes,zero_like,0.008921444029641611,-9.0996696068156,-183.8408645650872,0
+Shortened flooding period,No straw burning,zero_like,-0.02555875148639239,3.45175835444239,236.8636884615652,0
+Shortened flooding period,Off-field use of rice straw,zero_like,0.003199832271468765,-2.372766522197651,42.87392094038143,0
+Shortened flooding period,Rice-straw composting,zero_like,0.0261200348341365,4.387650027277127,-61.63908462506058,0
+Shortened flooding period,Timed straw incorporation,pos,0.1642515484023956,80.71891096154033,1107.151198399198,0
+Shortened flooding period,Biochar application,zero_like,0.003664688744438123,-24.48938063441,-205.2238798868497,0
+Controlled irrigation by crop stage,Aerobic rice cultivation,zero_like,0.03301855864462499,34.47331441566594,-26.9278819923901,0
+Controlled irrigation by crop stage,DSR,pos,0.1046725071545605,106.5361073060551,578.5908635913024,0
+Controlled irrigation by crop stage,Dry direct seeding,pos,0.08421091924176693,86.0831698672261,721.0789754280821,0
+Controlled irrigation by crop stage,Wet direct seeding,zero_like,-0.0001024373344014259,-3.268857970490251,50.63618231984003,0
+Controlled irrigation by crop stage,Mechanical transplanting,zero_like,0.02814963722627434,1.811698138034911,96.59081899152868,0
+Controlled irrigation by crop stage,Reduced puddling,pos,0.03799311595875909,68.78203995174705,631.3539459414258,0
+Controlled irrigation by crop stage,SSNM,pos,0.07124747758305487,48.04619082678123,733.1753118598376,0
+Controlled irrigation by crop stage,Split nitrogen application,zero_like,0.01831805084712026,-26.52785435479128,4.594723889162617,0
+Controlled irrigation by crop stage,LCC-based nitrogen management,pos,0.1006332226666569,61.80817264095098,1000.551565060921,0
+Controlled irrigation by crop stage,Deep placement of urea briquettes,zero_like,0.01076230874007852,26.74796214885487,-23.17585188748507,0
+Controlled irrigation by crop stage,No straw burning,zero_like,-0.01391885223341406,-4.477176337609991,36.37451869068324,0
+Controlled irrigation by crop stage,Off-field use of rice straw,zero_like,0.003531467169074221,-21.68776144466733,13.57346724418113,0
+Controlled irrigation by crop stage,Rice-straw composting,zero_like,0.004564566602778103,50.34948075067841,281.5266916922505,0
+Controlled irrigation by crop stage,Timed straw incorporation,zero_like,-0.0170648670111764,-5.747667230983522,-219.5163002755505,0
+Controlled irrigation by crop stage,Biochar application,pos,0.09637171944146053,77.89012508975851,1041.170724177647,0
+Aerobic rice cultivation,DSR,zero_like,-0.01458167675487217,-13.08292880135593,-322.0933544607983,0
+Aerobic rice cultivation,Dry direct seeding,zero_like,-0.003253318410898153,-21.24828823719126,-79.41591410491107,0
+Aerobic rice cultivation,Wet direct seeding,zero_like,-0.01753721556335177,-1.88525108505114,-263.6592587034947,0
+Aerobic rice cultivation,Mechanical transplanting,zero_like,-0.02934090490781981,42.58494224056597,-193.1133871911046,0
+Aerobic rice cultivation,Reduced puddling,zero_like,-0.02193571156909279,36.73827056642628,435.760075386061,0
+Aerobic rice cultivation,SSNM,pos,0.07313733484698633,60.79377608029924,868.3111101881019,0
+Aerobic rice cultivation,Split nitrogen application,zero_like,0.03457395288811185,-19.73714156856475,-36.79167689131646,0
+Aerobic rice cultivation,LCC-based nitrogen management,zero_like,0.01554675152123488,8.695321489332372,-56.42341068451489,0
+Aerobic rice cultivation,Deep placement of urea briquettes,pos,0.1146470814193584,35.62760479075045,752.3652512050669,0
+Aerobic rice cultivation,No straw burning,zero_like,-0.005327749800179102,4.64339779252512,-83.2990828228524,0
+Aerobic rice cultivation,Off-field use of rice straw,zero_like,0.00943077045090278,20.25431635639657,23.31439915026991,0
+Aerobic rice cultivation,Rice-straw composting,zero_like,0.007035128167984069,1.063106951557347,0.01265896371212706,0
+Aerobic rice cultivation,Timed straw incorporation,zero_like,-0.01443116067085695,6.32988523346616,-14.59298976202342,0
+Aerobic rice cultivation,Biochar application,pos,0.2037267323572238,109.3338725618811,877.1693105113002,0
+DSR,Dry direct seeding,X,0.0,0.0,0.0,1
+DSR,Wet direct seeding,X,0.0,0.0,0.0,1
+DSR,Mechanical transplanting,X,0.0,0.0,0.0,1
+DSR,Reduced puddling,zero_like,-0.01526114419389535,-22.24822943966836,178.6714429633298,0
+DSR,SSNM,zero_like,0.00525498450294277,9.602868067832217,-261.6878980461289,0
+DSR,Split nitrogen application,zero_like,0.01854876963116361,9.088406764287258,-166.5646026621717,0
+DSR,LCC-based nitrogen management,zero_like,-0.00943049614899898,5.274344087130391,7.870019753436544,0
+DSR,Deep placement of urea briquettes,zero_like,-0.0058434237160711,-2.069765361319217,-37.7966067310328,0
+DSR,No straw burning,zero_like,0.003051250242049372,29.42983945986314,-384.9987661396946,0
+DSR,Off-field use of rice straw,zero_like,-0.004737005290193685,3.530248427448939,44.39909845306492,0
+DSR,Rice-straw composting,zero_like,-0.007438291626425797,-35.13443564957165,49.19932255711645,0
+DSR,Timed straw incorporation,zero_like,0.0345470042832837,-30.67722809832275,129.5742020547282,0
+DSR,Biochar application,zero_like,-0.006570504462457878,-1.226486916576946,-157.9347766055924,0
+Dry direct seeding,Wet direct seeding,X,0.0,0.0,0.0,1
+Dry direct seeding,Mechanical transplanting,zero_like,-0.006689123447117533,26.00089189397917,87.39828629815605,0
+Dry direct seeding,Reduced puddling,zero_like,0.03464623210819889,23.54823777955387,65.86300183943644,0
+Dry direct seeding,SSNM,zero_like,0.03487869052335584,8.779863174765975,124.1982265195588,0
+Dry direct seeding,Split nitrogen application,zero_like,-0.005931419070694167,1.330916317184097,-104.6135734950415,0
+Dry direct seeding,LCC-based nitrogen management,zero_like,0.01979167869189706,-23.56607246229731,117.3525513626492,0
+Dry direct seeding,Deep placement of urea briquettes,zero_like,-0.003813021150103189,23.42494186934639,112.630348309689,0
+Dry direct seeding,No straw burning,zero_like,0.03641292315293603,14.6154938227729,-235.8060383479861,0
+Dry direct seeding,Off-field use of rice straw,zero_like,-0.001339063457964017,-23.44014385189632,-77.7419763549412,0
+Dry direct seeding,Rice-straw composting,zero_like,0.03022456866553443,12.75067621795392,-104.8395642868119,0
+Dry direct seeding,Timed straw incorporation,zero_like,-0.02027434732880798,0.6556418575252159,-182.4840224071692,0
+Dry direct seeding,Biochar application,zero_like,-0.01342280554793162,6.240189431024877,173.2968054160044,0
+Wet direct seeding,Mechanical transplanting,zero_like,0.0121752294444888,-45.825790171962,45.65500935453897,0
+Wet direct seeding,Reduced puddling,zero_like,0.001440671464651558,8.277805707453862,242.4314522476811,0
+Wet direct seeding,SSNM,zero_like,-0.04126476553609486,-11.82206850382211,88.6359484190032,0
+Wet direct seeding,Split nitrogen application,zero_like,-0.03163188798907884,29.51898096107018,55.25349190509876,0
+Wet direct seeding,LCC-based nitrogen management,zero_like,0.01693167971686808,-11.41887323043589,122.0645534949316,0
+Wet direct seeding,Deep placement of urea briquettes,zero_like,0.02136943111978077,4.657560402743367,35.16013390480439,0
+Wet direct seeding,No straw burning,zero_like,0.005406864785634517,-17.26690529478763,-22.12930203605294,0
+Wet direct seeding,Off-field use of rice straw,zero_like,-0.003050450649047176,7.667877287069902,149.9736370365442,0
+Wet direct seeding,Rice-straw composting,zero_like,-0.02117072163956819,-2.500180606391553,222.218332148846,0
+Wet direct seeding,Timed straw incorporation,zero_like,-0.01487176457625128,-16.44500034580641,30.34592877467904,0
+Wet direct seeding,Biochar application,zero_like,0.0168877038097064,0.2285211112131866,199.3440885655484,0
+Mechanical transplanting,Reduced puddling,pos,0.1542717593026611,91.04550167225155,910.8233002648186,0
+Mechanical transplanting,SSNM,zero_like,0.0465530620069217,-4.103233777320884,-300.5283438099771,0
+Mechanical transplanting,Split nitrogen application,zero_like,0.03208508723034282,-9.153988619136513,16.18206665145496,0
+Mechanical transplanting,LCC-based nitrogen management,zero_like,0.02619101369721054,-32.04519082117851,-187.7470821159209,0
+Mechanical transplanting,Deep placement of urea briquettes,zero_like,-0.03202555874237707,-15.88272580050848,65.94549090254904,0
+Mechanical transplanting,No straw burning,zero_like,0.01048375685625542,5.525483586571075,-211.914882583855,0
+Mechanical transplanting,Off-field use of rice straw,zero_like,-0.04620206873265288,1.087071707807645,-70.76640504575036,0
+Mechanical transplanting,Rice-straw composting,zero_like,0.009187715434332236,14.0390725244254,20.73621480880229,0
+Mechanical transplanting,Timed straw incorporation,zero_like,0.01520266170751708,4.584227482301369,79.50970584022001,0
+Mechanical transplanting,Biochar application,zero_like,-0.01409346525739765,-3.592228276629171,29.51641449854359,0
+Reduced puddling,SSNM,zero_like,0.01641056950834838,-7.874823444491442,78.1750883598169,0
+Reduced puddling,Split nitrogen application,zero_like,-0.005316775838307581,-2.350843346562607,124.427856303611,0
+Reduced puddling,LCC-based nitrogen management,zero_like,-0.03986120742108312,-25.92944656149522,-222.3278096164231,0
+Reduced puddling,Deep placement of urea briquettes,zero_like,-0.04667232239696609,-13.56528880310353,112.4150849591611,0
+Reduced puddling,No straw burning,zero_like,-0.005697681327651495,3.955801638837042,163.3826245066189,0
+Reduced puddling,Off-field use of rice straw,zero_like,0.02655372264535383,-1.382758694522791,203.0378834354096,0
+Reduced puddling,Rice-straw composting,zero_like,0.001842533168682184,-16.74796447654924,-89.16005282981028,0
+Reduced puddling,Timed straw incorporation,zero_like,-0.02961073025130033,-17.76267707467305,-53.70250321116438,0
+Reduced puddling,Biochar application,zero_like,0.01607170038757203,34.41539662331968,-207.327227306556,0
+SSNM,Split nitrogen application,pos,0.1357130987303967,43.98640152106164,894.9394176926404,0
+SSNM,LCC-based nitrogen management,pos,0.1147565339724909,24.22735435381174,985.6593983136969,0
+SSNM,Deep placement of urea briquettes,pos,0.09579997148765075,56.65249404066114,586.049517742062,0
+SSNM,No straw burning,zero_like,-0.01308566553375111,8.557808813898344,-28.38665114046083,0
+SSNM,Off-field use of rice straw,zero_like,0.006573240045649621,7.238437078576874,198.099248329225,0
+SSNM,Rice-straw composting,pos,0.1062885539654248,33.0785545788567,1013.444483314397,0
+SSNM,Timed straw incorporation,zero_like,-0.006629763441945094,22.29184889154754,57.50656697737056,0
+SSNM,Biochar application,pos,0.1147544987918662,78.71939735115738,1190.20251202526,0
+Split nitrogen application,LCC-based nitrogen management,pos,0.2030792211621501,71.73452837831947,832.038118663415,0
+Split nitrogen application,Deep placement of urea briquettes,pos,0.1630496062986554,48.85847418081632,866.614074523651,0
+Split nitrogen application,No straw burning,zero_like,-0.0005172569590771281,6.278164229151072,-125.0053208924109,0
+Split nitrogen application,Off-field use of rice straw,zero_like,-0.03179134986617938,-41.45966871982584,-167.6076169484412,0
+Split nitrogen application,Rice-straw composting,zero_like,-0.00917350569878666,-5.863831732975236,290.5846743644275,0
+Split nitrogen application,Timed straw incorporation,zero_like,0.02211986739814596,-19.24182232683254,52.15626786764354,0
+Split nitrogen application,Biochar application,zero_like,-0.008141564727006502,-5.687276760801902,27.7988474123073,0
+LCC-based nitrogen management,Deep placement of urea briquettes,pos,0.1447668446790157,61.51853790289962,1012.770306546872,0
+LCC-based nitrogen management,No straw burning,zero_like,-0.02283876452284808,0.1267812472453688,389.6510589893749,0
+LCC-based nitrogen management,Off-field use of rice straw,zero_like,0.004461594852505502,28.66429013212345,13.72802672598123,0
+LCC-based nitrogen management,Rice-straw composting,zero_like,0.01161554190659593,-1.135663887853831,-25.56113717463067,0
+LCC-based nitrogen management,Timed straw incorporation,zero_like,-0.01558964793450839,8.606027179151065,-127.7305783778652,0
+LCC-based nitrogen management,Biochar application,zero_like,0.01331170472626858,21.7057400889182,54.97971108558449,0
+Deep placement of urea briquettes,No straw burning,zero_like,-0.005724974671113837,9.079311586173922,-46.30095833196189,0
+Deep placement of urea briquettes,Off-field use of rice straw,zero_like,0.01871094250930299,-36.62812168430247,-50.34110521779694,0
+Deep placement of urea briquettes,Rice-straw composting,zero_like,-0.03981623990247996,-29.9012166045441,204.5793344720864,0
+Deep placement of urea briquettes,Timed straw incorporation,zero_like,0.01790369963943372,-14.38960466569581,-225.3755184061345,0
+Deep placement of urea briquettes,Biochar application,pos,0.001418846486333947,56.41261230168413,1284.083002449481,0
+No straw burning,Off-field use of rice straw,zero_like,0.008697685429272947,-11.19144572098979,69.76203142504593,0
+No straw burning,Rice-straw composting,pos,0.05756166588022228,62.56691593255911,819.8954946031477,0
+No straw burning,Timed straw incorporation,pos,0.1165559739271581,89.77015304225202,868.9290452472105,0
+No straw burning,Biochar application,strong_pos,0.3134163009053998,152.4651087107696,2069.344622523165,0
+Off-field use of rice straw,Rice-straw composting,X,0.0,0.0,0.0,1
+Off-field use of rice straw,Timed straw incorporation,X,0.0,0.0,0.0,1
+Off-field use of rice straw,Biochar application,zero_like,0.03257873895247983,-19.40299039302825,-133.154348357184,0
+Rice-straw composting,Timed straw incorporation,X,0.0,0.0,0.0,1
+Rice-straw composting,Biochar application,zero_like,0.02671568672640466,-3.826879733901206,210.5732088099836,0
+Timed straw incorporation,Biochar application,zero_like,-0.008850714237843678,29.10091152541423,19.72287252081783,0
