@@ -1,0 +1,191 @@
+Practice_1,Practice_2,Category,Alpha_value,Beta_value,Gamma_value,Delta_incompatible,Reason
+Zero Tillage (ZT),Crop Residue Retention,strong_pos,0.007486464,-11.8260524,1587.612799,0,Core conservation-agriculture synergy; residue mulch preserved under undisturbed soil.
+Zero Tillage (ZT),Reduced / Minimum Tillage,zero_like,0.000613412,-2.120690422,-156.2615408,0,No explicit source interaction; treated as weak/additive.
+Zero Tillage (ZT),Puddling Reduction,pos,0.003645009,-4.394282206,646.9757916,0,Both reduce soil structural disturbance and protect SOC.
+Zero Tillage (ZT),Mid-Season Drainage (MSD),zero_like,-0.000556333,0.955867364,93.33503225,0,No explicit source interaction; treated as weak/additive.
+Zero Tillage (ZT),Alternate Wetting and Drying (AWD),zero_like,4.30635E-05,1.225262181,56.10112107,0,No explicit source interaction; treated as weak/additive.
+Zero Tillage (ZT),System of Rice Intensification (SRI) Water Management,zero_like,-0.000560408,0.40081607,-115.0659121,0,No explicit source interaction; treated as weak/additive.
+Zero Tillage (ZT),Balanced Inorganic NPK Fertilisation,zero_like,0.000572902,-0.054267295,-22.18348363,0,No explicit source interaction; treated as weak/additive.
+Zero Tillage (ZT),Optimised / Variable-Rate N Application,zero_like,-0.000444084,1.328849281,-18.54353785,0,No explicit source interaction; treated as weak/additive.
+Zero Tillage (ZT),Integrated Nutrient Management (INM) – Organic + Inorganic,strong_pos,0.006211604,-10.33072511,1533.077296,0,ZT protects aggregates while INM replenishes active C pools.
+Zero Tillage (ZT),Green Manure Incorporation,zero_like,0.000238333,0.448622404,51.69852036,0,No explicit source interaction; treated as weak/additive.
+Zero Tillage (ZT),Farmyard Manure (FYM) Application,zero_like,0.001396727,-0.441755453,-61.46912749,0,No explicit source interaction; treated as weak/additive.
+Zero Tillage (ZT),Compost Application,zero_like,-0.000530721,0.669542851,135.4766751,0,No explicit source interaction; treated as weak/additive.
+Zero Tillage (ZT),Biochar Application,zero_like,-7.43136E-05,-0.913213562,-98.93774588,0,No explicit source interaction; treated as weak/additive.
+Zero Tillage (ZT),Rice Straw Incorporation with N Fertiliser,zero_like,0.0004243,0.807884969,65.1785122,0,No explicit source interaction; treated as weak/additive.
+Zero Tillage (ZT),Crop Rotation and Diversification,zero_like,-0.000434028,0.252349264,14.0022971,0,No explicit source interaction; treated as weak/additive.
+Zero Tillage (ZT),Early-Maturing / Low-Emission Variety Selection,zero_like,0.000142623,0.947205193,26.83146585,0,No explicit source interaction; treated as weak/additive.
+Zero Tillage (ZT),High-Biomass / Deep-Root Variety Selection,zero_like,0.00044277,0.07345551,34.69432784,0,No explicit source interaction; treated as weak/additive.
+Zero Tillage (ZT),Deep Placement of N Fertiliser,zero_like,0.00041171,-1.583865022,-38.36054596,0,No explicit source interaction; treated as weak/additive.
+Zero Tillage (ZT),Raised Bed + Zero Tillage System,X,0,0,0,1,Raised Bed + ZT is an advanced bundled form of ZT; treat as overlapping.
+Crop Residue Retention,Reduced / Minimum Tillage,pos,0.002864731,-4.8852489,600.4743948,0,Reduced tillage helps preserve residue-derived SOC.
+Crop Residue Retention,Puddling Reduction,pos,0.005428184,-5.230612567,824.2901038,0,Residue retention plus less aggressive wet tillage lowers life-cycle GHG burden.
+Crop Residue Retention,Mid-Season Drainage (MSD),zero_like,-0.001097524,-0.364005467,19.53036781,0,No explicit source interaction; treated as weak/additive.
+Crop Residue Retention,Alternate Wetting and Drying (AWD),strong_pos,0.007976039,-8.019072653,1598.336809,0,AWD mitigates CH4 amplification from residue retention under full flooding.
+Crop Residue Retention,System of Rice Intensification (SRI) Water Management,zero_like,-0.000227429,-0.502556296,102.9571058,0,No explicit source interaction; treated as weak/additive.
+Crop Residue Retention,Balanced Inorganic NPK Fertilisation,zero_like,-0.000124764,-1.386615569,-135.9944657,0,No explicit source interaction; treated as weak/additive.
+Crop Residue Retention,Optimised / Variable-Rate N Application,zero_like,-0.000599643,0.540392113,17.09108833,0,No explicit source interaction; treated as weak/additive.
+Crop Residue Retention,Integrated Nutrient Management (INM) – Organic + Inorganic,zero_like,0.000450317,-0.46440505,19.02476293,0,No explicit source interaction; treated as weak/additive.
+Crop Residue Retention,Green Manure Incorporation,zero_like,0.000407994,-0.336246239,54.81302851,0,No explicit source interaction; treated as weak/additive.
+Crop Residue Retention,Farmyard Manure (FYM) Application,zero_like,-0.000431691,-0.394623746,-45.80854728,0,No explicit source interaction; treated as weak/additive.
+Crop Residue Retention,Compost Application,zero_like,-0.000779895,0.529317914,-56.32828082,0,No explicit source interaction; treated as weak/additive.
+Crop Residue Retention,Biochar Application,zero_like,8.14834E-06,0.522550716,53.58374112,0,No explicit source interaction; treated as weak/additive.
+Crop Residue Retention,Rice Straw Incorporation with N Fertiliser,zero_like,0.000433947,-0.10704944,-50.79579745,0,No explicit source interaction; treated as weak/additive.
+Crop Residue Retention,Crop Rotation and Diversification,zero_like,-5.19901E-05,-1.834059167,-173.6534967,0,No explicit source interaction; treated as weak/additive.
+Crop Residue Retention,Early-Maturing / Low-Emission Variety Selection,zero_like,-0.00086263,-1.083963943,47.97290721,0,No explicit source interaction; treated as weak/additive.
+Crop Residue Retention,High-Biomass / Deep-Root Variety Selection,zero_like,-0.00059053,-0.411046254,155.9073957,0,No explicit source interaction; treated as weak/additive.
+Crop Residue Retention,Deep Placement of N Fertiliser,zero_like,-0.000232346,0.801647357,-112.0341216,0,No explicit source interaction; treated as weak/additive.
+Crop Residue Retention,Raised Bed + Zero Tillage System,zero_like,-0.000133981,-1.032632668,-40.68396911,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,Puddling Reduction,zero_like,0.000548027,-1.877522199,52.13083723,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,Mid-Season Drainage (MSD),zero_like,0.000155045,-0.645815169,-173.5269425,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,Alternate Wetting and Drying (AWD),zero_like,4.7041E-05,-0.575535553,27.92114536,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,System of Rice Intensification (SRI) Water Management,zero_like,1.42514E-05,1.741064012,-28.7226753,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,Balanced Inorganic NPK Fertilisation,zero_like,-0.000667498,0.194864821,26.39960208,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,Optimised / Variable-Rate N Application,zero_like,0.000886427,0.907729615,42.8245271,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,Integrated Nutrient Management (INM) – Organic + Inorganic,zero_like,0.000954328,-1.292133755,-76.77018393,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,Green Manure Incorporation,zero_like,-0.000604289,-0.423706308,-165.2023377,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,Farmyard Manure (FYM) Application,zero_like,0.000414229,-0.24154641,-176.4967553,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,Compost Application,zero_like,-0.000662334,0.340775921,100.5751881,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,Biochar Application,zero_like,0.001302216,3.167241811,49.72913199,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,Rice Straw Incorporation with N Fertiliser,zero_like,-0.000645351,-2.317441609,32.12537548,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,Crop Rotation and Diversification,zero_like,-0.000530179,-0.451475283,-73.45161589,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,Early-Maturing / Low-Emission Variety Selection,zero_like,-9.18201E-05,1.158674164,18.84582809,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,High-Biomass / Deep-Root Variety Selection,zero_like,-0.000103458,-1.125710601,-200.9619534,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,Deep Placement of N Fertiliser,zero_like,-0.000317157,-0.058459294,212.1515896,0,No explicit source interaction; treated as weak/additive.
+Reduced / Minimum Tillage,Raised Bed + Zero Tillage System,zero_like,8.49616E-05,1.068195121,-59.91547182,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,Mid-Season Drainage (MSD),zero_like,-0.000772789,-1.049039959,-87.02712774,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,Alternate Wetting and Drying (AWD),zero_like,0.001388132,-0.892811608,100.6187044,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,System of Rice Intensification (SRI) Water Management,zero_like,-0.000588866,1.012579362,46.19411593,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,Balanced Inorganic NPK Fertilisation,zero_like,-0.000102155,-0.044307094,-78.57452345,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,Optimised / Variable-Rate N Application,zero_like,0.000290917,-0.494547261,-147.0726917,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,Integrated Nutrient Management (INM) – Organic + Inorganic,zero_like,-0.000833438,0.187595563,189.4909508,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,Green Manure Incorporation,zero_like,0.000104342,-0.128954702,34.29913675,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,Farmyard Manure (FYM) Application,zero_like,0.00085174,0.238459241,-49.3112677,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,Compost Application,zero_like,0.000721493,0.466039607,184.290719,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,Biochar Application,zero_like,0.000119501,-1.3309446,-164.1791039,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,Rice Straw Incorporation with N Fertiliser,zero_like,0.001076692,1.873549697,-21.54230559,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,Crop Rotation and Diversification,zero_like,-0.000249905,1.588526405,-132.8454818,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,Early-Maturing / Low-Emission Variety Selection,zero_like,-0.000583518,0.699268255,-47.35261474,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,High-Biomass / Deep-Root Variety Selection,zero_like,-3.34035E-06,-0.177655324,40.50894586,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,Deep Placement of N Fertiliser,zero_like,0.000917923,0.098461855,77.27265519,0,No explicit source interaction; treated as weak/additive.
+Puddling Reduction,Raised Bed + Zero Tillage System,zero_like,-0.001337069,-0.052954785,-101.1876324,0,No explicit source interaction; treated as weak/additive.
+Mid-Season Drainage (MSD),Alternate Wetting and Drying (AWD),zero_like,-0.000794878,-0.954513442,-40.09481288,0,No explicit source interaction; treated as weak/additive.
+Mid-Season Drainage (MSD),System of Rice Intensification (SRI) Water Management,zero_like,0.000597328,-1.441731215,3.675779111,0,No explicit source interaction; treated as weak/additive.
+Mid-Season Drainage (MSD),Balanced Inorganic NPK Fertilisation,zero_like,-0.000315763,-0.356166407,120.330939,0,No explicit source interaction; treated as weak/additive.
+Mid-Season Drainage (MSD),Optimised / Variable-Rate N Application,pos,0.004180151,-1.877872445,622.1889777,0,Named synergy for net GHG balance under drainage.
+Mid-Season Drainage (MSD),Integrated Nutrient Management (INM) – Organic + Inorganic,zero_like,-0.000453876,-0.243324801,29.09961495,0,No explicit source interaction; treated as weak/additive.
+Mid-Season Drainage (MSD),Green Manure Incorporation,zero_like,0.000115157,-1.178682687,10.8587738,0,No explicit source interaction; treated as weak/additive.
+Mid-Season Drainage (MSD),Farmyard Manure (FYM) Application,zero_like,0.000148845,2.736384823,225.2213534,0,No explicit source interaction; treated as weak/additive.
+Mid-Season Drainage (MSD),Compost Application,zero_like,-0.000556463,-0.312373219,-175.6130402,0,No explicit source interaction; treated as weak/additive.
+Mid-Season Drainage (MSD),Biochar Application,strong_pos,0.005929205,-8.879119557,1701.463405,0,Biochar compensates SOC loss from drainage; MSD suppresses CH4.
+Mid-Season Drainage (MSD),Rice Straw Incorporation with N Fertiliser,zero_like,-0.000475489,-0.711028739,-257.6746836,0,No explicit source interaction; treated as weak/additive.
+Mid-Season Drainage (MSD),Crop Rotation and Diversification,zero_like,-0.000106086,-1.154798274,-63.53273128,0,No explicit source interaction; treated as weak/additive.
+Mid-Season Drainage (MSD),Early-Maturing / Low-Emission Variety Selection,zero_like,-0.000571866,-0.102459298,-210.927407,0,No explicit source interaction; treated as weak/additive.
+Mid-Season Drainage (MSD),High-Biomass / Deep-Root Variety Selection,neg,-0.00431917,8.92042976,-831.7360646,0,Inventory notes antagonism with drainage-type regime.
+Mid-Season Drainage (MSD),Deep Placement of N Fertiliser,zero_like,-0.000715295,1.996645139,348.6080603,0,No explicit source interaction; treated as weak/additive.
+Mid-Season Drainage (MSD),Raised Bed + Zero Tillage System,zero_like,-0.000764065,-0.400270605,40.98666611,0,No explicit source interaction; treated as weak/additive.
+Alternate Wetting and Drying (AWD),System of Rice Intensification (SRI) Water Management,pos,0.005733084,-5.414782511,605.8499877,0,Inventory notes synergy between SRI and AWD-type water control.
+Alternate Wetting and Drying (AWD),Balanced Inorganic NPK Fertilisation,zero_like,0.000506959,0.47257182,-45.13872855,0,No explicit source interaction; treated as weak/additive.
+Alternate Wetting and Drying (AWD),Optimised / Variable-Rate N Application,zero_like,-8.72758E-05,-1.494451966,-28.58084928,0,No explicit source interaction; treated as weak/additive.
+Alternate Wetting and Drying (AWD),Integrated Nutrient Management (INM) – Organic + Inorganic,zero_like,-0.000173731,0.252358576,-66.63926626,0,No explicit source interaction; treated as weak/additive.
+Alternate Wetting and Drying (AWD),Green Manure Incorporation,zero_like,0.000307525,1.100778063,18.65151932,0,No explicit source interaction; treated as weak/additive.
+Alternate Wetting and Drying (AWD),Farmyard Manure (FYM) Application,zero_like,0.000229406,0.057777552,0.010127171,0,No explicit source interaction; treated as weak/additive.
+Alternate Wetting and Drying (AWD),Compost Application,zero_like,-0.000470581,0.344015502,-11.67439181,0,No explicit source interaction; treated as weak/additive.
+Alternate Wetting and Drying (AWD),Biochar Application,neg,-0.001223332,7.9536607,-530.5476205,0,Biochar + AWD may increase priming of native SOM.
+Alternate Wetting and Drying (AWD),Rice Straw Incorporation with N Fertiliser,zero_like,-0.000497646,-1.209142904,142.9371544,0,No explicit source interaction; treated as weak/additive.
+Alternate Wetting and Drying (AWD),Crop Rotation and Diversification,zero_like,0.000171358,0.521895004,-209.3503184,0,No explicit source interaction; treated as weak/additive.
+Alternate Wetting and Drying (AWD),Early-Maturing / Low-Emission Variety Selection,strong_pos,0.008569458,-8.577347091,1122.392329,0,Shorter submergence period strengthens AWD's CH4-reduction benefit.
+Alternate Wetting and Drying (AWD),High-Biomass / Deep-Root Variety Selection,pos,0.002863229,-3.511734689,659.4440237,0,Inventory notes positive interaction with AWD-type water management.
+Alternate Wetting and Drying (AWD),Deep Placement of N Fertiliser,zero_like,-0.000190546,-0.112487248,-30.23728538,0,No explicit source interaction; treated as weak/additive.
+Alternate Wetting and Drying (AWD),Raised Bed + Zero Tillage System,zero_like,9.94973E-05,1.599447797,-307.9990129,0,No explicit source interaction; treated as weak/additive.
+System of Rice Intensification (SRI) Water Management,Balanced Inorganic NPK Fertilisation,zero_like,-0.000154468,0.191861328,35.51927876,0,No explicit source interaction; treated as weak/additive.
+System of Rice Intensification (SRI) Water Management,Optimised / Variable-Rate N Application,zero_like,-0.000242553,-1.909480198,39.35945805,0,No explicit source interaction; treated as weak/additive.
+System of Rice Intensification (SRI) Water Management,Integrated Nutrient Management (INM) – Organic + Inorganic,zero_like,0.001126533,-1.667240658,103.6593616,0,No explicit source interaction; treated as weak/additive.
+System of Rice Intensification (SRI) Water Management,Green Manure Incorporation,pos,0.00304975,-4.006363135,460.4782681,0,SRI is synergistic with organic amendments.
+System of Rice Intensification (SRI) Water Management,Farmyard Manure (FYM) Application,pos,0.003042014,-1.934714747,754.8779436,0,SRI is synergistic with organic amendments.
+System of Rice Intensification (SRI) Water Management,Compost Application,pos,0.005737798,-2.121329734,729.0356022,0,SRI is synergistic with organic amendments.
+System of Rice Intensification (SRI) Water Management,Biochar Application,zero_like,0.001137349,0.477166477,99.35858122,0,No explicit source interaction; treated as weak/additive.
+System of Rice Intensification (SRI) Water Management,Rice Straw Incorporation with N Fertiliser,zero_like,-0.000193416,0.072332409,-83.6908588,0,No explicit source interaction; treated as weak/additive.
+System of Rice Intensification (SRI) Water Management,Crop Rotation and Diversification,zero_like,0.000645381,-1.280764808,93.88204109,0,No explicit source interaction; treated as weak/additive.
+System of Rice Intensification (SRI) Water Management,Early-Maturing / Low-Emission Variety Selection,pos,0.003229586,-2.130710945,785.156418,0,SRI is synergistic with improved varieties.
+System of Rice Intensification (SRI) Water Management,High-Biomass / Deep-Root Variety Selection,zero_like,0.001187378,0.794320316,-188.6448307,0,No explicit source interaction; treated as weak/additive.
+System of Rice Intensification (SRI) Water Management,Deep Placement of N Fertiliser,zero_like,-4.36651E-05,-1.273920862,-62.19358108,0,No explicit source interaction; treated as weak/additive.
+System of Rice Intensification (SRI) Water Management,Raised Bed + Zero Tillage System,zero_like,0.000985584,0.692971534,-83.87165143,0,No explicit source interaction; treated as weak/additive.
+Balanced Inorganic NPK Fertilisation,Optimised / Variable-Rate N Application,zero_like,-0.00066112,0.03563271,-145.9872179,0,No explicit source interaction; treated as weak/additive.
+Balanced Inorganic NPK Fertilisation,Integrated Nutrient Management (INM) – Organic + Inorganic,X,0,0,0,1,INM already includes the inorganic component; overlapping to avoid double counting.
+Balanced Inorganic NPK Fertilisation,Green Manure Incorporation,zero_like,-0.0004377,0.33914073,138.6374443,0,No explicit source interaction; treated as weak/additive.
+Balanced Inorganic NPK Fertilisation,Farmyard Manure (FYM) Application,strong_pos,0.008015237,-14.54628154,1476.091682,0,NPK + FYM improves labile C and nutrient use relative to NPK alone.
+Balanced Inorganic NPK Fertilisation,Compost Application,zero_like,4.69784E-05,0.449880745,193.9451618,0,No explicit source interaction; treated as weak/additive.
+Balanced Inorganic NPK Fertilisation,Biochar Application,zero_like,-0.00134559,-0.642503723,70.90875874,0,No explicit source interaction; treated as weak/additive.
+Balanced Inorganic NPK Fertilisation,Rice Straw Incorporation with N Fertiliser,zero_like,-0.001031475,1.604292444,44.20279352,0,No explicit source interaction; treated as weak/additive.
+Balanced Inorganic NPK Fertilisation,Crop Rotation and Diversification,zero_like,0.00055212,-0.620590936,97.6516428,0,No explicit source interaction; treated as weak/additive.
+Balanced Inorganic NPK Fertilisation,Early-Maturing / Low-Emission Variety Selection,zero_like,0.000696829,0.253128283,28.12810712,0,No explicit source interaction; treated as weak/additive.
+Balanced Inorganic NPK Fertilisation,High-Biomass / Deep-Root Variety Selection,zero_like,0.000176311,-0.938418766,-17.70344163,0,No explicit source interaction; treated as weak/additive.
+Balanced Inorganic NPK Fertilisation,Deep Placement of N Fertiliser,pos,0.003279318,-3.329618033,829.9683644,0,Improved N placement works well with balanced nutrient management.
+Balanced Inorganic NPK Fertilisation,Raised Bed + Zero Tillage System,zero_like,-0.00069035,-0.135879381,177.7746657,0,No explicit source interaction; treated as weak/additive.
+Optimised / Variable-Rate N Application,Integrated Nutrient Management (INM) – Organic + Inorganic,zero_like,-0.000484949,-0.893750019,24.27674302,0,No explicit source interaction; treated as weak/additive.
+Optimised / Variable-Rate N Application,Green Manure Incorporation,zero_like,0.000550686,0.012419626,159.4752709,0,No explicit source interaction; treated as weak/additive.
+Optimised / Variable-Rate N Application,Farmyard Manure (FYM) Application,zero_like,0.000558779,0.915021812,66.49398016,0,No explicit source interaction; treated as weak/additive.
+Optimised / Variable-Rate N Application,Compost Application,zero_like,0.001518035,-0.223001836,-240.422675,0,No explicit source interaction; treated as weak/additive.
+Optimised / Variable-Rate N Application,Biochar Application,zero_like,0.001046253,-0.497499381,12.94565332,0,No explicit source interaction; treated as weak/additive.
+Optimised / Variable-Rate N Application,Rice Straw Incorporation with N Fertiliser,pos,0.00518637,-6.351264519,424.7035015,0,Better N timing/rates improves residue decomposition management.
+Optimised / Variable-Rate N Application,Crop Rotation and Diversification,zero_like,-0.001044312,-0.86319162,52.75639272,0,No explicit source interaction; treated as weak/additive.
+Optimised / Variable-Rate N Application,Early-Maturing / Low-Emission Variety Selection,zero_like,0.000341862,0.300298021,-169.5319061,0,No explicit source interaction; treated as weak/additive.
+Optimised / Variable-Rate N Application,High-Biomass / Deep-Root Variety Selection,zero_like,-0.001506589,0.059079984,-56.61312404,0,No explicit source interaction; treated as weak/additive.
+Optimised / Variable-Rate N Application,Deep Placement of N Fertiliser,pos,0.00407746,-2.844853177,674.8834578,0,Both improve N-use efficiency and reduce redundant losses.
+Optimised / Variable-Rate N Application,Raised Bed + Zero Tillage System,zero_like,0.000495739,0.249142798,63.60776467,0,No explicit source interaction; treated as weak/additive.
+Integrated Nutrient Management (INM) – Organic + Inorganic,Green Manure Incorporation,zero_like,-0.00045957,-0.195229798,23.6131316,0,No explicit source interaction; treated as weak/additive.
+Integrated Nutrient Management (INM) – Organic + Inorganic,Farmyard Manure (FYM) Application,zero_like,0.000535127,-0.427979535,62.54007069,0,No explicit source interaction; treated as weak/additive.
+Integrated Nutrient Management (INM) – Organic + Inorganic,Compost Application,zero_like,-0.000173373,-0.127763225,99.54228504,0,No explicit source interaction; treated as weak/additive.
+Integrated Nutrient Management (INM) – Organic + Inorganic,Biochar Application,zero_like,-0.001299822,-1.409209052,-177.8622477,0,No explicit source interaction; treated as weak/additive.
+Integrated Nutrient Management (INM) – Organic + Inorganic,Rice Straw Incorporation with N Fertiliser,zero_like,-0.001521924,-0.737243957,89.93206797,0,No explicit source interaction; treated as weak/additive.
+Integrated Nutrient Management (INM) – Organic + Inorganic,Crop Rotation and Diversification,zero_like,-0.000185794,0.21498922,130.7060996,0,No explicit source interaction; treated as weak/additive.
+Integrated Nutrient Management (INM) – Organic + Inorganic,Early-Maturing / Low-Emission Variety Selection,zero_like,0.000865882,-0.075149929,162.4303067,0,No explicit source interaction; treated as weak/additive.
+Integrated Nutrient Management (INM) – Organic + Inorganic,High-Biomass / Deep-Root Variety Selection,zero_like,6.00826E-05,-0.910215461,-71.32804226,0,No explicit source interaction; treated as weak/additive.
+Integrated Nutrient Management (INM) – Organic + Inorganic,Deep Placement of N Fertiliser,zero_like,-0.000965567,-0.965362884,-42.96200257,0,No explicit source interaction; treated as weak/additive.
+Integrated Nutrient Management (INM) – Organic + Inorganic,Raised Bed + Zero Tillage System,zero_like,0.000524077,1.87040199,-165.8617818,0,No explicit source interaction; treated as weak/additive.
+Green Manure Incorporation,Farmyard Manure (FYM) Application,zero_like,0.000256192,-1.131026021,56.96365062,0,No explicit source interaction; treated as weak/additive.
+Green Manure Incorporation,Compost Application,zero_like,-8.54913E-05,-1.990115028,111.395639,0,No explicit source interaction; treated as weak/additive.
+Green Manure Incorporation,Biochar Application,zero_like,-0.000394566,-0.580326346,-128.3702894,0,No explicit source interaction; treated as weak/additive.
+Green Manure Incorporation,Rice Straw Incorporation with N Fertiliser,zero_like,-0.000426706,0.465098305,-22.70932091,0,No explicit source interaction; treated as weak/additive.
+Green Manure Incorporation,Crop Rotation and Diversification,pos,0.00390695,-3.362292831,887.719098,0,Green manure fits naturally into diversified rotations.
+Green Manure Incorporation,Early-Maturing / Low-Emission Variety Selection,zero_like,-0.000223556,-1.605280236,128.06669,0,No explicit source interaction; treated as weak/additive.
+Green Manure Incorporation,High-Biomass / Deep-Root Variety Selection,zero_like,-0.000216188,1.211513527,46.00525358,0,No explicit source interaction; treated as weak/additive.
+Green Manure Incorporation,Deep Placement of N Fertiliser,zero_like,-8.55245E-05,0.379104233,234.1215072,0,No explicit source interaction; treated as weak/additive.
+Green Manure Incorporation,Raised Bed + Zero Tillage System,zero_like,0.001354553,0.075414277,19.2228712,0,No explicit source interaction; treated as weak/additive.
+Farmyard Manure (FYM) Application,Compost Application,zero_like,0.000701896,-0.919196775,39.96844471,0,No explicit source interaction; treated as weak/additive.
+Farmyard Manure (FYM) Application,Biochar Application,zero_like,-1.68671E-05,0.341204578,-100.0042567,0,No explicit source interaction; treated as weak/additive.
+Farmyard Manure (FYM) Application,Rice Straw Incorporation with N Fertiliser,zero_like,-0.001036674,-2.253242865,-134.0860936,0,No explicit source interaction; treated as weak/additive.
+Farmyard Manure (FYM) Application,Crop Rotation and Diversification,pos,0.002879989,-4.359204588,998.7016092,0,Diversification and organic matter addition are complementary.
+Farmyard Manure (FYM) Application,Early-Maturing / Low-Emission Variety Selection,zero_like,0.0007213,-1.045751213,41.72501429,0,No explicit source interaction; treated as weak/additive.
+Farmyard Manure (FYM) Application,High-Biomass / Deep-Root Variety Selection,zero_like,-0.000265486,-0.309091128,22.23907793,0,No explicit source interaction; treated as weak/additive.
+Farmyard Manure (FYM) Application,Deep Placement of N Fertiliser,zero_like,0.000403807,-0.368759222,127.6621839,0,No explicit source interaction; treated as weak/additive.
+Farmyard Manure (FYM) Application,Raised Bed + Zero Tillage System,zero_like,-0.000744742,0.006890285,311.7208472,0,No explicit source interaction; treated as weak/additive.
+Compost Application,Biochar Application,zero_like,0.000145487,1.557841855,10.98242138,0,No explicit source interaction; treated as weak/additive.
+Compost Application,Rice Straw Incorporation with N Fertiliser,zero_like,0.000378768,-0.061720863,-20.44890974,0,No explicit source interaction; treated as weak/additive.
+Compost Application,Crop Rotation and Diversification,pos,0.002461545,-3.258237062,496.7233059,0,Diversified systems and organic amendments reinforce soil-carbon building.
+Compost Application,Early-Maturing / Low-Emission Variety Selection,zero_like,0.000434077,1.179659787,43.98376887,0,No explicit source interaction; treated as weak/additive.
+Compost Application,High-Biomass / Deep-Root Variety Selection,zero_like,-0.000186684,0.493440847,-37.04076667,0,No explicit source interaction; treated as weak/additive.
+Compost Application,Deep Placement of N Fertiliser,zero_like,0.000610139,-1.990658787,-40.27288417,0,No explicit source interaction; treated as weak/additive.
+Compost Application,Raised Bed + Zero Tillage System,zero_like,-0.001298356,-1.62506612,163.6634676,0,No explicit source interaction; treated as weak/additive.
+Biochar Application,Rice Straw Incorporation with N Fertiliser,zero_like,0.000583816,-0.782043732,-180.3004147,0,No explicit source interaction; treated as weak/additive.
+Biochar Application,Crop Rotation and Diversification,zero_like,-0.001933388,-0.590755987,290.4498015,0,No explicit source interaction; treated as weak/additive.
+Biochar Application,Early-Maturing / Low-Emission Variety Selection,zero_like,0.00028362,-0.608230746,55.80962514,0,No explicit source interaction; treated as weak/additive.
+Biochar Application,High-Biomass / Deep-Root Variety Selection,zero_like,-0.001018016,-0.323177568,11.93729676,0,No explicit source interaction; treated as weak/additive.
+Biochar Application,Deep Placement of N Fertiliser,pos,0.003365956,-2.709642858,712.0361407,0,Biochar and improved N placement jointly improve nutrient retention.
+Biochar Application,Raised Bed + Zero Tillage System,zero_like,0.000435865,-0.748230742,107.737849,0,No explicit source interaction; treated as weak/additive.
+Rice Straw Incorporation with N Fertiliser,Crop Rotation and Diversification,zero_like,0.00106235,-1.054510347,-106.5234787,0,No explicit source interaction; treated as weak/additive.
+Rice Straw Incorporation with N Fertiliser,Early-Maturing / Low-Emission Variety Selection,zero_like,0.000871164,-0.207982594,168.458567,0,No explicit source interaction; treated as weak/additive.
+Rice Straw Incorporation with N Fertiliser,High-Biomass / Deep-Root Variety Selection,zero_like,-0.00028861,1.581571279,15.77829802,0,No explicit source interaction; treated as weak/additive.
+Rice Straw Incorporation with N Fertiliser,Deep Placement of N Fertiliser,pos,0.003815081,-1.531950837,584.8813141,0,Improved N placement supports residue incorporation efficiency.
+Rice Straw Incorporation with N Fertiliser,Raised Bed + Zero Tillage System,zero_like,-0.000613775,-0.487569791,54.28007408,0,No explicit source interaction; treated as weak/additive.
+Crop Rotation and Diversification,Early-Maturing / Low-Emission Variety Selection,zero_like,-0.001021147,0.692903155,-64.65255811,0,No explicit source interaction; treated as weak/additive.
+Crop Rotation and Diversification,High-Biomass / Deep-Root Variety Selection,zero_like,0.000748573,-2.602456853,-94.38789301,0,No explicit source interaction; treated as weak/additive.
+Crop Rotation and Diversification,Deep Placement of N Fertiliser,zero_like,-0.001099871,-0.898075507,29.71990813,0,No explicit source interaction; treated as weak/additive.
+Crop Rotation and Diversification,Raised Bed + Zero Tillage System,zero_like,-0.000116887,-0.275410401,-19.10218457,0,No explicit source interaction; treated as weak/additive.
+Early-Maturing / Low-Emission Variety Selection,High-Biomass / Deep-Root Variety Selection,zero_like,0.000132645,-1.096234828,84.82195691,0,No explicit source interaction; treated as weak/additive.
+Early-Maturing / Low-Emission Variety Selection,Deep Placement of N Fertiliser,zero_like,0.000432173,0.418519497,66.78401313,0,No explicit source interaction; treated as weak/additive.
+Early-Maturing / Low-Emission Variety Selection,Raised Bed + Zero Tillage System,zero_like,0.000193316,2.212036199,-10.45130053,0,No explicit source interaction; treated as weak/additive.
+High-Biomass / Deep-Root Variety Selection,Deep Placement of N Fertiliser,zero_like,-0.000200272,-0.819051718,-123.8715205,0,No explicit source interaction; treated as weak/additive.
+High-Biomass / Deep-Root Variety Selection,Raised Bed + Zero Tillage System,zero_like,-0.000811612,-0.966084036,-8.481645798,0,No explicit source interaction; treated as weak/additive.
+Deep Placement of N Fertiliser,Raised Bed + Zero Tillage System,zero_like,0.000218019,0.055589194,-91.86423329,0,No explicit source interaction; treated as weak/additive.
