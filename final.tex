@@ -1,0 +1,797 @@
+%%
+%% This is file `sample-sigconf.tex',
+%% generated with the docstrip utility.
+%%
+%% The original source files were:
+%%
+%% samples.dtx  (with options: `all,proceedings,bibtex,sigconf')
+%% 
+%% IMPORTANT NOTICE:
+%% 
+%% For the copyright see the source file.
+%% 
+%% Any modified versions of this file must be renamed
+%% with new filenames distinct from sample-sigconf.tex.
+%% 
+%% For distribution of the original source see the terms
+%% for copying and modification in the file samples.dtx.
+%% 
+%% This generated file may be distributed as long as the
+%% original source files, as listed above, are part of the
+%% same distribution. (The sources need not necessarily be
+%% in the same archive or directory.)
+%%
+%%
+%% Commands for TeXCount
+%TC:macro \cite [option:text,text]
+%TC:macro \citep [option:text,text]
+%TC:macro \citet [option:text,text]
+%TC:envir table 0 1
+%TC:envir table* 0 1
+%TC:envir tabular [ignore] word
+%TC:envir displaymath 0 word
+%TC:envir math 0 word
+%TC:envir comment 0 0
+%%
+%% The first command in your LaTeX source must be the \documentclass
+%% command.
+%%
+%% For submission and review of your manuscript please change the
+%% command to \documentclass[manuscript, screen, review]{acmart}.
+%%
+%% When submitting camera ready or to TAPS, please change the command
+%% to \documentclass[sigconf]{acmart} or whichever template is required
+%% for your publication.
+%%
+%%
+%\documentclass[sigconf]{acmart}
+\documentclass[manuscript, screen, review, anonymous]{acmart}
+%%
+%% \BibTeX command to typeset BibTeX logo in the docs
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    Bib\TeX}}}
+
+%% Rights management information.  This information is sent to you
+%% when you complete the rights form.  These commands have SAMPLE
+%% values in them; it is your responsibility as an author to replace
+%% the commands and values with those provided to you when you
+%% complete the rights form.
+\setcopyright{acmlicensed}
+\copyrightyear{2026}
+\acmYear{2026}
+\acmDOI{XXXXXXX.XXXXXXX}
+%% These commands are for a PROCEEDINGS abstract or paper.
+\acmConference[Conference acronym 'XX]{Make sure to enter the correct
+  conference title from your rights confirmation email}{June 03--05,
+  2018}{Woodstock, NY}
+%%
+%%  Uncomment \acmBooktitle if the title of the proceedings is different
+%%  from ``Proceedings of ...''!
+%%
+%%\acmBooktitle{Woodstock '18: ACM Symposium on Neural Gaze Detection,
+%%  June 03--05, 2018, Woodstock, NY}
+\acmISBN{978-1-4503-XXXX-X/2018/06}
+
+
+%%
+%% Submission ID.
+%% Use this when submitting an article to a sponsored event. You'll
+%% receive a unique submission ID from the organizers
+%% of the event, and this ID should be used as the parameter to this command.
+%%\acmSubmissionID{123-A56-BU3}
+
+%%
+%% For managing citations, it is recommended to use bibliography
+%% files in BibTeX format.
+%%
+%% You can then either use BibTeX with the ACM-Reference-Format style,
+%% or BibLaTeX with the acmnumeric or acmauthoryear sytles, that include
+%% support for advanced citation of software artefact from the
+%% biblatex-software package, also separately available on CTAN.
+%%
+%% Look at the sample-*-biblatex.tex files for templates showcasing
+%% the biblatex styles.
+%%
+
+%%
+%% The majority of ACM publications use numbered citations and
+%% references.  The command \citestyle{authoryear} switches to the
+%% "author year" style.
+%%
+%% If you are preparing content for an event
+%% sponsored by ACM SIGGRAPH, you must use the "author year" style of
+%% citations and references.
+%% Uncommenting
+%% the next command will enable that style.
+%%\citestyle{acmauthoryear}
+
+
+%%
+%% end of the preamble, start of the body of the document source.
+\begin{document}
+
+%%
+%% The "title" command has an optional parameter,
+%% allowing the author to define a "short title" to be used in page headers.
+\title{Cooperative Carbon Markets for Smallholder Farmers: Coalition Formation, Portfolio Optimisation, and Stable Cost Allocation}
+
+%%
+%% The "author" command and its associated commands are used to define
+%% the authors and their affiliations.
+%% Of note is the shared affiliation of the first two authors, and the
+%% "authornote" and "authornotemark" commands
+%% used to denote shared contribution to the research.
+
+\author{Thandava Sunkara}
+\affiliation{%
+  \institution{Indian Institute of Science}
+  \city{Bengaluru}
+  \country{India}}
+\email{thandavas@iisc.ac.in}
+
+\author{Geetha Charan}
+\affiliation{%
+  \institution{Indian Institute of Science}
+  \city{Bengaluru}
+  \country{India}}
+\email{geethacharan@iisc.ac.in}
+
+\author{Rohit Suresh}
+\affiliation{%
+  \institution{Indian Institute of Science}
+  \city{Bengaluru}
+  \country{India}}
+\email{rohitpsuresh@iisc.ac.in}
+
+\author{Priyanka V}
+\affiliation{%
+  \institution{Indian Institute of Science}
+  \city{Bengaluru}
+  \country{India}}
+\email{priyankav@iisc.ac.in}
+
+\author{Manojkumar Patil}
+\affiliation{%
+  \institution{Indian Institute of Science}
+  \city{Bengaluru}
+  \country{India}}
+\email{pmanojkumar@iisc.ac.in}
+
+\author{Kodur Sai Vinay Sathvik}
+\affiliation{%
+  \institution{BNM Institute of Technology}
+  \city{Bengaluru}
+  \country{India}}
+\email{sathvik2004@gmail.com}
+
+\author{Y Narahari}
+\affiliation{%
+  \institution{Indian Institute of Science}
+  \city{Bengaluru}
+  \country{India}}
+\email{narahari@iisc.ac.in}
+
+%%
+%% By default, the full list of authors will be used in the page
+%% headers. Often, this list is too long, and will overlap
+%% other information printed in the page headers. This command allows
+%% the author to define a more concise list
+%% of authors' names for this purpose.
+\renewcommand{\shortauthors}{Thandava, Geetha, Rohit, Priyanka, Manojkumar, Sathvik and Narahari}
+
+%%
+%% The abstract is a short summary of the work to be presented in the
+%% article.
+\begin{abstract}
+
+\end{abstract}
+
+%%
+%% The code below is generated by the tool at http://dl.acm.org/ccs.cfm.
+%% Please copy and paste the code instead of the example below.
+%%
+\begin{CCSXML}
+<ccs2012>
+   <concept>
+       <concept_id>10003752.10010070.10010099.10010102</concept_id>
+       <concept_desc>Theory of computation~Solution concepts in game theory</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10002950.10003714.10003716</concept_id>
+       <concept_desc>Mathematics of computing~Mathematical optimization</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10003752.10010070.10010099.10010100</concept_id>
+       <concept_desc>Theory of computation~Algorithmic game theory</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+   <concept>
+       <concept_id>10010405.10010476.10010480</concept_id>
+       <concept_desc>Applied computing~Agriculture</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+ </ccs2012>
+\end{CCSXML}
+\ccsdesc[500]{Theory of computation~Algorithmic game theory}
+\ccsdesc[500]{Theory of computation~Solution concepts in game theory}
+\ccsdesc[500]{Mathematics of computing~Mathematical optimization}
+\ccsdesc[500]{Applied computing~Agriculture}
+
+%%
+%% Keywords. The author(s) should pick words that accurately describe
+%% the work being presented. Separate the keywords with commas.
+\keywords{}
+%% A "teaser" image appears between the author and affiliation
+%% information and the body of the document, and typically spans the
+%% page.
+% \begin{teaserfigure}
+%   \includegraphics[width=\textwidth]{sampleteaser}
+%   \caption{Seattle Mariners at Spring Training, 2010.}
+%   \Description{Enjoying the baseball game from the third-base
+%   seats. Ichiro Suzuki preparing to bat.}
+%   \label{fig:teaser}
+% \end{teaserfigure}
+
+\received{20 February 2007}
+\received[revised]{12 March 2009}
+\received[accepted]{5 June 2009}
+
+%%
+%% This command processes the author and affiliation and title
+%% information and builds the first part of the formatted document.
+\maketitle
+
+\section{Introduction}
+
+Agriculture forms the economic backbone of many developing countries, with the majority of farmers being small and marginal. In India, over 600 million people are dependent on farming for their livelihoods; the sector contributes approximately 17--18\% of the country's gross domestic product and employs nearly half its workforce \cite{MOSPI2024}. At the heart of this vast agrarian landscape lies a defining structural characteristic: the overwhelming dominance of small and marginal farmers. According to the Agricultural Census, more than 89.4\% of farm holdings in India are smaller than two hectares, classifying their operators as small or marginal farmers \cite{MoAFW2023SmallFarmers}. These households cultivate fragmented plots, operate with limited capital, and remain acutely vulnerable to income shocks from erratic monsoons, volatile commodity prices, and rising input costs.
+
+Against this backdrop, carbon farming has emerged as a promising avenue for supplementary income and climate co-benefits. Carbon farming refers to a suite of land management activities---including conservation tillage, cover cropping, agro-forestry, improved irrigation, and biochar application---that enhance the capacity of agricultural soils to sequester atmospheric carbon dioxide. The scientific basis is well established: healthy, organically enriched soils act as a significant carbon sink, with global estimates suggesting that improved agricultural soil management could sequester several billion tonnes of \text{CO}$_2$ annually. Beyond their climate mitigation potential, these practices yield co-benefits of direct relevance to Indian farmers: improved soil organic matter, enhanced water retention, greater resilience to drought, and, in many cases, increased crop yields over the medium to long term. Crucially for our model, each practice also carries an operational cost and a yield impact---a per-acre revenue loss or gain induced by adopting it---and pairs of practices may interact, amplifying sequestration, generating cost synergies, or compounding yield effects in ways that neither practice produces in isolation.
+
+The translation of carbon sequestration into economic value occurs through voluntary carbon markets. Under such frameworks, verified reductions or removals of greenhouse gas emissions can be certified and sold as carbon credits to emitters seeking to offset their footprint. For farmers, participation opens an entirely new revenue stream: income derived not from what they grow, but from how they grow it. Nevertheless, realising this potential is far from straightforward. Carbon credit programmes impose substantial fixed costs---measurement, reporting, and verification (MRV) expenses, third-party auditing fees, and registry transaction charges---that are largely insensitive to farm size. For a smallholder cultivating one or two hectares, these costs can easily eclipse the value of credits generated, rendering solo participation economically non-viable. This is not merely a financing problem: even a farmer with sufficient capital may find that the MRV and transaction costs alone consume the entirety of their carbon revenue, leaving no net benefit from participation.
+
+This economic reality points directly to the importance of coalition formation as an enabling institution. By pooling their land and coordinating their carbon sequestration activities, groups of small farmers can collectively generate a credit volume that justifies shared certification costs, access markets that require minimum lot sizes, and present a credible counterparty to buyers and registries. Cooperative structures are not a new idea in Indian agriculture; dairy federations, sugarcane cooperatives, and farmer producer organisations have demonstrated that collective action can substantially improve smallholder bargaining power and market access. Extending this cooperative logic to carbon farming, however, introduces a set of analytical challenges that existing work has not fully addressed.
+
+Chief among these is the interaction between \emph{practice heterogeneity} and \emph{coalition stability}. Small and marginal farmers, even within the same village or watershed, differ substantially in farm size, soil composition, geographic conditions, and financial capacity. These differences imply that the realised carbon sequestration potential of any given practice varies across farmers, and that the practice portfolio maximising net profit for one farmer may be infeasible or unprofitable for a neighbour. Within a coalition, farmers therefore rationally select \emph{different} practice portfolios, and even when two farmers adopt the same practice, their sequestration contributions generally differ. This heterogeneity is not merely a modelling complication: it directly governs the carbon revenue a coalition can generate and the structure of the shared MRV costs that scale with total coalition acreage. At the same time, it is insufficient to ask merely whether a coalition is collectively beneficial; a viable and stable coalition must distribute its monetary gains such that every member strictly prefers participation over independent action. This is a question of fair and individually rational payoff allocation, and it is precisely the question for which cooperative game theory provides the appropriate apparatus.
+
+In this work, we address these challenges through the lens of cooperative game theory. We model each farmer's problem as a constrained optimisation over carbon sequestration practice portfolios, accounting for carbon credit revenue, operational costs with economies of scale, yield impacts, pairwise practice interactions in both sequestration and cost, and a personal budget constraint. The resulting individually optimal portfolios anchor each farmer's \emph{standalone value}---the net profit achievable without coalition membership---which serves as the individual rationality floor throughout the analysis. Coalition formation is then modelled as a cooperative game in characteristic function form: the value of any coalition is the maximum net surplus achievable through joint portfolio optimisation over all members, subject to individual feasibility constraints and three alternative rules for allocating shared certification costs among members. These cost-sharing rules---pooled residual, area-weighted, and sequestration-weighted---carry distinct implications for coalition stability and are analysed comparatively.
+
+Revenue allocation is separated into two phases. Phase~1 solves the nonlinear joint optimisation problem for the grand coalition and every sub-coalition, yielding a table of coalition values that parameterises the allocation stage. Phase~2 solves a linear programme over the allocation vector, imposing efficiency, individual rationality, and sub-coalition rationality (core constraints). When the core is empty, we compute the \emph{least core}---the allocation that minimises the maximum incentive to defect---and, where uniqueness is required, the \emph{nucleolus}, which lexicographically minimises sub-coalition dissatisfaction. These cooperative-theoretic solutions are benchmarked against the \emph{Shapley value}, which rewards each farmer according to their expected marginal contribution, and two na\"{i}ve baselines: equal split and proportional split by sequestration contribution.
+
+Our specific contributions are as follows:
+
+\begin{enumerate}
+    \item \textbf{Individual Practice Portfolio Optimisation.} We formulate the single-farmer problem as a constrained optimisation that jointly accounts for carbon credit revenue, per-acre yield impacts, fixed and variable operational costs with scale economies, and pairwise synergistic interactions in both sequestration and cost. The solution yields each farmer's optimal practice portfolio and standalone value, which serve as the foundation for the coalition model.
+
+    \item \textbf{Coalition Formation with Heterogeneous Practice Portfolios.} We define a characteristic function that captures coalition-level carbon revenue and shared MRV and transaction costs under heterogeneous member portfolios. We analyse three coalition feasibility constraints that differ in how certification costs are allocated across members, characterise when coalition formation generates surplus over independent participation, and identify the structural conditions under which the core is non-empty.
+
+    \item \textbf{Two-Phase Revenue Allocation.} We develop a two-phase allocation procedure that separates the nonlinear portfolio optimisation from the linear payoff distribution problem, enabling tractable computation even for moderately large coalitions. We compare five allocation mechanisms---least core, nucleolus, Shapley value, equal split, and proportional split---along the dimensions of core stability, uniqueness, computational complexity, and smallholder protection.
+\end{enumerate}
+
+The remainder of this paper is organised as follows. Section~2 reviews related work on carbon markets, cooperative approaches to smallholder agriculture, and applications of cooperative game theory in agricultural and environmental settings. Section~3 presents the formal methodology. Section~4 describes the data. Section~5 presents experimental results, and Section~6 concludes with policy implications and directions for future research.
+
+\section{Literature Review}
+Existing research demonstrates the viability of farmer cooperatives for various agricultural applications. Bhardwaj et al. \cite{bhardwaj2023designing} leveraged farmer collectives to design fair and cost-optimal auctions for procuring agri-inputs. Sarkar et al. \cite{sarkar2023coalition} studied agricultural cooperatives using multi-agent coalitional models, showing positive revenue generation for smallholder farmers through similarity-based coalition formation. Zheng et al. \cite{zheng2022cooperative} developed cooperative game-based incentive mechanisms for biopesticide adoption through farmer-producer organizations (FPOs).
+
+Recent work also explores cooperatives in carbon farming contexts. Mantey et al. \cite{mantey2025carbon} examined the role of dairy cooperatives in smallholder agricultural carbon projects, highlighting their importance in promoting sustainable farming. Wang et al. \cite{wang2024effects} investigated how farmer cooperatives reduce agricultural carbon emissions through reduced fertilizer inputs. Zhang et al. \cite{zhang2025can} systematically studied agricultural cooperatives’ impact on planting-industry carbon emissions using econometric models. Zheng et al. \cite{zheng2023economic} tested the role of marketing cooperatives in enhancing the economic performance of green agriculture.
+
+Li et al. \cite{li2013carbon} evaluated farming practices based on carbon sequestration capacity and household income contribution in paddy fields. Piscitelli et al. \cite{piscitelli2023carbon} developed bottom-up approaches for identifying sustainable farming strategies to enhance soil carbon stocks. Mallappa et al. \cite{MALLAPPA2025100317} investigated farmer perceptions of carbon credit program actors and technology adoption motivations.
+
+
+\newpage
+\section{Methodology}
+
+Let $F = \{F_1, F_2, \ldots, F_n\}$ be the set of $n$ farmers willing to
+participate in the carbon credit program. Each farmer $F_i$ is characterised
+by farm size $\text{FS}_i$ (acres). Let $P = \{P_1, P_2, \ldots, P_m\}$
+denote the set of available carbon sequestration practices, where each practice
+$P_j$ carries an operational cost $\text{OC}_j$ (rupees/acre/year), a baseline
+carbon sequestration potential $\text{CSP}_j$ (tons~CO$_2$/acre/year), and a
+baseline yield impact $\text{Y}_j$ (rupees/acre/year). We additionally define
+$\text{CSP}_{ij}$ as the \emph{realised} sequestration potential of farmer
+$F_i$ under practice $P_j$, which may deviate from $\text{CSP}_j$ due to
+differences in soil composition, geography, or local conditions. Operational
+costs and yield impacts are assumed uniform across farmers.
+
+% --------------------------------------------------------------------------
+\subsection{Practice Interactions and Portfolio Costs}
+% --------------------------------------------------------------------------
+
+A farmer may simultaneously adopt a subset $\Pi \subseteq P$ of practices,
+with $|\Pi| > 0$. Because practices can interact---either amplifying
+sequestration, shifting yield impacts, or producing cost synergies and
+redundancies---we model pairwise interactions explicitly. Let $\alpha_{jk}$
+denote the synergistic effect on carbon sequestration when $P_j$ and $P_k$
+are jointly adopted, $\beta_{jk}$ the corresponding cost interaction, and
+$\gamma_{jk}$ the corresponding yield interaction. All interaction terms are
+practice-specific and uniform across farmers; farmer heterogeneity enters
+only through $\text{CSP}_{ij}$.
+
+The aggregate sequestration potential, operational cost, and yield impact of a
+practice set $\Pi$ for farmer $F_i$ are:
+
+\begin{equation}
+    \text{CSP}_i(\Pi) = \sum_{j:\, P_j \in \Pi} \text{CSP}_{ij}
+    + \sum_{\substack{P_j,\, P_k \in \Pi \\ j < k}} \alpha_{jk}
+\end{equation}
+
+\begin{equation}
+    \text{OC}(\Pi, \text{FS}_i) = \sum_{j:\, P_j \in \Pi}
+    \Bigl(\text{FOC}_j + \text{VOC}_j \times \text{FS}_i^{\,\phi}\Bigr)
+    + \sum_{\substack{P_j,\, P_k \in \Pi \\ j < k}} \beta_{jk}
+\end{equation}
+
+\begin{equation}
+    Y(\Pi) = \sum_{j:\, P_j \in \Pi} \text{Y}_j
+    + \sum_{\substack{P_j,\, P_k \in \Pi \\ j < k}} \gamma_{jk}
+\end{equation}
+
+\noindent where $\text{FOC}_j$ is the fixed component of the operational cost
+of practice $P_j$, $\text{VOC}_j$ is its variable component (rupees/acre$^\phi$/year),
+and $\phi > 0$ captures economies of scale: when $\phi < 1$, per-acre costs
+fall as farm size increases. The yield impact $Y(\Pi)$ is the revenue loss per
+acre induced by portfolio $\Pi$ (rupees/acre/year), uniform across farmers, so
+total yield revenue loss scales with farm size as $\text{FS}_i \times Y(\Pi)$.
+
+% --------------------------------------------------------------------------
+\subsection{Solo Optimisation}
+% --------------------------------------------------------------------------
+
+When acting independently, farmer $F_i$ selects an \textbf{independent
+portfolio} $\Pi_i^{\text{ind}}$ to maximise net profit subject to a budget
+constraint:
+
+\begin{equation}
+\Pi_i^{\text{ind}} = \arg\max_{\Pi \,\subseteq\, P}
+\Bigl[
+    \text{FS}_i \times \text{CSP}_i(\Pi) \times \text{CCP}
+    - \text{FS}_i \times Y(\Pi)
+    - \text{OC}(\Pi, \text{FS}_i)
+    - C_{\text{MRV}}(\{i\}, \Pi)
+    - C_{\text{T}}(\{i\})
+\Bigr]
+\end{equation}
+\begin{equation*}
+    \text{s.t.} \quad \text{OC}(\Pi, \text{FS}_i)
+    + C_{\text{MRV}}(\{i\}, \Pi)
+    + C_{\text{T}}(\{i\}) \leq B_i
+\end{equation*}
+
+\noindent where:
+\begin{itemize}
+    \item $\text{CSP}_i(\Pi)$: realised sequestration of $F_i$ under $\Pi$
+          (tons~CO$_2$/acre/year), per Equation~(1).
+    \item $\text{OC}(\Pi, \text{FS}_i)$: operational cost of $\Pi$ for $F_i$
+          (rupees/year), per Equation~(2).
+    \item $\text{CCP}$: market price of one carbon credit (rupees/ton~CO$_2$).
+    \item $Y(\Pi)$: yield revenue loss per acre induced by $\Pi$
+          (rupees/acre/year), per Equation~(3).
+    \item $B_i$: total capital availability of $F_i$ (rupees/year).
+    \item $C_{\text{MRV}}(\{i\}, \Pi) = \text{Fixed}_{\text{MRV}}
+          + \text{Variable}_{\text{MRV}} \times \text{FS}_i^{\,\delta}$:
+          monitoring, reporting, and verification cost for singleton $F_i$.
+    \item $C_{\text{T}}(\{i\}) = \text{Fixed}_{\text{T}} + \text{Variable}_{\text{T}}$:
+          transaction cost for singleton $F_i$.
+\end{itemize}
+
+The standalone value $\tilde{v}(\{i\})$ for farmer $F_i$ under their
+independent portfolio is:
+
+\begin{equation}
+\begin{split}
+\tilde{v}\!\left(\{i\}\right) = \;
+    & \text{FS}_i \times \text{CSP}_i(\Pi_i^{\text{ind}}) \times \text{CCP}
+      - \text{FS}_i \times Y(\Pi_i^{\text{ind}}) \\
+    & - \text{OC}(\Pi_i^{\text{ind}}, \text{FS}_i) \\
+    & - \bigl[\text{Fixed}_{\text{MRV}} + \text{Variable}_{\text{MRV}} \times \text{FS}_i^{\,\delta}\bigr] \\
+    & - \bigl[\text{Fixed}_{\text{T}} + \text{Variable}_{\text{T}}\bigr]
+\end{split}
+\end{equation}
+
+\noindent This quantity serves as the individual rationality floor throughout
+the coalition formation and allocation stages that follow.
+
+% --------------------------------------------------------------------------
+\subsection{Coalition Formation with Heterogeneous Practice Portfolios}
+% --------------------------------------------------------------------------
+
+When farmer $F_i$ joins a coalition $S$, they may adopt a
+\textbf{coalition portfolio} $\Pi_i^{\text{co}} \subseteq P$ that differs from
+$\Pi_i^{\text{ind}}$ in order to exploit joint certification economies.
+Farmers within a coalition need not adopt identical practices, and even when
+two farmers adopt the same practice $P_j$, their realised sequestration
+$\text{CSP}_{ij}$ generally differs.
+
+\subsubsection*{Coalition Aggregates and Certification Costs}
+
+The \textbf{coalition practice profile} is the tuple
+$\boldsymbol{\Pi}_S = \{\Pi_i^{\text{co}}\}_{i \in S}$. Coalition-level
+sequestration and certification costs are:
+
+\begin{equation}
+    \text{CSP}(S, \boldsymbol{\Pi}_S) = \sum_{i \in S} \text{FS}_i \times \text{CSP}_i(\Pi_i^{\text{co}})
+\end{equation}
+
+\begin{equation}
+    C_{\text{MRV}}(S, \boldsymbol{\Pi}_S) = \text{Fixed}_{\text{MRV}}
+    + \text{Variable}_{\text{MRV}} \times \left(\sum_{i \in S} \text{FS}_i\right)^{\!\delta}
+\end{equation}
+
+\begin{equation}
+    C_{\text{T}}(S) = \text{Fixed}_{\text{T}} + \text{Variable}_{\text{T}} \times |S|
+\end{equation}
+
+\subsubsection*{Joint Portfolio Optimisation}
+
+Each farmer must first be able to finance their own operational and yield costs
+from their individual budget. The coalition's shared certification costs
+$C_{\text{MRV}}(S, \boldsymbol{\Pi}_S) + C_{\text{T}}(S)$ are then covered
+from the residual capital pooled across members. The coalition jointly
+optimises over carbon revenue and shared costs:
+
+\begin{equation}
+\boldsymbol{\Pi}_S^* = \arg\max_{\{\Pi_i^{\text{co}}\}_{i \in S} \,\subseteq\, P}
+    \left[\sum_{i \in S}
+        \text{FS}_i \times \text{CSP}_i(\Pi_i^{\text{co}}) \times \text{CCP}
+    - C_{\text{MRV}}(S, \boldsymbol{\Pi}_S)
+    - C_{\text{T}}(S)\right]
+\end{equation}
+
+subject to the following constraints:
+
+\begin{align}
+    &\text{OC}(\Pi_i^{\text{co}}, \text{FS}_i) + \text{FS}_i \times Y(\Pi_i^{\text{co}}) \leq B_i,
+    \quad \forall\, i \in S
+    \tag{Individual feasibility} \\[6pt]
+    &\sum_{i \in S} \Bigl(B_i - \text{FS}_i \times Y(\Pi_i^{\text{co}}) - \text{OC}(\Pi_i^{\text{co}}, \text{FS}_i)\Bigr)
+    \geq C_{\text{MRV}}(S, \boldsymbol{\Pi}_S) + C_{\text{T}}(S)
+    \tag{CF1: Pooled residual} \\[6pt]
+    &B_i - \text{FS}_i \times Y(\Pi_i^{\text{co}}) - \text{OC}(\Pi_i^{\text{co}}, \text{FS}_i) \geq
+    \frac{\text{FS}_i}
+         {\sum_{j \in S} \text{FS}_j}
+    \cdot \bigl(C_{\text{MRV}} + C_{\text{T}}\bigr),
+    \quad \forall\, i \in S
+    \tag{CF2: Area-weighted share} \\[6pt]
+    &B_i - \text{FS}_i \times Y(\Pi_i^{\text{co}}) - \text{OC}(\Pi_i^{\text{co}}, \text{FS}_i) \geq
+    \frac{\text{FS}_i \cdot \text{CSP}_i(\Pi_i^{\text{co}})}
+         {\sum_{j \in S} \text{FS}_j \cdot \text{CSP}_j(\Pi_j^{\text{co}})}
+    \cdot \bigl(C_{\text{MRV}} + C_{\text{T}}\bigr),
+    \quad \forall\, i \in S
+    \tag{CF3: Sequestration-weighted share}
+\end{align}
+
+\noindent The three coalition feasibility constraints differ in how they
+allocate each member's share of certification costs and carry distinct
+implications for stability. \textbf{CF1} (pooled residual) requires only that
+aggregate surplus covers aggregate certification cost, without specifying which
+members bear which share. This permits coalitions in which a single high-surplus
+farmer implicitly subsidises others' certification obligations, creating an
+incentive to defect and form a smaller, more profitable sub-coalition.
+\textbf{CF2} (area-weighted share) assigns each member a certification
+obligation proportional to farm size, which may over-penalise large farms with
+poor sequestration potential. \textbf{CF3} (sequestration-weighted share) ties
+each member's obligation directly to their fractional contribution to total
+coalition sequestration, aligning financial burden with value generated; CF3 is
+therefore structurally closest to the conditions required for core stability.
+The three constraints are not mutually exclusive: CF1 may be used as a
+collective solvency screen, with CF3 then applied to determine individual cost
+shares.
+
+\subsubsection*{Characteristic Function}
+
+\begin{equation}
+\begin{split}
+v(S) = \max_{\{\Pi_i^{\text{co}}\}_{i \in S}} \Biggl\{
+    & \sum_{i \in S}
+        \text{FS}_i \times \text{CSP}_i(\Pi_i^{\text{co}}) \times \text{CCP} \\
+    & - \Bigl[\text{Fixed}_{\text{MRV}} + \text{Variable}_{\text{MRV}}
+        \times \Bigl(\sum_{i \in S} \text{FS}_i\Bigr)^{\!\delta}\Bigr] \\
+    & - \bigl[\text{Fixed}_{\text{T}} + \text{Variable}_{\text{T}} \times |S|\bigr]
+    \Biggr\}
+\end{split}
+\end{equation}
+
+subject to the individual and coalition feasibility constraints above.
+Note that $v(T)$ is computed for every sub-coalition $T \subseteq F$ by
+solving Equation~(11) on $T$ independently, treating $T$ as if it were the
+grand coalition. These sub-coalition values serve as fixed parameters in the
+allocation stage.
+
+
+% --------------------------------------------------------------------------
+% \subsection{Special Cases}
+% % --------------------------------------------------------------------------
+
+% \subsubsection{Case 1: Fixed Independent Portfolios}
+% \label{sec:case1}
+
+% \textbf{Assumption.} Each farmer commits irrevocably to their independent
+% portfolio inside and outside the coalition:
+% $\Pi_i^{\text{co}} = \Pi_i^{\text{ind}}$ for all $i \in S$, $S \subseteq F$.
+
+% The joint optimisation in Equation~(8) is vacuous, and the characteristic
+% function reduces to:
+
+% \begin{equation}
+% \begin{split}
+% v_{\text{C1}}(S) = \;
+%     & \left[\sum_{i \in S} \text{FS}_i \times \text{CSP}_i(\Pi_i^{\text{ind}})\right] \times \text{CCP} \\
+%     & - \left[\text{Fixed}_{\text{MRV}} + \text{Variable}_{\text{MRV}}
+%         \times \left(\sum_{i \in S} \text{FS}_i\right)^{\!\delta}\right] \\
+%     & - \left[\text{Fixed}_{\text{T}} + \text{Variable}_{\text{T}} \times |S|\right]
+% \end{split}
+% \end{equation}
+
+% subject to the coalition feasibility constraint with
+% $\Pi_i^{\text{co}} = \Pi_i^{\text{ind}}$. Coalition value is driven entirely
+% by MRV economies of scale; no portfolio re-optimisation is possible.
+
+% \subsubsection{Case 2: Homogeneous Coalition Portfolio}
+% \label{sec:case2}
+
+% \textbf{Assumption.} All coalition members adopt a common portfolio $\Pi^S$
+% chosen collectively: $\Pi_i^{\text{co}} = \Pi^S$ for all $i \in S$.
+
+% \begin{equation}
+% \begin{split}
+% v_{\text{C2}}(S) = \max_{\Pi^S \subseteq P} \Biggl\{
+%     & \left[\sum_{i \in S} \text{FS}_i \times \text{CSP}_i(\Pi^S)\right] \times \text{CCP} \\
+%     & - \left[\text{Fixed}_{\text{MRV}} + \text{Variable}_{\text{MRV}}
+%         \times \left(\sum_{i \in S} \text{FS}_i\right)^{\!\delta}\right] \\
+%     & - \left[\text{Fixed}_{\text{T}} + \text{Variable}_{\text{T}} \times |S|\right]
+%     \Biggr\}
+% \end{split}
+% \end{equation}
+
+% subject to $\text{FS}_i \times \text{OC}_i(\Pi^S) \leq B_i$ for all $i \in S$,
+% and the coalition feasibility constraint with $\Pi_i^{\text{co}} = \Pi^S$.
+% Farmer-specific sequestration $\text{CSP}_i(\Pi^S)$ still varies across
+% members even under a common portfolio.
+
+% % --------------------------------------------------------------------------
+\subsection{Revenue Allocation: Two-Phase Procedure}
+\label{sec:allocation}
+% --------------------------------------------------------------------------
+
+Once $v(S)$ and all sub-coalition values $\{v(T)\}_{T \subsetneq S}$ have been
+computed in the portfolio optimisation stage (Phase~1), the central question is
+how to distribute the net surplus $v(S)$ among members of $S$ in a manner that
+is both fair and stable. We separate this into two conceptually distinct phases.
+
+\subsubsection*{Phase 1: Portfolio Optimisation (Nonlinear)}
+
+Phase~1 solves Equation~(9) for the grand coalition $S$ and for every
+sub-coalition $T \subsetneq S$ independently. Each sub-coalition solve treats
+$T$ as a standalone unit, yielding $v(T)$---the value sub-coalition $T$ could
+achieve by defecting from $S$. These values are fixed constants that parameterise
+the allocation problem in Phase~2. The computational cost of Phase~1 is
+$O(2^{|S|})$ nonlinear solves, which is feasible for $|S| \lesssim 15$--$20$.
+
+\subsubsection*{Phase 2: Allocation Optimisation (Linear)}
+
+Let $\mathbf{x} = (x_i)_{i \in S}$ denote the allocation vector, where $x_i$
+is the net payoff farmer $F_i$ receives from participating in $S$. This payoff
+covers each farmer's share of the collective carbon revenue net of shared
+certification costs; yield revenue $\text{FS}_i \times Y(\Pi_i^{\text{co}})$
+accrues separately to each farmer and is not redistributed. Given the fixed
+values $\{v(T)\}$ from Phase~1, the allocation problem is a linear programme
+(LP) in $\mathbf{x}$ alone. We impose three classes of constraints:
+
+\paragraph{Efficiency.}
+\begin{equation}
+    \sum_{i \in S} x_i = v(S)
+\end{equation}
+
+\paragraph{Individual rationality (IR).}
+\begin{equation}
+    x_i \geq \tilde{v}\!\left(\{i\}\right), \quad \forall\, i \in S
+\end{equation}
+
+No farmer should be worse off in the coalition than acting alone.
+
+\paragraph{Sub-coalition rationality (core constraints).}
+\begin{equation}
+    \sum_{i \in T} x_i \geq v(T), \quad \forall\, T \subsetneq S,\; T \neq \emptyset
+\end{equation}
+
+No sub-group of farmers should be able to collectively improve their payoff by
+leaving the grand coalition and forming $T$ independently. The IR constraint
+in Equation~(13) is the special case $|T| = 1$ of Equation~(14). Together,
+Equations~(12)--(14) define the \textbf{core} of the cooperative game
+$(S, v)$. Because the characteristic function $v(\cdot)$ here is superadditive
+but need not be convex, the core may be empty.
+
+\subsubsection*{Handling an Empty Core: The Least Core}
+
+When the system of constraints (12)--(14) is infeasible, we relax the
+sub-coalition rationality constraints by a uniform slack $\varepsilon \geq 0$:
+
+\begin{equation}
+    \sum_{i \in T} x_i \geq v(T) - \varepsilon, \quad \forall\, T \subsetneq S
+\end{equation}
+
+The \textbf{least core} allocation is obtained by solving the LP:
+
+\begin{equation}
+    \min_{\mathbf{x},\, \varepsilon} \quad \varepsilon
+    \qquad \text{subject to} \quad
+    \text{Equations~(12), (13), (15)}
+\end{equation}
+
+The optimal value $\varepsilon^*$ measures the maximum per-coalition-unit
+incentive to defect that cannot be eliminated by any allocation. If
+$\varepsilon^* = 0$, the least core coincides with the core and the grand
+coalition is fully stable. If $\varepsilon^* > 0$, the grand coalition is
+approximately stable, and $\varepsilon^*$ quantifies the residual instability.
+A practitioner-defined threshold $\varepsilon_{\max}$ may be used as a
+viability criterion: coalitions with $\varepsilon^* > \varepsilon_{\max}$ are
+rejected or restructured before proceeding.
+
+The $\varepsilon$-parameterised version of the stability check also admits a
+natural bi-objective extension. Introducing a weight $\lambda > 0$ on the
+coalition value objective:
+
+\begin{equation}
+    \min_{\mathbf{x},\, \varepsilon} \quad \varepsilon - \lambda \cdot v(S)
+    \qquad \text{subject to} \quad
+    \text{Equations~(12), (13), (15)}
+\end{equation}
+
+At $\lambda = 0$ the problem reduces to pure stability optimisation (the least
+core); as $\lambda \to \infty$ the problem approaches unconstrained value
+maximisation. An intermediate $\lambda$ allows the analyst to trade off the
+size of the coalition surplus against the strength of the stability guarantee.
+
+\subsubsection*{Uniqueness and the Nucleolus}
+
+The least core LP (16) may admit multiple optima at the same $\varepsilon^*$,
+leaving $\mathbf{x}$ under-determined. The \textbf{nucleolus} resolves this by
+lexicographically minimising the sorted vector of sub-coalition excesses
+$e(T, \mathbf{x}) = v(T) - \sum_{i \in T} x_i$ in decreasing order. It is
+computed as a sequence of LPs, each fixing the solution from the previous
+iteration. The nucleolus always exists, is unique, lies in the least core (and
+in the core whenever the core is non-empty), and provides the strongest
+protection for smallholders by minimising the dissatisfaction of the most
+aggrieved sub-coalition at every lexicographic level.
+
+\subsubsection*{Shapley Value}
+
+The \textbf{Shapley value} allocates to each farmer their expected marginal
+contribution to the coalition, averaging uniformly over all possible orderings
+in which the grand coalition could form. Formally:
+
+\begin{equation}
+    \phi_i(v) = \sum_{T \subseteq S \setminus \{i\}}
+    \frac{|T|!\;\bigl(|S| - |T| - 1\bigr)!}{|S|!}
+    \Bigl[v\!\left(T \cup \{i\}\right) - v(T)\Bigr],
+    \quad \forall\, i \in S
+\end{equation}
+
+\noindent The weight $\tfrac{|T|!\,(|S|-|T|-1)!}{|S|!}$ is the probability
+that farmer $F_i$ arrives to find exactly the sub-coalition $T$ already formed,
+under a uniform distribution over all $|S|!$ orderings.
+The Shapley value satisfies four classical axioms:
+
+\begin{enumerate}
+    \item \textbf{Efficiency}: $\sum_{i \in S} \phi_i(v) = v(S)$.
+    \item \textbf{Symmetry}: if $v(T \cup \{i\}) = v(T \cup \{j\})$ for all
+          $T \subseteq S \setminus \{i,j\}$, then $\phi_i(v) = \phi_j(v)$.
+    \item \textbf{Null player}: if $v(T \cup \{i\}) = v(T)$ for all
+          $T \subseteq S \setminus \{i\}$, then $\phi_i(v) = 0$.
+    \item \textbf{Additivity}: $\phi_i(v + w) = \phi_i(v) + \phi_i(w)$ for
+          any two games $v$ and $w$ on the same player set.
+\end{enumerate}
+
+These axioms uniquely characterise the Shapley value among all allocation
+rules. Unlike the least core and nucleolus, the Shapley value does not
+guarantee core membership: an allocation satisfying Efficiency and individual
+marginal-contribution fairness may still leave some sub-coalition with an
+incentive to defect. In the present setting---where $v(\cdot)$ is superadditive
+but not necessarily convex---core membership of the Shapley value cannot be
+assumed and must be verified post-hoc by checking the core constraints
+(14). If $\phi_i(v) < \tilde{v}(\{i\})$ for some $i$, individual rationality
+is violated and the Shapley allocation is inadmissible without modification.
+
+\paragraph{Computational cost.}
+Na\"ive evaluation of Equation~(18) requires $2^{|S|}$ sub-coalition value
+queries (one per subset of $S \setminus \{i\}$, summed over all $|S|$ players).
+For the grand coalition this coincides with the Phase~1 cost already incurred,
+so no additional sub-coalition solves are needed: the Shapley value is computed
+from the same table $\{v(T)\}_{T \subseteq S}$ that parameterises the core LP.
+
+\subsubsection*{Naive Benchmarks}
+
+The cooperative-theoretic solutions above are benchmarked against simpler
+rules that require no sub-coalition value computation.
+
+\paragraph{Equal Split (ES).}
+\begin{equation}
+    x_i^{\text{ES}} = \frac{v(S)}{|S|}, \quad \forall\, i \in S
+\end{equation}
+
+Equal split satisfies efficiency and symmetry but violates individual
+rationality for low-acreage farmers whenever a large-acreage member has a high
+standalone value $\tilde{v}(\{i\})$. It ignores heterogeneity entirely and
+will typically fail to satisfy even weak stability conditions.
+
+\paragraph{Proportional Split (PS).}
+\begin{equation}
+    x_i^{\text{PS}} =
+    \frac{\text{FS}_i \times \text{CSP}_i(\Pi_i^{\text{co}})}
+         {\sum_{j \in S} \text{FS}_j \times \text{CSP}_j(\Pi_j^{\text{co}})}
+    \times v(S)
+\end{equation}
+
+Proportional split rewards sequestration contribution but takes no account of
+the counterfactual value each farmer could generate alone---it implicitly treats
+the entire $v(S)$ as jointly produced, ignoring MRV economies of scale or
+cost-reduction synergies. It is therefore likely to over-reward high-sequestration
+farmers relative to both the least core and the nucleolus.
+
+\subsubsection*{Summary of Phase~2 Mechanisms}
+
+Table~\ref{tab:mechanisms} summarises the five allocation mechanisms along the
+dimensions most relevant to this setting.
+
+\begin{table}[h]
+\centering
+\caption{Comparison of allocation mechanisms}
+\label{tab:mechanisms}
+\begin{tabular}{lcccc}
+\hline
+\textbf{Mechanism} & \textbf{Core stability} & \textbf{Uniqueness} & \textbf{Complexity} & \textbf{Smallholder protection} \\
+\hline
+Least core     & Maximal (even if core empty) & Partial        & Single LP           & Strong \\
+Nucleolus      & Guaranteed (if core non-empty) & Always       & Sequence of LPs     & Strongest \\
+Shapley value  & Not guaranteed               & Always         & $O(2^{|S|})$        & Moderate \\
+Equal split    & Not guaranteed               & Always         & $O(1)$              & May over-reward small \\
+Proportional   & Not guaranteed               & Always         & $O(1)$              & Ignores outside option \\
+\hline
+\end{tabular}
+\end{table}
+
+\noindent The recommended default is the \textbf{least core} (Equation~16) for
+its tractability and robustness to non-convex games, with the nucleolus reserved
+for settings where uniqueness and maximum stability are required. The Shapley
+value (Equation~18) provides a natural marginal-contribution benchmark; its
+core membership should be verified post-hoc. Equal and proportional split serve
+as computationally trivial baselines.
+
+
+\newpage
+\section{Datasets}
+
+
+% \section{Experimental Results}
+% \section{Conclusion and Future Work}
+
+
+%% The acknowledgments section is defined using the "acks" environment
+%% (and NOT an unnumbered section). This ensures the proper
+%% identification of the section in the article metadata, and the
+%% consistent spelling of the heading.
+\begin{acks}
+
+\end{acks}
+
+%%
+%% The next two lines define the bibliography style to be used, and
+%% the bibliography file.
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{sample-base}
+
+
+%%
+%% If your work has an appendix, this is the place to put it.
+% \appendix
+
+% \section{Research Methods}
+
+% \section{Online Resources}
+
+\end{document}
+\endinput
+%%
+%% End of file `sample-sigconf.tex'.
