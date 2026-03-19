@@ -16,6 +16,7 @@ Directory structure:
     │   │   ├── gamma_yield.csv
     │   │   └── practices.csv
     │   └── processed/
+    │       ├── allocation_results.pkl
     │       ├── characteristic_function.pkl
     │       ├── optimization_inputs.pkl
     │       └── standalone_values.pkl
@@ -2343,6 +2344,12 @@ Raised Bed + Zero Tillage System,2.5,3000,0.1
 
 
 ================================================
+FILE: data/processed/allocation_results.pkl
+================================================
+[Binary file]
+
+
+================================================
 FILE: data/processed/characteristic_function.pkl
 ================================================
 [Binary file]
@@ -2399,6 +2406,8 @@ CCP = 1500          # INR / tCO2e  — carbon credit price
 
 # ── Farm economics ────────────────────────────────────────────────────────────
 PADDY_PRICE = 22_000    # INR / ton — farm-gate paddy price
+
+CF_RULE = 'CF1'
 
 # ── MRV (Measurement, Reporting & Verification) costs ────────────────────────
 FIXED_MRV = 5_000       # INR — flat cost regardless of coalition size or area.
@@ -3438,35 +3447,23 @@ def solve_solo_farmer(
     model.setObjective(obj, GRB.MAXIMIZE)
 
     # ── Constraint 1: Budget ──────────────────────────────────────────
-    # OC_i(x) + fixed_cert ≤ B_i
-    # OC_i(x) = FS * [Σ_j OC_j*x_j  +  Σ_{j<k} β_jk*z_jk]
-    # Rearranging: FS*OC(x) ≤ B_i - fixed_cert
-    #
-    # Note: OC_base[j] can be negative (cost-saving practices).
-    # The budget slack is B_i − fixed_cert (always > 0 given the early check).
+    # OC_i(x) - YR_i(x) + fixed_cert <= B_i
+    # Rearranging: OC_i(x) - YR_i(x) <= B_i - fixed_cert
+    
     oc_expr = (
         gp.quicksum(FS * OC_base[j] * x[j] for j in range(M))
         + gp.quicksum(FS * Beta[j, k] * z[(j, k)] for j, k in compatible_pairs)
     )
-    model.addConstr(
-        oc_expr <= B - fixed_cert,
-        name="budget"
+    
+    yr_expr = (
+        gp.quicksum(FS * PADDY * YLD_base[j] * x[j] for j in range(M))
+        + gp.quicksum(FS * PADDY * Gamma[j, k] * z[(j, k)] for j, k in compatible_pairs)
     )
 
-    # ── Constraint 2: Incompatibility ─────────────────────────────────
-    # x[j] + x[k] ≤ 1 for all (j,k) with Delta[j,k] = 1
-    for j, k in incompat_pairs:
-        model.addConstr(x[j] + x[k] <= 1, name=f"incompat_{j}_{k}")
-
-    # ── Constraint 3: Linearisation of bilinear terms ─────────────────
-    # For each compatible pair (j, k) with j < k:
-    #   z_jk ≤ x_j          (z can be 1 only if x_j = 1)
-    #   z_jk ≤ x_k          (z can be 1 only if x_k = 1)
-    #   z_jk ≥ x_j + x_k − 1  (z must be 1 when both x_j=1 and x_k=1)
-    for j, k in compatible_pairs:
-        model.addConstr(z[(j, k)] <= x[j],              name=f"z_ub1_{j}_{k}")
-        model.addConstr(z[(j, k)] <= x[k],              name=f"z_ub2_{j}_{k}")
-        model.addConstr(z[(j, k)] >= x[j] + x[k] - 1,  name=f"z_lb_{j}_{k}")
+    model.addConstr(
+        oc_expr - yr_expr <= B - fixed_cert,
+        name="budget"
+    )
 
     # ── Solve ─────────────────────────────────────────────────────────
     model.optimize()
@@ -4065,8 +4062,7 @@ FILE: notebooks/notebook_03_coalition_enumeration.ipynb
 
 **Purpose:** Enumerate every non-empty subset $S \subseteq \{F_1,\ldots,F_{15}\}$
 (32 767 coalitions), solve a joint MILP for each one, and record the
-characteristic function $v(S)$ — the maximum net surplus the coalition
-can achieve together.
+characteristic function $v(S)$.
 
 ---
 **Reads:**
@@ -4079,30 +4075,31 @@ can achieve together.
 ### Coalition MILP (per coalition $S$)
 
 **Decision variables per farmer $i \in S$:**
-- `x[i,j]` ∈ {0,1} — does farmer $i$ adopt practice $j$?
-- `z[i,j,k]` ∈ {0,1} for compatible pairs $j<k$ — linearisation of `x[i,j]·x[i,k]`
+- `x[i,j]` ∈ {0,1} — farmer $i$ adopts practice $j$
+- `z[i,j,k]` ∈ {0,1} — linearisation of `x[i,j]·x[i,k]` for compatible pairs
 
-**Objective (maximise coalition net profit):**
-$$
-\max\;\sum_{i\in S}\Bigl[
+**Objective:**
+$$\max \sum_{i\in S}\bigl[
   \mathrm{FS}_i\cdot\mathrm{CSP}_i(x_i)\cdot\mathrm{CCP}
-  +\mathrm{YR}_i(x_i)
-  -\mathrm{OC}_i(x_i)
-\Bigr]
--C_{\mathrm{MRV}}(S)-C_T(S)
-$$
-where certification costs $C_{\mathrm{MRV}}(S)$ and $C_T(S)$ are constants
-for a given $S$.
+  +\mathrm{YR}_i(x_i)-\mathrm{OC}_i(x_i)
+\bigr] - C_{\mathrm{MRV}}(S) - C_T(S)$$
 
-**Constraints:**
-1. **Individual budget** (per farmer): $\mathrm{OC}_i(x_i) \leq B_i$
-2. **Incompatibility** (per farmer): $x[i,j]+x[i,k]\leq 1$ for all $(j,k)$ with $\Delta_{jk}=1$
-3. **Linearisation** (per farmer, per compatible pair)
-4. **CF1 — pooled residual:**
-   $\sum_{i\in S}\bigl(B_i - \mathrm{OC}_i(x_i)\bigr)\geq C_{\mathrm{MRV}}(S)+C_T(S)$
+**Constraints per farmer:**
+1. **Individual budget (paper §3.3):**
+   $\mathrm{FS}_i\cdot\mathrm{OC}_i(x_i) + \mathrm{FS}_i\cdot Y_{\mathrm{loss},i}(x_i) \leq B_i$
+   i.e. residual $r_i = B_i - \mathrm{FS}_i\cdot\mathrm{OC}_i + \mathrm{FS}_i\cdot\mathrm{YLD}_i\cdot\mathrm{PADDY} \geq 0$
+2. **Incompatibility:** $x_{ij}+x_{ik}\leq 1$ for $(j,k)$ with $\Delta_{jk}=1$
+3. **Linearisation** of $x_{ij}\cdot x_{ik}$
 
-If the problem is infeasible, $v(S)=0$.
-For $|S|=1$, $v(\{i\})$ must match $\tilde{v}(\{i\})$ from Notebook 02.
+**Coalition feasibility — selected via `config.CF_RULE`:**
+
+| Rule | Constraint |
+|------|-----------|
+| CF1  | $\sum_{i\in S} r_i \geq C_{\mathrm{MRV}}+C_T$ |
+| CF2  | $r_i \geq \frac{\mathrm{FS}_i}{\sum_j \mathrm{FS}_j}(C_{\mathrm{MRV}}+C_T)\;\forall i$ |
+| CF3  | $r_i\cdot\mathrm{SEQ}_S \geq \mathrm{FS}_i\cdot\mathrm{CSP}_i(x_i)\cdot(C_{\mathrm{MRV}}+C_T)\;\forall i$ (bilinear, NonConvex=2) |
+
+Note: CF3 requires Gurobi's NonConvex=2 setting.
 """
 
 """
@@ -4115,18 +4112,17 @@ import time
 import warnings
 from itertools import combinations
 from pathlib import Path
-from typing import Dict, Any, List, Tuple, Optional
+from typing import Dict, Any, List, Tuple
 
 import numpy as np
 import pandas as pd
 import gurobipy as gp
 from gurobipy import GRB
-
-# Progress bar — install with: pip install tqdm
 from tqdm.auto import tqdm
-
-# Parallelisation — install with: pip install joblib
 from joblib import Parallel, delayed
+import importlib
+import config
+importlib.reload(config)
 
 sys.path.insert(0, str(Path.cwd()))
 import config
@@ -4134,17 +4130,24 @@ import config
 Path(config.PROCESSED_DIR).mkdir(parents=True, exist_ok=True)
 
 
-# Output:
-#   /Users/rohitsuresh/miniconda3/envs/pytorch/lib/python3.11/site-packages/tqdm/auto.py:21: TqdmWarning: IProgress not found. Please update jupyter and ipywidgets. See https://ipywidgets.readthedocs.io/en/stable/user_install.html
 
-#     from .autonotebook import tqdm as notebook_tqdm
+# Validate CF_RULE
+assert config.CF_RULE in ("CF1", "CF2", "CF3"), (
+    f"config.CF_RULE must be 'CF1', 'CF2', or 'CF3'. Got: '{config.CF_RULE}'"
+)
+
+print(f"Gurobi  : {gp.gurobi.version()}")
+print(f"CF_RULE : {config.CF_RULE}")
+# Output:
+#   Gurobi  : (13, 0, 1)
+
+#   CF_RULE : CF1
 
 
 """
 ## 1. Load inputs
 """
 
-# ── Optimization inputs ───────────────────────────────────────────────────────
 with open(config.INPUTS_PKL, "rb") as f:
     inp = pickle.load(f)
 
@@ -4157,19 +4160,16 @@ Gamma          = inp["Gamma"]
 Delta          = inp["Delta"]
 cfg            = inp["config"]
 
-# ── Standalone values from Notebook 02 ───────────────────────────────────────
 with open(config.STANDALONE_PKL, "rb") as f:
     standalone_values = pickle.load(f)
 
-M  = len(practice_names)          # number of practices
-N  = len(farmers_df)              # number of farmers
+M  = len(practice_names)
+N  = len(farmers_df)
 
-# Practice arrays ordered by practice_names
 CSP_base = practices_df.set_index("Practice").reindex(practice_names)["Net_CSP_base"].values
 OC_base  = practices_df.set_index("Practice").reindex(practice_names)["Net_OC_per_ha"].values
 YLD_base = practices_df.set_index("Practice").reindex(practice_names)["Base_yield_change"].values
 
-# Pair lists (built once, reused in every MILP)
 compatible_pairs = [
     (j, k) for j in range(M) for k in range(j+1, M) if Delta[j, k] == 0
 ]
@@ -4177,31 +4177,27 @@ incompat_pairs = [
     (j, k) for j in range(M) for k in range(j+1, M) if Delta[j, k] == 1
 ]
 
-print(f"Farmers          : {N}")
-print(f"Practices        : {M}")
-print(f"Compatible pairs : {len(compatible_pairs)}")
+print(f"Farmers           : {N}")
+print(f"Practices         : {M}")
+print(f"Compatible pairs  : {len(compatible_pairs)}")
 print(f"Incompatible pairs: {len(incompat_pairs)}")
-print(f"Total coalitions : {2**N - 1:,}")
+print(f"Total coalitions  : {2**N - 1:,}")
 # Output:
-#   Farmers          : 15
+#   Farmers           : 15
 
-#   Practices        : 20
+#   Practices         : 20
 
-#   Compatible pairs : 188
+#   Compatible pairs  : 188
 
 #   Incompatible pairs: 2
 
-#   Total coalitions : 32,767
+#   Total coalitions  : 32,767
 
 
 """
-## 2. Pre-compute per-farmer static data
-
-We build a compact lookup dict once here so the worker function receives
-only what it needs — no redundant data copies.
+## 2. Per-farmer lookup
 """
 
-# farmer_lookup[i] = (farmer_id, farm_size_ha, budget_INR)
 farmer_ids = farmers_df["Farmer_ID"].tolist()
 
 farmer_lookup: Dict[int, Tuple[str, float, float]] = {
@@ -4213,38 +4209,20 @@ farmer_lookup: Dict[int, Tuple[str, float, float]] = {
     for i in range(N)
 }
 
-# Pre-compute certification cost constants for every coalition size and area.
-# These are fully determined by the set S, not by portfolio choices.
-def coalition_cert_costs(s_indices: tuple) -> Tuple[float, float]:
-    """
-    Return (C_MRV, C_T) for the coalition identified by farmer indices.
-    Both are constants that do not depend on the practice portfolio.
-    """
-    total_ha = sum(farmer_lookup[i][1] for i in s_indices)
-    n_members = len(s_indices)
-    c_mrv = cfg["FIXED_MRV"] + cfg["VARIABLE_MRV"] * (total_ha ** cfg["DELTA_MRV"])
-    c_t   = cfg["FIXED_T"]   + cfg["VARIABLE_T"] * n_members
-    return c_mrv, c_t
-
-print("Farmer lookup built.")
-print()
-# Quick sanity: certification cost for the grand coalition
-gc_cert = coalition_cert_costs(tuple(range(N)))
+# Quick sanity: grand coalition certification cost
 total_ha_gc = sum(farmer_lookup[i][1] for i in range(N))
-print(f"Grand coalition ({N} farmers, {total_ha_gc:.2f} ha total):")
-print(f"  C_MRV = {gc_cert[0]:,.0f} INR")
-print(f"  C_T   = {gc_cert[1]:,.0f} INR")
-print(f"  Total = {sum(gc_cert):,.0f} INR")
+c_mrv_gc = cfg["FIXED_MRV"] + cfg["VARIABLE_MRV"] * (total_ha_gc ** cfg["DELTA_MRV"])
+c_t_gc   = cfg["FIXED_T"]   + cfg["VARIABLE_T"] * N
+print(f"Grand coalition ({N} farmers, {total_ha_gc:.2f} ha):")
+print(f"  C_MRV = {c_mrv_gc:,.0f} INR")
+print(f"  C_T   = {c_t_gc:,.0f}   INR")
+print(f"  Total = {c_mrv_gc + c_t_gc:,.0f} INR")
 # Output:
-#   Farmer lookup built.
-
-#   
-
-#   Grand coalition (15 farmers, 13.26 ha total):
+#   Grand coalition (15 farmers, 13.26 ha):
 
 #     C_MRV = 17,213 INR
 
-#     C_T   = 9,500 INR
+#     C_T   = 9,500   INR
 
 #     Total = 26,713 INR
 
@@ -4252,194 +4230,253 @@ print(f"  Total = {sum(gc_cert):,.0f} INR")
 """
 ## 3. Coalition MILP solver
 
-This function is called once per coalition.  It is designed to be safely
-picklable so joblib can dispatch it to worker processes.
+### Key difference from the naive implementation
+
+**Individual budget** follows the paper's coalition formulation (§3.3):
+each farmer's *residual* $r_i = B_i - \mathrm{FS}_i\cdot\mathrm{OC}_i + \mathrm{FS}_i\cdot\mathrm{YLD}_i\cdot\mathrm{PADDY}$
+must be non-negative.  This differs from the solo budget (NB02) which
+includes certification costs but not yield — hence singleton values from
+NB03 may differ slightly from NB02 when non-zero yield practices are adopted.
+
+**Certification cost sharing** is governed by `config.CF_RULE`:
+- CF1: one aggregate constraint on pooled residuals (always linear)
+- CF2: per-farmer linear constraints proportional to area share
+- CF3: per-farmer bilinear constraints (requires Gurobi NonConvex=2)
 """
 
 def solve_coalition(
     s_indices: tuple,
-    # Static data — passed explicitly so the function is self-contained
-    # and can be pickled cleanly by joblib.
-    fl: dict,                    # farmer_lookup
-    csp: np.ndarray,             # CSP_base
-    oc: np.ndarray,              # OC_base
-    yld: np.ndarray,             # YLD_base
+    fl: dict,
+    csp: np.ndarray,
+    oc: np.ndarray,
+    yld: np.ndarray,
     alpha: np.ndarray,
     beta: np.ndarray,
     gamma: np.ndarray,
-    compat: list,                # compatible_pairs
-    incompat: list,              # incompat_pairs
-    m: int,                      # M
+    compat: list,
+    incompat: list,
+    m: int,
     cfg_snap: dict,
 ) -> Dict[str, Any]:
     """
-    Solve the coalition MILP for the farmer set given by `s_indices`.
+    Solve the coalition MILP for farmer set `s_indices`.
 
-    Parameters
-    ----------
-    s_indices : tuple of int
-        Indices into farmer_lookup identifying the coalition members.
+    Coalition feasibility rule is read from cfg_snap["CF_RULE"]:
+      CF1 — pooled residual (single linear constraint)
+      CF2 — area-weighted per-farmer linear constraints
+      CF3 — sequestration-weighted per-farmer bilinear constraints
 
-    Returns
-    -------
-    dict with keys:
-        s_indices          : tuple[int]
-        status             : 'optimal' | 'infeasible' | 'other'
-        v                  : float  — coalition value (0 if infeasible)
-        portfolios         : dict[int, list[int]]  — farmer_idx -> adopted practice indices
-                             Empty dict if infeasible.
-        total_seq_tco2     : float
-        total_oc_inr       : float
-        total_yield_rev_inr: float
-        total_carbon_rev_inr: float
-        c_mrv              : float
-        c_t                : float
-        solve_time_s       : float
+    Returns dict with keys:
+        s_indices, status, v, portfolios,
+        total_seq_tco2, total_oc_inr, total_yield_rev_inr,
+        total_carbon_rev_inr, c_mrv, c_t, solve_time_s
     """
-    t0 = time.perf_counter()
-    CCP   = cfg_snap["CCP"]
-    PADDY = cfg_snap["PADDY_PRICE"]
+    t0      = time.perf_counter()
+    CCP     = cfg_snap["CCP"]
+    PADDY   = cfg_snap["PADDY_PRICE"]
+    cf_rule = cfg_snap.get("CF_RULE", "CF1")
 
-    # ── Certification costs (constants for this coalition) ────────────────
-    total_ha   = sum(fl[i][1] for i in s_indices)
-    n_members  = len(s_indices)
-    c_mrv = cfg_snap["FIXED_MRV"] + cfg_snap["VARIABLE_MRV"] * (total_ha ** cfg_snap["DELTA_MRV"])
-    c_t   = cfg_snap["FIXED_T"]   + cfg_snap["VARIABLE_T"] * n_members
-    cert_total = c_mrv + c_t
+    # ── Certification costs (constants for this S) ────────────────────────────
+    total_ha  = sum(fl[i][1] for i in s_indices)
+    n_members = len(s_indices)
+    c_mrv     = cfg_snap["FIXED_MRV"] + cfg_snap["VARIABLE_MRV"] * (total_ha ** cfg_snap["DELTA_MRV"])
+    c_t       = cfg_snap["FIXED_T"]   + cfg_snap["VARIABLE_T"] * n_members
+    cert      = c_mrv + c_t
 
-    # ── Early infeasibility: can the pooled budgets cover certification? ──
-    # Even with OC=0 for everyone, CF1 requires sum(B_i) >= cert_total.
-    budget_sum = sum(fl[i][2] for i in s_indices)
-    if budget_sum < cert_total:
+    def _infeasible_return():
         return {
-            "s_indices"           : s_indices,
-            "status"              : "infeasible",
-            "v"                   : 0.0,
-            "portfolios"          : {},
-            "total_seq_tco2"      : 0.0,
-            "total_oc_inr"        : 0.0,
-            "total_yield_rev_inr" : 0.0,
-            "total_carbon_rev_inr": 0.0,
-            "c_mrv"               : c_mrv,
-            "c_t"                 : c_t,
-            "solve_time_s"        : time.perf_counter() - t0,
+            "s_indices"            : s_indices,
+            "status"               : "infeasible",
+            "v"                    : 0.0,
+            "portfolios"           : {},
+            "total_seq_tco2"       : 0.0,
+            "total_oc_inr"         : 0.0,
+            "total_yield_rev_inr"  : 0.0,
+            "total_carbon_rev_inr" : 0.0,
+            "c_mrv"                : c_mrv,
+            "c_t"                  : c_t,
+            "solve_time_s"         : time.perf_counter() - t0,
         }
 
-    # ── Build Gurobi model ────────────────────────────────────────────────
+    # ── Cheap early-infeasibility screens ────────────────────────────────────
+    budget_sum = sum(fl[i][2] for i in s_indices)
+    if budget_sum < cert:
+        # Even with zero OC and maximum yield gain, pooled budget can't cover cert.
+        return _infeasible_return()
+
+    if cf_rule == "CF2":
+        # Each farmer's full budget must cover their area-weighted cert share.
+        # (Necessary condition; OC=0 best case.)
+        for i in s_indices:
+            area_share = fl[i][1] / total_ha
+            if fl[i][2] < area_share * cert:
+                return _infeasible_return()
+
+    # ── Build model ───────────────────────────────────────────────────────────
     env = gp.Env(empty=True)
-    env.setParam("OutputFlag", 0)              # always silent in batch
+    env.setParam("OutputFlag", 0)
     env.setParam("TimeLimit",  cfg_snap.get("GUROBI_TIME_LIMIT", 60))
     env.setParam("MIPGap",     cfg_snap.get("GUROBI_MIP_GAP", 1e-4))
     env.start()
-    model = gp.Model(f"coal_{'_'.join(map(str, s_indices))}", env=env)
+    model = gp.Model(f"coal_{cf_rule}_{'_'.join(map(str, s_indices))}", env=env)
     model.setParam("OutputFlag", 0)
 
-    # ── Decision variables ────────────────────────────────────────────────
-    # x[i][j] ∈ {0,1}  — farmer i adopts practice j
-    # z[i][(j,k)] ∈ {0,1} — linearisation of x[i][j]*x[i][k]
-    #
-    # Using Gurobi's tupledict for fast construction and lookup.
-    x = {}
-    z = {}
-    for i in s_indices:
-        x[i] = model.addVars(m, vtype=GRB.BINARY, name=f"x{i}")
-        z[i] = model.addVars(compat, vtype=GRB.BINARY, name=f"z{i}")
+    # CF3 requires Gurobi's nonconvex QP solver
+    if cf_rule == "CF3":
+        model.setParam("NonConvex", 2)
 
-    # ── Objective ─────────────────────────────────────────────────────────
-    # For each farmer i: FS_i * [CSP_i(x_i)*CCP + YR_i(x_i) - OC_i(x_i)]
-    # Certification costs are subtracted as constants.
+    # ── Decision variables ────────────────────────────────────────────────────
+    x = {i: model.addVars(m, vtype=GRB.BINARY, name=f"x{i}") for i in s_indices}
+    z = {i: model.addVars(compat, vtype=GRB.BINARY, name=f"z{i}") for i in s_indices}
+
+    # ── Objective ─────────────────────────────────────────────────────────────
     obj_terms = []
     for i in s_indices:
         FS = fl[i][1]
-        # Linear terms (single-practice contributions)
         for j in range(m):
-            coeff = FS * (
-                csp[j] * CCP
-                + yld[j] * PADDY
-                - oc[j]
-            )
+            coeff = FS * (csp[j] * CCP + yld[j] * PADDY - oc[j])
             obj_terms.append(coeff * x[i][j])
-        # Bilinear (linearised) terms — pairwise contributions
-        for (j, k) in compat:
-            coeff = FS * (
-                alpha[j, k] * CCP
-                + gamma[j, k] * PADDY
-                - beta[j, k]
-            )
+        for j, k in compat:
+            coeff = FS * (alpha[j, k] * CCP + gamma[j, k] * PADDY - beta[j, k])
             obj_terms.append(coeff * z[i][(j, k)])
 
-    model.setObjective(
-        gp.quicksum(obj_terms) - cert_total,
-        GRB.MAXIMIZE
-    )
+    model.setObjective(gp.quicksum(obj_terms) - cert, GRB.MAXIMIZE)
 
-    # ── Constraints ───────────────────────────────────────────────────────
-    # We build the CF1 (pooled residual) expression incrementally
-    # alongside the per-farmer constraints to avoid iterating twice.
+    # ── Build residual expressions and apply per-farmer constraints ───────────
+    #
+    # Paper §3.3 individual feasibility:
+    #   FS_i × OC_i(x_i) + FS_i × Y_loss_i(x_i) ≤ B_i
+    # Equivalently:
+    #   r_i := B_i - FS_i×OC_i(x_i) + FS_i×YLD_i(x_i)×PADDY ≥ 0
+    #
+    # The residual r_i is the money farmer i has left after paying operational
+    # costs and absorbing yield impacts — this pool is available to cover cert.
+    #
+    # Note: OC_base[j] can be negative (cost-saving practices), and
+    #       YLD_base[j] can be positive (yield gain → increases residual) or
+    #       negative (yield loss → decreases residual).
 
-    # OC expression for the entire coalition (for CF1)
-    coalition_oc_expr = gp.LinExpr()
+    # residual_linexpr[i] stores the Gurobi LinExpr for r_i (used for CF1/CF2)
+    # residual_var[i]     stores an auxiliary Gurobi Var equal to r_i (for CF3)
+    residual_linexpr: Dict[int, gp.LinExpr] = {}
+
+    # For CF3 we also need the total-sequestration expression and variable
+    seq_linexpr: Dict[int, gp.LinExpr] = {}   # CSP_i(x_i) × FS_i  per farmer
 
     for i in s_indices:
         FS = fl[i][1]
         B  = fl[i][2]
 
-        # Per-farmer OC linear expression
-        farmer_oc_expr = (
-            gp.quicksum(FS * oc[j] * x[i][j] for j in range(m))
-            + gp.quicksum(FS * beta[j, k] * z[i][(j, k)] for j, k in compat)
+        # OC component (per-farmer operational cost, scaled by FS)
+        oc_expr = (
+            gp.quicksum(FS * oc[j]         * x[i][j]       for j in range(m))
+            + gp.quicksum(FS * beta[j, k]  * z[i][(j, k)]  for j, k in compat)
         )
 
-        # Constraint 1: Individual budget  OC_i(x_i) ≤ B_i
-        model.addConstr(
-            farmer_oc_expr <= B,
-            name=f"indiv_budget_{i}"
+        # Yield-revenue component (per-farmer yield revenue change, scaled by FS×PADDY)
+        yr_expr = (
+            gp.quicksum(FS * PADDY * yld[j]        * x[i][j]       for j in range(m))
+            + gp.quicksum(FS * PADDY * gamma[j, k] * z[i][(j, k)]  for j, k in compat)
         )
 
-        # Accumulate into coalition-wide OC for CF1
-        coalition_oc_expr += farmer_oc_expr
+        # r_i = B_i - OC_i(x_i) + YR_i(x_i)   [LinExpr with constant term]
+        r_expr = gp.LinExpr()
+        r_expr += B           # constant part
+        r_expr -= oc_expr     # subtract OC
+        r_expr += yr_expr     # add yield revenue
 
-        # Constraint 2: Incompatibility
+        residual_linexpr[i] = r_expr
+
+        # Constraint: r_i ≥ 0  (individual feasibility)
+        model.addConstr(r_expr >= 0.0, name=f"indiv_budget_{i}")
+
+        # Incompatibility
         for j, k in incompat:
+            model.addConstr(x[i][j] + x[i][k] <= 1, name=f"incompat_{i}_{j}_{k}")
+
+        # Linearisation
+        for j, k in compat:
+            model.addConstr(z[i][(j, k)] <= x[i][j],            name=f"zub1_{i}_{j}_{k}")
+            model.addConstr(z[i][(j, k)] <= x[i][k],            name=f"zub2_{i}_{j}_{k}")
+            model.addConstr(z[i][(j, k)] >= x[i][j]+x[i][k]-1, name=f"zlb_{i}_{j}_{k}")
+
+        # Sequestration expression for farmer i (needed for CF3)
+        # CSP_i(x_i) = Σ_j CSP_j × x_ij + Σ_{j<k} α_jk × z_ijk
+        csp_expr_i = (
+            gp.quicksum(FS * csp[j]        * x[i][j]       for j in range(m))
+            + gp.quicksum(FS * alpha[j, k] * z[i][(j, k)]  for j, k in compat)
+        )
+        seq_linexpr[i] = csp_expr_i
+
+    # ── Coalition feasibility constraint (CF1 / CF2 / CF3) ───────────────────
+
+    if cf_rule == "CF1":
+        # Pooled residual: Σ r_i ≥ cert
+        # Equivalently: Σ OC_i - Σ YR_i ≤ budget_sum - cert
+        pooled_r = gp.LinExpr()
+        for i in s_indices:
+            pooled_r += residual_linexpr[i]
+        model.addConstr(pooled_r >= cert, name="CF1_pooled_residual")
+
+    elif cf_rule == "CF2":
+        # Area-weighted: r_i ≥ (FS_i / total_ha) × cert  for each i
+        for i in s_indices:
+            area_share = fl[i][1] / total_ha
             model.addConstr(
-                x[i][j] + x[i][k] <= 1,
-                name=f"incompat_{i}_{j}_{k}"
+                residual_linexpr[i] >= area_share * cert,
+                name=f"CF2_area_weighted_{i}"
             )
 
-        # Constraint 3: Linearisation
-        for j, k in compat:
-            model.addConstr(z[i][(j, k)] <= x[i][j],             name=f"zub1_{i}_{j}_{k}")
-            model.addConstr(z[i][(j, k)] <= x[i][k],             name=f"zub2_{i}_{j}_{k}")
-            model.addConstr(z[i][(j, k)] >= x[i][j]+x[i][k]-1,  name=f"zlb_{i}_{j}_{k}")
+    elif cf_rule == "CF3":
+        # Sequestration-weighted (bilinear):
+        #   r_i × SEQ_total ≥ FS_i × CSP_i(x_i) × cert   for each i
+        # where SEQ_total = Σ_i FS_i × CSP_i(x_i)
+        
+        # Auxiliary vars for residuals (continuous, ≥ 0)
+        # (Notice ub is removed so residuals can grow indefinitely if highly profitable)
+        r_var = model.addVars(s_indices, lb=0.0, name="r_aux")
+        
+        # Link r_var[i] = r_i   (equality with the LinExpr)
+        for i in s_indices:
+            model.addConstr(r_var[i] == residual_linexpr[i], name=f"r_link_{i}")
 
-    # Constraint 4: CF1 — pooled residual
-    # Σ B_i - Σ OC_i(x_i) ≥ cert_total
-    # ↔  Σ OC_i(x_i) ≤ budget_sum - cert_total
-    model.addConstr(
-        coalition_oc_expr <= budget_sum - cert_total,
-        name="CF1_pooled_residual"
-    )
+        # Auxiliary var for total sequestration (continuous, ≥ 0)
+        # (Notice max_possible_seq calculation is completely deleted, and ub is removed)
+        seq_total_var = model.addVar(lb=0.0, name="seq_total")
+        
+        seq_total_expr = gp.LinExpr()
+        for i in s_indices:
+            seq_total_expr += seq_linexpr[i]
+        model.addConstr(seq_total_var == seq_total_expr, name="seq_total_link")
 
-    # ── Solve ─────────────────────────────────────────────────────────────
+        # CF3 per-farmer bilinear constraints:
+        #   r_var[i] * seq_total_var ≥ cert × seq_linexpr[i]
+        for i in s_indices:
+            csp_rhs = gp.LinExpr()
+            csp_rhs += seq_linexpr[i]
+            csp_rhs *= cert   # scale by cert (constant)
+
+            model.addQConstr(
+                r_var[i] * seq_total_var >= csp_rhs,
+                name=f"CF3_seq_weighted_{i}"
+            )
+
+    # ── Solve ─────────────────────────────────────────────────────────────────
     model.optimize()
-    status = model.Status
+    status_code = model.Status
 
-    # ── Extract results ───────────────────────────────────────────────────
-    if status == GRB.OPTIMAL:
+    # ── Extract results ───────────────────────────────────────────────────────
+    if status_code == GRB.OPTIMAL:
         portfolios = {}
-        total_seq = 0.0
-        total_oc  = 0.0
-        total_yr  = 0.0
+        total_seq = total_oc = total_yr = 0.0
 
         for i in s_indices:
-            FS = fl[i][1]
-            x_vals = {j: round(x[i][j].X) for j in range(m)}
+            FS     = fl[i][1]
+            x_vals = {j:   round(x[i][j].X)       for j in range(m)}
             z_vals = {(j, k): round(z[i][(j, k)].X) for j, k in compat}
-
             adopted = [j for j in range(m) if x_vals[j] == 1]
             portfolios[i] = adopted
 
-            # Recompute from solution for reporting
             seq_i = FS * (
                 sum(csp[j]         for j in adopted)
                 + sum(alpha[j, k] * z_vals[(j, k)] for j, k in compat)
@@ -4456,18 +4493,16 @@ def solve_coalition(
             total_oc  += oc_i
             total_yr  += yr_i
 
-        v_val        = model.ObjVal
-        carbon_rev   = total_seq * CCP
+        v_val         = model.ObjVal
         result_status = "optimal"
 
     else:
-        v_val        = 0.0
-        portfolios   = {}
-        total_seq    = 0.0
-        total_oc     = 0.0
-        total_yr     = 0.0
-        carbon_rev   = 0.0
-        result_status = "infeasible" if status == GRB.INFEASIBLE else f"status_{status}"
+        v_val         = 0.0
+        portfolios    = {}
+        total_seq = total_oc = total_yr = 0.0
+        result_status = (
+            "infeasible" if status_code == GRB.INFEASIBLE else f"status_{status_code}"
+        )
 
     model.dispose()
     env.dispose()
@@ -4476,11 +4511,11 @@ def solve_coalition(
         "s_indices"            : s_indices,
         "status"               : result_status,
         "v"                    : v_val,
-        "portfolios"           : portfolios,   # {farmer_idx: [practice_idx,...]}
+        "portfolios"           : portfolios,
         "total_seq_tco2"       : total_seq,
         "total_oc_inr"         : total_oc,
         "total_yield_rev_inr"  : total_yr,
-        "total_carbon_rev_inr" : carbon_rev,
+        "total_carbon_rev_inr" : total_seq * CCP,
         "c_mrv"                : c_mrv,
         "c_t"                  : c_t,
         "solve_time_s"         : time.perf_counter() - t0,
@@ -4488,43 +4523,39 @@ def solve_coalition(
 
 """
 ## 4. Generate all coalitions
-
-We enumerate by coalition size (1, 2, …, N) so singletons are solved first,
-letting us verify them against Notebook 02 before committing to the full run.
 """
 
 all_coalitions: List[tuple] = []
 for size in range(1, N + 1):
     all_coalitions.extend(combinations(range(N), size))
-
-# Convert each combination to a tuple (already is, but be explicit)
 all_coalitions = [tuple(c) for c in all_coalitions]
 
-print(f"Total coalitions to solve: {len(all_coalitions):,}")
-print(f"  Singletons  : {N}")
-print(f"  Pairs       : {N*(N-1)//2}")
-print(f"  Grand coal. : 1  (last in list)")
-print(f"  All others  : {len(all_coalitions) - N - N*(N-1)//2 - 1}")
+print(f"Total coalitions : {len(all_coalitions):,}")
+print(f"  Singletons     : {N}")
+print(f"  Pairs          : {N*(N-1)//2}")
+print(f"  Grand coal.    : 1")
 # Output:
-#   Total coalitions to solve: 32,767
+#   Total coalitions : 32,767
 
-#     Singletons  : 15
+#     Singletons     : 15
 
-#     Pairs       : 105
+#     Pairs          : 105
 
-#     Grand coal. : 1  (last in list)
-
-#     All others  : 32646
+#     Grand coal.    : 1
 
 
 """
-## 5. Run singleton solves first — verify against Notebook 02
+## 5. Singleton solves — verify against Notebook 02
 
-Before launching the full parallel sweep, we solve the 15 singletons
-sequentially and cross-check against `standalone_values` from Notebook 02.
-This validates the coalition solver at zero cost.
+**Expected behaviour by CF rule:**
+- The paper's coalition individual budget (`OC + yield_loss ≤ B`) differs from
+  the solo budget (`OC + cert ≤ B`).  When adopted practices have non-zero
+  yield changes, singleton values from NB03 may differ from NB02.
+- CF1 singletons: budget constraint is `OC − YLD×PADDY ≤ B − cert`, equivalent
+  to NB02 only when `YLD = 0`.  A tolerance of ~100 INR is reasonable.
+- CF2/CF3 singletons: per-farmer cert-share constraints are stricter than CF1,
+  so singleton values may be lower than NB02 — this is correct and expected.
 """
-
 
 static = dict(
     fl       = farmer_lookup,
@@ -4539,18 +4570,25 @@ static = dict(
     m        = M,
     cfg_snap = {
         **cfg,
-        "GUROBI_TIME_LIMIT": config.GUROBI_TIME_LIMIT,
-        "GUROBI_MIP_GAP"   : config.GUROBI_MIP_GAP,
+        "CF_RULE"           : config.CF_RULE,
+        "GUROBI_TIME_LIMIT" : config.GUROBI_TIME_LIMIT,
+        "GUROBI_MIP_GAP"    : config.GUROBI_MIP_GAP,
     },
 )
 
-print("Solving singletons...")
-singleton_results: Dict[str, Dict] = {}
-TOLERANCE = 5.0   # INR — allowable mismatch between NB02 and NB03 singleton values
+# Tolerance note: CF2/CF3 impose stricter per-farmer constraints than NB02,
+# so larger mismatches are expected.  Use a generous tolerance and report diffs.
+TOLERANCE = {
+    "CF1": 10.0,   # INR — only yield-rounding introduces difference
+    "CF2": 1e9,    # CF2 singletons may be strictly lower than NB02; just report
+    "CF3": 1e9,    # same
+}[config.CF_RULE]
 
-all_match = True
-print(f"{'Farmer':<8}  {'NB02 ṽ':>12}  {'NB03 v':>12}  {'Diff':>10}  Status")
-print("-" * 60)
+print(f"Solving 15 singletons with {config.CF_RULE}...")
+singleton_results: Dict[str, Dict] = {}
+
+print(f"\n{'Farmer':<8}  {'NB02 ṽ':>12}  {'NB03 v':>12}  {'Diff':>12}  Note")
+print("-" * 70)
 
 for i in range(N):
     res = solve_coalition((i,), **static)
@@ -4559,79 +4597,86 @@ for i in range(N):
 
     v_nb03 = res["v"]
     v_nb02 = standalone_values[fid]["standalone_value"]
-    diff   = abs(v_nb03 - v_nb02)
+    diff   = v_nb03 - v_nb02   # negative means NB03 is stricter (expected for CF2/CF3)
 
-    match  = diff <= TOLERANCE
-    if not match:
-        all_match = False
-    flag = "OK" if match else "MISMATCH ← investigate"
+    if config.CF_RULE == "CF1":
+        note = "OK" if abs(diff) <= TOLERANCE else "MISMATCH ← check signs"
+    else:
+        note = (
+            f"CF{config.CF_RULE[-1]} stricter (expected)" if diff < -0.5
+            else "OK (no binding difference)"
+        )
 
-    print(f"{fid:<8}  {v_nb02:>12,.0f}  {v_nb03:>12,.0f}  {diff:>10.2f}  {flag}")
+    print(f"{fid:<8}  {v_nb02:>12,.0f}  {v_nb03:>12,.0f}  {diff:>+12.0f}  {note}")
 
 print()
-if all_match:
-    print("Singleton verification: ALL PASS ✓")
+if config.CF_RULE == "CF1":
+    large_mismatches = [
+        fid for fid in farmer_ids
+        if abs(singleton_results[fid]["v"] - standalone_values[fid]["standalone_value"]) > TOLERANCE
+    ]
+    if large_mismatches:
+        print(f"WARNING: CF1 singletons diverge for {large_mismatches}. Check yield signs.")
+    else:
+        print("CF1 singleton verification: all within tolerance ✓")
 else:
-    print("WARNING: Some singletons do not match NB02 standalone values.")
-    print("Investigate sign conventions or budget constraint differences before proceeding.")
+    print(f"Note: {config.CF_RULE} imposes per-farmer cert obligations that solo NB02 does not.")
+    print("      Lower singleton values are correct — they reflect a stricter feasibility screen.")
 # Output:
-#   Solving singletons...
-
-#   Farmer          NB02 ṽ        NB03 v        Diff  Status
-
-#   ------------------------------------------------------------
-
-#   F0001                0             0        0.00  OK
-
-#   F0002                0             0        0.00  OK
-
-#   F0003                0             0        0.00  OK
-
-#   F0004                0             0        0.00  OK
-
-#   F0005                0             0        0.00  OK
-
-#   F0006                0             0        0.00  OK
-
-#   F0007                0             0        0.00  OK
-
-#   F0008                0             0        0.00  OK
-
-#   F0009                0             0        0.00  OK
-
-#   F0010                0             0        0.00  OK
-
-#   F0011                0             0        0.00  OK
-
-#   F0012                0             0        0.00  OK
-
-#   F0013                0             0        0.00  OK
-
-#   F0014                0             0        0.00  OK
-
-#   F0015                0             0        0.00  OK
+#   Solving 15 singletons with CF1...
 
 #   
 
-#   Singleton verification: ALL PASS ✓
+#   Farmer          NB02 ṽ        NB03 v          Diff  Note
+
+#   ----------------------------------------------------------------------
+
+#   F0001                0             0            +0  OK
+
+#   F0002                0             0            +0  OK
+
+#   F0003                0             0            +0  OK
+
+#   F0004                0             0            +0  OK
+
+#   F0005                0             0            +0  OK
+
+#   F0006                0             0            +0  OK
+
+#   F0007                0             0            +0  OK
+
+#   F0008                0             0            +0  OK
+
+#   F0009                0             0            +0  OK
+
+#   F0010                0             0            +0  OK
+
+#   F0011                0             0            +0  OK
+
+#   F0012                0             0            +0  OK
+
+#   F0013                0             0            +0  OK
+
+#   F0014                0             0            +0  OK
+
+#   F0015                0             0            +0  OK
+
+#   
+
+#   CF1 singleton verification: all within tolerance ✓
 
 
 """
 ## 6. Full enumeration — parallel MILP sweep
-
-We skip singletons here (already solved above) and solve the remaining
-$2^{15} - 15 - 1 = 32{,}752$ coalitions in parallel.
-
-> **Gurobi licence note:** By default Gurobi permits multiple simultaneous
-> solver instances.  If you see licence errors, set `N_JOBS = 1` in
-> `config.py` to fall back to sequential execution.
 """
 
-# Singletons are done; solve everything else (pairs through grand coalition)
 non_singleton_coalitions = [c for c in all_coalitions if len(c) > 1]
 
-print(f"Coalitions remaining  : {len(non_singleton_coalitions):,}")
-print(f"Parallel workers      : {config.N_JOBS}  (-1 = all CPU cores)")
+print(f"CF_RULE              : {config.CF_RULE}")
+print(f"Coalitions remaining : {len(non_singleton_coalitions):,}")
+print(f"Parallel workers     : {config.N_JOBS}")
+if config.CF_RULE == "CF3":
+    print("NOTE: CF3 uses NonConvex=2 — each solve is slower than CF1/CF2.")
 print()
 print("Starting parallel enumeration...")
 
@@ -4639,26 +4684,25 @@ t_start = time.perf_counter()
 
 try:
     raw_results = Parallel(
-        n_jobs      = config.N_JOBS,
-        backend     = "loky",
-        verbose     = 0,
-        batch_size  = "auto",
+        n_jobs     = config.N_JOBS,
+        backend    = "loky",
+        verbose    = 0,
+        batch_size = "auto",
     )(
         delayed(solve_coalition)(s, **static)
         for s in tqdm(
             non_singleton_coalitions,
-            desc        = "Solving coalitions",
-            unit        = "coal.",
-            smoothing   = 0.05,
-            miniters    = 100,
+            desc      = f"Solving ({config.CF_RULE})",
+            unit      = "coal.",
+            smoothing = 0.05,
+            miniters  = 100,
         )
     )
     print("\nParallel run completed.")
 
 except Exception as exc:
     warnings.warn(
-        f"Parallel execution failed ({exc}). "
-        "Falling back to sequential solve. This will be slower."
+        f"Parallel execution failed ({exc}). Falling back to sequential."
     )
     raw_results = []
     for s in tqdm(non_singleton_coalitions, desc="Solving (sequential)", unit="coal."):
@@ -4667,34 +4711,26 @@ except Exception as exc:
 t_elapsed = time.perf_counter() - t_start
 print(f"Elapsed: {t_elapsed:.1f} s  ({t_elapsed/60:.1f} min)")
 # Output:
-#   Coalitions remaining  : 32,752
+#   CF_RULE              : CF1
 
-#   Parallel workers      : -1  (-1 = all CPU cores)
+#   Coalitions remaining : 32,752
+
+#   Parallel workers     : -1
 
 #   
 
 #   Starting parallel enumeration...
 
-#   Solving coalitions: 100%|██████████| 32752/32752 [06:41<00:00, 81.57coal./s] 
-
-#   
-
-#   Parallel run completed.
-
-#   Elapsed: 402.0 s  (6.7 min)
-
+#   Solving (CF1):   7%|▋         | 2250/32752 [00:04<01:06, 459.39coal./s]
 
 """
 ## 7. Assemble the characteristic function
 """
 
-# characteristic_function maps frozenset of Farmer_IDs to coalition value v(S)
 characteristic_function: Dict[frozenset, float] = {}
+coalition_meta:          Dict[frozenset, Dict]  = {}
 
-# Also store: status and sequestration for every coalition (compact)
-coalition_meta: Dict[frozenset, Dict] = {}
-
-# ── Insert singletons from Step 5 ────────────────────────────────────────────
+# Singletons
 for i in range(N):
     fid = farmer_lookup[i][0]
     res = singleton_results[fid]
@@ -4708,7 +4744,7 @@ for i in range(N):
         "solve_time_s" : res["solve_time_s"],
     }
 
-# ── Insert all other coalitions from parallel results ────────────────────────
+# All other coalitions
 grand_coalition_result = None
 grand_coalition_key    = frozenset(farmer_ids)
 
@@ -4726,27 +4762,18 @@ for res in raw_results:
     if key == grand_coalition_key:
         grand_coalition_result = res
 
-print(f"Characteristic function entries : {len(characteristic_function):,}")
-print(f"Expected                        : {2**N - 1:,}")
 assert len(characteristic_function) == 2**N - 1, "Entry count mismatch!"
-print("Entry count: PASS ✓")
-# Output:
-#   Characteristic function entries : 32,767
-
-#   Expected                        : 32,767
-
-#   Entry count: PASS ✓
-
+print(f"Characteristic function entries: {len(characteristic_function):,} ✓")
 
 """
 ## 8. Grand coalition details
 """
 
-v_gc = characteristic_function[grand_coalition_key]
+v_gc    = characteristic_function[grand_coalition_key]
 gc_meta = coalition_meta[grand_coalition_key]
 
 print("=" * 60)
-print("GRAND COALITION")
+print(f"GRAND COALITION  [{config.CF_RULE}]")
 print("=" * 60)
 print(f"  Farmers          : {N}")
 print(f"  Total area (ha)  : {gc_meta['total_ha']:.2f}")
@@ -4754,15 +4781,13 @@ print(f"  Status           : {gc_meta['status']}")
 print(f"  v(Grand)  (INR)  : {v_gc:>15,.0f}")
 print(f"  Seq. (tCO2/seas) : {gc_meta['seq_tco2']:>10.2f}")
 
-# Compare with sum of standalone values
-sum_sv = sum(standalone_values[fid]["standalone_value"] for fid in farmer_ids)
+sum_sv  = sum(standalone_values[fid]["standalone_value"] for fid in farmer_ids)
 surplus = v_gc - sum_sv
 print()
 print(f"  Σ ṽ({{i}})  (INR) : {sum_sv:>15,.0f}")
 print(f"  Coalition surplus: {surplus:>15,.0f}  "
       f"({'+' if surplus>=0 else ''}{100*surplus/max(sum_sv,1):.1f}% over sum of solo)")
 
-# Grand coalition portfolios
 print()
 print("Optimal portfolios in grand coalition:")
 print("-" * 60)
@@ -4770,619 +4795,18 @@ if grand_coalition_result and grand_coalition_result["portfolios"]:
     for i in range(N):
         fid   = farmer_lookup[i][0]
         port  = grand_coalition_result["portfolios"].get(i, [])
-        pnames = [practice_names[j] for j in port]
-        print(f"  {fid} ({farmer_lookup[i][1]:.2f} ha): {len(port)} practices")
-        for pn in pnames:
-            print(f"      • {pn}")
+        print(f"  {fid} ({farmer_lookup[i][1]:.2f} ha): "
+              f"{[practice_names[j] for j in port]}")
 else:
-    print("  Grand coalition was infeasible — no portfolios available.")
-# Output:
-#   ============================================================
-
-#   GRAND COALITION
-
-#   ============================================================
-
-#     Farmers          : 15
-
-#     Total area (ha)  : 13.26
-
-#     Status           : optimal
-
-#     v(Grand)  (INR)  :       1,499,422
-
-#     Seq. (tCO2/seas) :     199.54
-
-#   
-
-#     Σ ṽ({i})  (INR) :               0
-
-#     Coalition surplus:       1,499,422  (+149942168.5% over sum of solo)
-
-#   
-
-#   Optimal portfolios in grand coalition:
-
-#   ------------------------------------------------------------
-
-#     F0001 (0.82 ha): 18 practices
-
-#         • Zero Tillage (ZT)
-
-#         • Crop Residue Retention
-
-#         • Reduced / Minimum Tillage
-
-#         • Puddling Reduction
-
-#         • Mid-Season Drainage (MSD)
-
-#         • Alternate Wetting and Drying (AWD)
-
-#         • System of Rice Intensification (SRI) Water Management
-
-#         • Optimised / Variable-Rate N Application
-
-#         • Integrated Nutrient Management (INM) – Organic + Inorganic
-
-#         • Green Manure Incorporation
-
-#         • Farmyard Manure (FYM) Application
-
-#         • Compost Application
-
-#         • Biochar Application
-
-#         • Rice Straw Incorporation with N Fertiliser
-
-#         • Crop Rotation and Diversification
-
-#         • Early-Maturing / Low-Emission Variety Selection
-
-#         • High-Biomass / Deep-Root Variety Selection
-
-#         • Deep Placement of N Fertiliser
-
-#     F0002 (0.21 ha): 18 practices
-
-#         • Zero Tillage (ZT)
-
-#         • Crop Residue Retention
-
-#         • Reduced / Minimum Tillage
-
-#         • Puddling Reduction
-
-#         • Mid-Season Drainage (MSD)
-
-#         • Alternate Wetting and Drying (AWD)
-
-#         • System of Rice Intensification (SRI) Water Management
-
-#         • Optimised / Variable-Rate N Application
-
-#         • Integrated Nutrient Management (INM) – Organic + Inorganic
-
-#         • Green Manure Incorporation
-
-#         • Farmyard Manure (FYM) Application
-
-#         • Compost Application
-
-#         • Biochar Application
-
-#         • Rice Straw Incorporation with N Fertiliser
-
-#         • Crop Rotation and Diversification
-
-#         • Early-Maturing / Low-Emission Variety Selection
-
-#         • High-Biomass / Deep-Root Variety Selection
-
-#         • Deep Placement of N Fertiliser
-
-#     F0003 (1.28 ha): 18 practices
-
-#         • Zero Tillage (ZT)
-
-#         • Crop Residue Retention
-
-#         • Reduced / Minimum Tillage
-
-#         • Puddling Reduction
-
-#         • Mid-Season Drainage (MSD)
-
-#         • Alternate Wetting and Drying (AWD)
-
-#         • System of Rice Intensification (SRI) Water Management
-
-#         • Optimised / Variable-Rate N Application
-
-#         • Integrated Nutrient Management (INM) – Organic + Inorganic
-
-#         • Green Manure Incorporation
-
-#         • Farmyard Manure (FYM) Application
-
-#         • Compost Application
-
-#         • Biochar Application
-
-#         • Rice Straw Incorporation with N Fertiliser
-
-#         • Crop Rotation and Diversification
-
-#         • Early-Maturing / Low-Emission Variety Selection
-
-#         • High-Biomass / Deep-Root Variety Selection
-
-#         • Deep Placement of N Fertiliser
-
-#     F0004 (1.55 ha): 18 practices
-
-#         • Zero Tillage (ZT)
-
-#         • Crop Residue Retention
-
-#         • Reduced / Minimum Tillage
-
-#         • Puddling Reduction
-
-#         • Mid-Season Drainage (MSD)
-
-#         • Alternate Wetting and Drying (AWD)
-
-#         • System of Rice Intensification (SRI) Water Management
-
-#         • Optimised / Variable-Rate N Application
-
-#         • Integrated Nutrient Management (INM) – Organic + Inorganic
-
-#         • Green Manure Incorporation
-
-#         • Farmyard Manure (FYM) Application
-
-#         • Compost Application
-
-#         • Biochar Application
-
-#         • Rice Straw Incorporation with N Fertiliser
-
-#         • Crop Rotation and Diversification
-
-#         • Early-Maturing / Low-Emission Variety Selection
-
-#         • High-Biomass / Deep-Root Variety Selection
-
-#         • Deep Placement of N Fertiliser
-
-#     F0005 (0.69 ha): 18 practices
-
-#         • Zero Tillage (ZT)
-
-#         • Crop Residue Retention
-
-#         • Reduced / Minimum Tillage
-
-#         • Puddling Reduction
-
-#         • Mid-Season Drainage (MSD)
-
-#         • Alternate Wetting and Drying (AWD)
-
-#         • System of Rice Intensification (SRI) Water Management
-
-#         • Optimised / Variable-Rate N Application
-
-#         • Integrated Nutrient Management (INM) – Organic + Inorganic
-
-#         • Green Manure Incorporation
-
-#         • Farmyard Manure (FYM) Application
-
-#         • Compost Application
-
-#         • Biochar Application
-
-#         • Rice Straw Incorporation with N Fertiliser
-
-#         • Crop Rotation and Diversification
-
-#         • Early-Maturing / Low-Emission Variety Selection
-
-#         • High-Biomass / Deep-Root Variety Selection
-
-#         • Deep Placement of N Fertiliser
-
-#     F0006 (0.44 ha): 18 practices
-
-#         • Zero Tillage (ZT)
-
-#         • Crop Residue Retention
-
-#         • Reduced / Minimum Tillage
-
-#         • Puddling Reduction
-
-#         • Mid-Season Drainage (MSD)
-
-#         • Alternate Wetting and Drying (AWD)
-
-#         • System of Rice Intensification (SRI) Water Management
-
-#         • Optimised / Variable-Rate N Application
-
-#         • Integrated Nutrient Management (INM) – Organic + Inorganic
-
-#         • Green Manure Incorporation
-
-#         • Farmyard Manure (FYM) Application
-
-#         • Compost Application
-
-#         • Biochar Application
-
-#         • Rice Straw Incorporation with N Fertiliser
-
-#         • Crop Rotation and Diversification
-
-#         • Early-Maturing / Low-Emission Variety Selection
-
-#         • High-Biomass / Deep-Root Variety Selection
-
-#         • Deep Placement of N Fertiliser
-
-#     F0007 (0.60 ha): 18 practices
-
-#         • Zero Tillage (ZT)
-
-#         • Crop Residue Retention
-
-#         • Reduced / Minimum Tillage
-
-#         • Puddling Reduction
-
-#         • Mid-Season Drainage (MSD)
-
-#         • Alternate Wetting and Drying (AWD)
-
-#         • System of Rice Intensification (SRI) Water Management
-
-#         • Optimised / Variable-Rate N Application
-
-#         • Integrated Nutrient Management (INM) – Organic + Inorganic
-
-#         • Green Manure Incorporation
-
-#         • Farmyard Manure (FYM) Application
-
-#         • Compost Application
-
-#         • Biochar Application
-
-#         • Rice Straw Incorporation with N Fertiliser
-
-#         • Crop Rotation and Diversification
-
-#         • Early-Maturing / Low-Emission Variety Selection
-
-#         • High-Biomass / Deep-Root Variety Selection
-
-#         • Deep Placement of N Fertiliser
-
-#     F0008 (0.26 ha): 18 practices
-
-#         • Zero Tillage (ZT)
-
-#         • Crop Residue Retention
-
-#         • Reduced / Minimum Tillage
-
-#         • Puddling Reduction
-
-#         • Mid-Season Drainage (MSD)
-
-#         • Alternate Wetting and Drying (AWD)
-
-#         • System of Rice Intensification (SRI) Water Management
-
-#         • Optimised / Variable-Rate N Application
-
-#         • Integrated Nutrient Management (INM) – Organic + Inorganic
-
-#         • Green Manure Incorporation
-
-#         • Farmyard Manure (FYM) Application
-
-#         • Compost Application
-
-#         • Biochar Application
-
-#         • Rice Straw Incorporation with N Fertiliser
-
-#         • Crop Rotation and Diversification
-
-#         • Early-Maturing / Low-Emission Variety Selection
-
-#         • High-Biomass / Deep-Root Variety Selection
-
-#         • Deep Placement of N Fertiliser
-
-#     F0009 (1.46 ha): 18 practices
-
-#         • Zero Tillage (ZT)
-
-#         • Crop Residue Retention
-
-#         • Reduced / Minimum Tillage
-
-#         • Puddling Reduction
-
-#         • Mid-Season Drainage (MSD)
-
-#         • Alternate Wetting and Drying (AWD)
-
-#         • System of Rice Intensification (SRI) Water Management
-
-#         • Optimised / Variable-Rate N Application
-
-#         • Integrated Nutrient Management (INM) – Organic + Inorganic
-
-#         • Green Manure Incorporation
-
-#         • Farmyard Manure (FYM) Application
-
-#         • Compost Application
-
-#         • Biochar Application
-
-#         • Rice Straw Incorporation with N Fertiliser
-
-#         • Crop Rotation and Diversification
-
-#         • Early-Maturing / Low-Emission Variety Selection
-
-#         • High-Biomass / Deep-Root Variety Selection
-
-#         • Deep Placement of N Fertiliser
-
-#     F0010 (1.32 ha): 18 practices
-
-#         • Zero Tillage (ZT)
-
-#         • Crop Residue Retention
-
-#         • Reduced / Minimum Tillage
-
-#         • Puddling Reduction
-
-#         • Mid-Season Drainage (MSD)
-
-#         • Alternate Wetting and Drying (AWD)
-
-#         • System of Rice Intensification (SRI) Water Management
-
-#         • Optimised / Variable-Rate N Application
-
-#         • Integrated Nutrient Management (INM) – Organic + Inorganic
-
-#         • Green Manure Incorporation
-
-#         • Farmyard Manure (FYM) Application
-
-#         • Compost Application
-
-#         • Biochar Application
-
-#         • Rice Straw Incorporation with N Fertiliser
-
-#         • Crop Rotation and Diversification
-
-#         • Early-Maturing / Low-Emission Variety Selection
-
-#         • High-Biomass / Deep-Root Variety Selection
-
-#         • Deep Placement of N Fertiliser
-
-#     F0011 (0.65 ha): 18 practices
-
-#         • Zero Tillage (ZT)
-
-#         • Crop Residue Retention
-
-#         • Reduced / Minimum Tillage
-
-#         • Puddling Reduction
-
-#         • Mid-Season Drainage (MSD)
-
-#         • Alternate Wetting and Drying (AWD)
-
-#         • System of Rice Intensification (SRI) Water Management
-
-#         • Optimised / Variable-Rate N Application
-
-#         • Integrated Nutrient Management (INM) – Organic + Inorganic
-
-#         • Green Manure Incorporation
-
-#         • Farmyard Manure (FYM) Application
-
-#         • Compost Application
-
-#         • Biochar Application
-
-#         • Rice Straw Incorporation with N Fertiliser
-
-#         • Crop Rotation and Diversification
-
-#         • Early-Maturing / Low-Emission Variety Selection
-
-#         • High-Biomass / Deep-Root Variety Selection
-
-#         • Deep Placement of N Fertiliser
-
-#     F0012 (1.87 ha): 18 practices
-
-#         • Zero Tillage (ZT)
-
-#         • Crop Residue Retention
-
-#         • Reduced / Minimum Tillage
-
-#         • Puddling Reduction
-
-#         • Mid-Season Drainage (MSD)
-
-#         • Alternate Wetting and Drying (AWD)
-
-#         • System of Rice Intensification (SRI) Water Management
-
-#         • Optimised / Variable-Rate N Application
-
-#         • Integrated Nutrient Management (INM) – Organic + Inorganic
-
-#         • Green Manure Incorporation
-
-#         • Farmyard Manure (FYM) Application
-
-#         • Compost Application
-
-#         • Biochar Application
-
-#         • Rice Straw Incorporation with N Fertiliser
-
-#         • Crop Rotation and Diversification
-
-#         • Early-Maturing / Low-Emission Variety Selection
-
-#         • High-Biomass / Deep-Root Variety Selection
-
-#         • Deep Placement of N Fertiliser
-
-#     F0013 (0.97 ha): 18 practices
-
-#         • Zero Tillage (ZT)
-
-#         • Crop Residue Retention
-
-#         • Reduced / Minimum Tillage
-
-#         • Puddling Reduction
-
-#         • Mid-Season Drainage (MSD)
-
-#         • Alternate Wetting and Drying (AWD)
-
-#         • System of Rice Intensification (SRI) Water Management
-
-#         • Optimised / Variable-Rate N Application
-
-#         • Integrated Nutrient Management (INM) – Organic + Inorganic
-
-#         • Green Manure Incorporation
-
-#         • Farmyard Manure (FYM) Application
-
-#         • Compost Application
-
-#         • Biochar Application
-
-#         • Rice Straw Incorporation with N Fertiliser
-
-#         • Crop Rotation and Diversification
-
-#         • Early-Maturing / Low-Emission Variety Selection
-
-#         • High-Biomass / Deep-Root Variety Selection
-
-#         • Deep Placement of N Fertiliser
-
-#     F0014 (0.26 ha): 18 practices
-
-#         • Zero Tillage (ZT)
-
-#         • Crop Residue Retention
-
-#         • Reduced / Minimum Tillage
-
-#         • Puddling Reduction
-
-#         • Mid-Season Drainage (MSD)
-
-#         • Alternate Wetting and Drying (AWD)
-
-#         • System of Rice Intensification (SRI) Water Management
-
-#         • Optimised / Variable-Rate N Application
-
-#         • Integrated Nutrient Management (INM) – Organic + Inorganic
-
-#         • Green Manure Incorporation
-
-#         • Farmyard Manure (FYM) Application
-
-#         • Compost Application
-
-#         • Biochar Application
-
-#         • Rice Straw Incorporation with N Fertiliser
-
-#         • Crop Rotation and Diversification
-
-#         • Early-Maturing / Low-Emission Variety Selection
-
-#         • High-Biomass / Deep-Root Variety Selection
-
-#         • Deep Placement of N Fertiliser
-
-#     F0015 (0.88 ha): 18 practices
-
-#         • Zero Tillage (ZT)
-
-#         • Crop Residue Retention
-
-#         • Reduced / Minimum Tillage
-
-#         • Puddling Reduction
-
-#         • Mid-Season Drainage (MSD)
-
-#         • Alternate Wetting and Drying (AWD)
-
-#         • System of Rice Intensification (SRI) Water Management
-
-#         • Optimised / Variable-Rate N Application
-
-#         • Integrated Nutrient Management (INM) – Organic + Inorganic
-
-#         • Green Manure Incorporation
-
-#         • Farmyard Manure (FYM) Application
-
-#         • Compost Application
-
-#         • Biochar Application
-
-#         • Rice Straw Incorporation with N Fertiliser
-
-#         • Crop Rotation and Diversification
-
-#         • Early-Maturing / Low-Emission Variety Selection
-
-#         • High-Biomass / Deep-Root Variety Selection
-
-#         • Deep Placement of N Fertiliser
-
+    print("  Grand coalition infeasible under this CF rule.")
 
 """
 ## 9. Characteristic function analysis
 """
 
-# ── 9a. Value distribution by coalition size ──────────────────────────────────
-size_stats: Dict[int, list] = {k: [] for k in range(1, N+1)}
-n_feasible_by_size: Dict[int, int] = {k: 0 for k in range(1, N+1)}
+# Value distribution by coalition size
+size_stats:         Dict[int, list] = {k: [] for k in range(1, N+1)}
+n_feasible_by_size: Dict[int, int]  = {k: 0  for k in range(1, N+1)}
 
 for key, v in characteristic_function.items():
     sz = len(key)
@@ -5391,76 +4815,25 @@ for key, v in characteristic_function.items():
         n_feasible_by_size[sz] += 1
 
 print(f"{'Size':>5}  {'Count':>7}  {'Feasible':>9}  "
-      f"{'Min v':>12}  {'Median v':>12}  {'Max v':>12}  {'Mean v':>12}")
-print("-" * 80)
+      f"{'Min v':>12}  {'Median v':>12}  {'Max v':>12}")
+print("-" * 75)
 for sz in range(1, N+1):
     vals = np.array(size_stats[sz])
-    print(
-        f"{sz:>5}  {len(vals):>7,}  {n_feasible_by_size[sz]:>9,}  "
-        f"{vals.min():>12,.0f}  {np.median(vals):>12,.0f}  "
-        f"{vals.max():>12,.0f}  {vals.mean():>12,.0f}"
-    )
-# Output:
-#    Size    Count   Feasible         Min v      Median v         Max v        Mean v
+    print(f"{sz:>5}  {len(vals):>7,}  {n_feasible_by_size[sz]:>9,}  "
+          f"{vals.min():>12,.0f}  {np.median(vals):>12,.0f}  {vals.max():>12,.0f}")
 
-#   --------------------------------------------------------------------------------
-
-#       1       15          0             0             0             0             0
-
-#       2      105          0             0             0             0             0
-
-#       3      455         32             0             0       547,088        32,972
-
-#       4    1,365        330             0             0       697,404       126,735
-
-#       5    3,003      1,479             0             0       843,216       285,980
-
-#       6    5,005      3,682             0       593,566       953,628       473,231
-
-#       7    6,435      5,793             0       694,761     1,053,770       644,751
-
-#       8    6,435      6,285             0       794,844     1,147,066       782,548
-
-#       9    5,005      4,997             0       896,097     1,225,503       894,745
-
-#      10    3,003      3,003       646,409       997,372     1,299,372       996,239
-
-#      11    1,365      1,365       792,201     1,099,810     1,367,527     1,096,844
-
-#      12      455        455       942,623     1,201,122     1,417,378     1,197,467
-
-#      13      105        105     1,109,105     1,303,593     1,446,633     1,298,105
-
-#      14       15         15     1,285,930     1,406,079     1,475,888     1,398,757
-
-#      15        1          1     1,499,422     1,499,422     1,499,422     1,499,422
-
-
-# ── 9b. Superadditivity check ─────────────────────────────────────────────────
-# v(S ∪ T) ≥ v(S) + v(T) for all disjoint S, T
-# We check a random sample of disjoint pairs to avoid O(4^N) enumeration.
-
+# Superadditivity spot-check
 rng = np.random.default_rng(42)
 N_CHECK = min(5000, len(all_coalitions) // 2)
-
-violations = 0
-checks_done = 0
-
-# Build index: size -> list of frozensets of that size
-by_size: Dict[int, list] = {sz: [] for sz in range(1, N+1)}
-for key in characteristic_function:
-    by_size[len(key)].append(key)
-
-# Sample pairs: pick a random coalition S, then a random disjoint coalition T
+violations = checks_done = 0
 all_keys = list(characteristic_function.keys())
+
 for _ in range(N_CHECK):
-    idx_s = rng.integers(0, len(all_keys))
-    S = all_keys[idx_s]
+    S = all_keys[rng.integers(0, len(all_keys))]
     remaining = [k for k in all_keys if k.isdisjoint(S)]
     if not remaining:
         continue
-    idx_t = rng.integers(0, len(remaining))
-    T = remaining[idx_t]
+    T  = remaining[rng.integers(0, len(remaining))]
     ST = S | T
     if ST not in characteristic_function:
         continue
@@ -5468,65 +4841,21 @@ for _ in range(N_CHECK):
     if characteristic_function[ST] < characteristic_function[S] + characteristic_function[T] - 1.0:
         violations += 1
 
-print(f"Superadditivity check (random sample of {checks_done:,} disjoint pairs):")
+print(f"\nSuperadditivity check ({checks_done:,} disjoint pairs):")
 if violations == 0:
-    print(f"  Violations: 0 — game is superadditive (PASS ✓)")
+    print("  Violations: 0 — game is superadditive ✓")
 else:
     pct = 100 * violations / max(checks_done, 1)
     print(f"  Violations: {violations} ({pct:.1f}%)")
-    print("  NOTE: Some violations may reflect infeasible sub-coalitions (v=0).")
-    print("  Check if violations occur only when v(S)=0 or v(T)=0.")
-# Output:
-#   Superadditivity check (random sample of 5,000 disjoint pairs):
+    print("  NOTE: CF2/CF3 may produce violations when sub-coalition v=0 "
+          "due to stricter per-farmer cert constraints.")
 
-#     Violations: 0 — game is superadditive (PASS ✓)
-
-
-# ── 9c. Summary statistics ────────────────────────────────────────────────────
+# Summary counts
 all_values = np.array(list(characteristic_function.values()))
-n_positive = (all_values > 0).sum()
-n_zero     = (all_values == 0).sum()
-n_negative = (all_values < 0).sum()
-
-print("Overall characteristic function statistics")
-print("-" * 45)
-print(f"  Total coalitions   : {len(all_values):,}")
-print(f"  v > 0 (profitable) : {n_positive:,}  ({100*n_positive/len(all_values):.1f}%)")
-print(f"  v = 0 (infeasible) : {n_zero:,}  ({100*n_zero/len(all_values):.1f}%)")
-print(f"  v < 0 (loss)       : {n_negative:,}  ({100*n_negative/len(all_values):.1f}%)")
-print()
-pos_vals = all_values[all_values > 0]
-if len(pos_vals) > 0:
-    print(f"  Among profitable coalitions:")
-    print(f"    Min   : {pos_vals.min():>12,.0f} INR")
-    print(f"    Median: {np.median(pos_vals):>12,.0f} INR")
-    print(f"    Mean  : {pos_vals.mean():>12,.0f} INR")
-    print(f"    Max   : {pos_vals.max():>12,.0f} INR")
-# Output:
-#   Overall characteristic function statistics
-
-#   ---------------------------------------------
-
-#     Total coalitions   : 32,767
-
-#     v > 0 (profitable) : 27,542  (84.1%)
-
-#     v = 0 (infeasible) : 5,225  (15.9%)
-
-#     v < 0 (loss)       : 0  (0.0%)
-
-#   
-
-#     Among profitable coalitions:
-
-#       Min   :      418,054 INR
-
-#       Median:      791,415 INR
-
-#       Mean  :      808,609 INR
-
-#       Max   :    1,499,422 INR
-
+n_pos = (all_values > 0).sum()
+n_zer = (all_values == 0).sum()
+n_neg = (all_values < 0).sum()
+print(f"\nOverall:  v>0: {n_pos:,}  v=0: {n_zer:,}  v<0: {n_neg:,}")
 
 """
 ## 10. Visualisations
@@ -5537,80 +4866,71 @@ import matplotlib.ticker as mticker
 
 fig, axes = plt.subplots(1, 3, figsize=(16, 4))
 
-# ── Plot 1: Median coalition value by size ────────────────────────────────────
+# Plot 1: Median value by size
 ax = axes[0]
-sizes    = list(range(1, N+1))
-medians  = [np.median(size_stats[sz]) for sz in sizes]
-q25      = [np.percentile(size_stats[sz], 25) for sz in sizes]
-q75      = [np.percentile(size_stats[sz], 75) for sz in sizes]
-
+sizes   = list(range(1, N+1))
+medians = [np.median(size_stats[sz]) for sz in sizes]
+q25     = [np.percentile(size_stats[sz], 25) for sz in sizes]
+q75     = [np.percentile(size_stats[sz], 75) for sz in sizes]
 ax.plot(sizes, medians, "o-", color="#2980b9", linewidth=2, markersize=5, label="Median")
 ax.fill_between(sizes, q25, q75, alpha=0.25, color="#2980b9", label="IQR")
 ax.axhline(0, color="black", linewidth=0.8, linestyle="--")
-ax.set_title("Coalition Value by Size", fontweight="bold")
+ax.set_title(f"Coalition Value by Size [{config.CF_RULE}]", fontweight="bold")
 ax.set_xlabel("Coalition size |S|")
 ax.set_ylabel("v(S)  [INR/season]")
 ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"{x:,.0f}"))
 ax.legend(fontsize=8)
 ax.set_xticks(sizes)
 
-# ── Plot 2: Feasibility rate by coalition size ────────────────────────────────
+# Plot 2: Feasibility rate by size
 ax = axes[1]
-n_total_by_size = [len(size_stats[sz]) for sz in sizes]
-feas_rate = [
-    100 * n_feasible_by_size[sz] / max(n_total_by_size[sz-1], 1)
-    for sz in sizes
-]
-ax.bar(sizes, feas_rate, color="#27ae60", edgecolor="white", linewidth=0.5)
-ax.set_title("Feasibility Rate by Size", fontweight="bold")
+n_total = [len(size_stats[sz]) for sz in sizes]
+feas_rate = [100 * n_feasible_by_size[sz] / max(n_total[sz-1], 1) for sz in sizes]
+ax.bar(sizes, feas_rate, color="#27ae60", edgecolor="white")
+ax.set_title(f"Feasibility Rate by Size [{config.CF_RULE}]", fontweight="bold")
 ax.set_xlabel("Coalition size |S|")
 ax.set_ylabel("% feasible")
-ax.set_ylim(0, 105)
+ax.set_ylim(0, 108)
 ax.set_xticks(sizes)
 for sz, fr in zip(sizes, feas_rate):
     ax.text(sz, fr + 1.5, f"{fr:.0f}%", ha="center", va="bottom", fontsize=7)
 
-# ── Plot 3: Distribution of v(S) for coalitions of size 2–(N-1) ──────────────
+# Plot 3: v(S) distribution for size 2..N-1
 ax = axes[2]
-mid_vals = [
-    v for key, v in characteristic_function.items()
-    if 2 <= len(key) <= N-1
-]
+mid_vals = [v for key, v in characteristic_function.items() if 2 <= len(key) <= N-1]
 ax.hist(mid_vals, bins=50, color="#8e44ad", edgecolor="white", linewidth=0.3)
-ax.axvline(0, color="red",  linewidth=1, linestyle="--", label="v=0")
-ax.axvline(v_gc, color="green", linewidth=1.5, linestyle="-", label=f"v(Grand)={v_gc:,.0f}")
-ax.set_title("Distribution of v(S), size 2 to N−1", fontweight="bold")
+ax.axvline(0,    color="red",   linewidth=1,   linestyle="--", label="v=0")
+ax.axvline(v_gc, color="green", linewidth=1.5, linestyle="-",
+           label=f"v(Grand)={v_gc:,.0f}")
+ax.set_title(f"v(S) distribution, size 2..N-1 [{config.CF_RULE}]", fontweight="bold")
 ax.set_xlabel("v(S)  [INR/season]")
 ax.set_ylabel("Count")
 ax.xaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"{x:,.0f}"))
 ax.legend(fontsize=8)
 
 plt.tight_layout()
-plt.savefig(f"{config.PROCESSED_DIR}/nb03_coalition_overview.png", dpi=150, bbox_inches="tight")
+plt.savefig(
+    f"{config.PROCESSED_DIR}/nb03_coalition_overview_{config.CF_RULE}.png",
+    dpi=150, bbox_inches="tight"
+)
 plt.show()
 print("Figure saved.")
-# Output:
-#   <Figure size 1600x400 with 3 Axes>
-#   Figure saved.
-
 
 """
-## 11. Save characteristic function pickle
+## 11. Save characteristic function
 """
 
-# Extract grand coalition portfolios (keyed by Farmer_ID, not index)
 grand_coalition_portfolios: Dict[str, List[int]] = {}
 if grand_coalition_result and grand_coalition_result["portfolios"]:
     for i, port in grand_coalition_result["portfolios"].items():
-        fid = farmer_lookup[i][0]
-        grand_coalition_portfolios[fid] = port
+        grand_coalition_portfolios[farmer_lookup[i][0]] = port
 
-# Solve statistics
-all_times  = (
+all_times = (
     [singleton_results[fid]["solve_time_s"] for fid in farmer_ids]
     + [r["solve_time_s"] for r in raw_results]
 )
 solve_stats = {
+    "cf_rule"           : config.CF_RULE,
     "total_coalitions"  : len(characteristic_function),
     "n_optimal"         : sum(1 for m in coalition_meta.values() if m["status"] == "optimal"),
     "n_infeasible"      : sum(1 for m in coalition_meta.values() if m["status"] != "optimal"),
@@ -5620,57 +4940,26 @@ solve_stats = {
 }
 
 output_dict = {
-    # Core deliverable: v(S) for every coalition
     "characteristic_function"   : characteristic_function,
-
-    # Grand coalition info needed by NB04
     "grand_coalition_key"       : grand_coalition_key,
     "grand_coalition_value"     : v_gc,
-    "grand_coalition_portfolios": grand_coalition_portfolios,   # fid -> [practice_idx]
-
-    # Ordered farmer info (needed to interpret index-keyed portfolios)
+    "grand_coalition_portfolios": grand_coalition_portfolios,
     "farmer_ids"                : farmer_ids,
     "practice_names"            : practice_names,
-
-    # Per-coalition metadata (status, seq, area) — compact
     "coalition_meta"            : coalition_meta,
-
-    # Diagnostics
     "solve_stats"               : solve_stats,
+    "cf_rule"                   : config.CF_RULE,
 }
 
 out_path = Path(config.CHARACTERISTIC_FN_PKL)
 with open(out_path, "wb") as f:
     pickle.dump(output_dict, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-file_size_mb = out_path.stat().st_size / (1024**2)
 print(f"Saved: {out_path.resolve()}")
-print(f"File size: {file_size_mb:.2f} MB")
+print(f"File size: {out_path.stat().st_size / 1024**2:.2f} MB")
 print()
-print("Solve statistics:")
 for k, v in solve_stats.items():
     print(f"  {k:<25}: {v}")
-# Output:
-#   Saved: /Users/rohitsuresh/Desktop/CGT_Carbon_farming/data/processed/characteristic_function.pkl
-
-#   File size: 3.46 MB
-
-#   
-
-#   Solve statistics:
-
-#     total_coalitions         : 32767
-
-#     n_optimal                : 27542
-
-#     n_infeasible             : 5225
-
-#     total_solve_time_s       : 3976.570311841555
-
-#     mean_solve_time_s        : 0.1213589987439056
-
-#     max_solve_time_s         : 1.1399746658280492
-
 
 """
 ## 12. Reload and verify
@@ -5679,48 +4968,23 @@ for k, v in solve_stats.items():
 with open(config.CHARACTERISTIC_FN_PKL, "rb") as f:
     loaded = pickle.load(f)
 
-cf_loaded = loaded["characteristic_function"]
+assert len(loaded["characteristic_function"]) == 2**N - 1
+assert abs(loaded["grand_coalition_value"] - v_gc) < 1.0
+assert loaded["cf_rule"] == config.CF_RULE
+for key in list(loaded["characteristic_function"].keys())[:200]:
+    assert abs(loaded["characteristic_function"][key] - characteristic_function[key]) < 1e-6
 
-assert len(cf_loaded) == 2**N - 1, "Entry count mismatch after reload"
-assert abs(loaded["grand_coalition_value"] - v_gc) < 1.0, "Grand coalition value mismatch"
-
-# Spot-check 100 random entries
-sample_keys = list(cf_loaded.keys())[:100]
-for key in sample_keys:
-    assert abs(cf_loaded[key] - characteristic_function[key]) < 1e-6, \
-        f"Value mismatch for coalition {key}"
-
-print("Pickle reload checks: all PASS ✓")
+print("Pickle reload: PASS ✓")
 print()
 print("=" * 55)
 print("NOTEBOOK 03 COMPLETE")
 print("=" * 55)
+print(f"  CF_RULE             : {config.CF_RULE}")
 print(f"  Coalitions solved   : {len(characteristic_function):,}")
 print(f"  v(Grand coalition)  : {v_gc:,.0f} INR")
 print(f"  Output              : {config.CHARACTERISTIC_FN_PKL}")
 print()
 print("Ready for Notebook 04 — Surplus Allocation")
-# Output:
-#   Pickle reload checks: all PASS ✓
-
-#   
-
-#   =======================================================
-
-#   NOTEBOOK 03 COMPLETE
-
-#   =======================================================
-
-#     Coalitions solved   : 32,767
-
-#     v(Grand coalition)  : 1,499,422 INR
-
-#     Output              : /Users/rohitsuresh/Desktop/CGT_Carbon_farming/data/processed/characteristic_function.pkl
-
-#   
-
-#   Ready for Notebook 04 — Surplus Allocation
-
 
 
 
@@ -5757,8 +5021,9 @@ and smallholder-protection dimensions.
 - $S$ — grand coalition (all farmers)
 - $v(S)$ — grand coalition value from Notebook 03
 - $\tilde{v}(\{i\})$ — farmer $i$'s standalone value from Notebook 02
-- $x_i$ — allocation (payoff) to farmer $i$
-- $e(T, \mathbf{x}) = v(T) - \sum_{i \in T} x_i$ — excess of coalition $T$ (its incentive to defect)
+- $x_i$ — game-theoretic total entitlement for farmer $i$
+- $\text{Carbon\_Transfer}_i = x_i - \text{YR}_i + \text{OC}_i$ — actual cash from manager
+- $e(T, \mathbf{x}) = v(T) - \sum_{i \in T} x_i$ — excess of coalition $T$
 """
 
 """
@@ -5768,9 +5033,10 @@ and smallholder-protection dimensions.
 import sys
 import pickle
 import time
+import math
 import warnings
 from pathlib import Path
-from itertools import chain, combinations
+from itertools import combinations
 from typing import Dict, List, Tuple, Optional
 
 import numpy as np
@@ -5783,126 +5049,98 @@ from gurobipy import GRB
 sys.path.insert(0, str(Path.cwd()))
 import config
 
+print(f"Gurobi  : {gp.gurobi.version()}")
+print(f"numpy   : {np.__version__}")
+# Output:
+#   Gurobi  : (13, 0, 1)
+
+#   numpy   : 1.26.4
 
 
 """
 ## 1. Load all inputs
 """
 
-# ── Optimization inputs ───────────────────────────────────────────────────────
 with open(config.INPUTS_PKL, "rb") as f:
     inp = pickle.load(f)
 
 practice_names = inp["practice_names"]
 
-# ── Standalone values (NB02) ──────────────────────────────────────────────────
 with open(config.STANDALONE_PKL, "rb") as f:
     standalone_values = pickle.load(f)
 
-# ── Characteristic function (NB03) ───────────────────────────────────────────
 with open(config.CHARACTERISTIC_FN_PKL, "rb") as f:
     cf_data = pickle.load(f)
 
-char_fn    = cf_data["characteristic_function"]   # frozenset[str] -> float
-gc_key     = cf_data["grand_coalition_key"]        # frozenset of all farmer IDs
-v_gc       = cf_data["grand_coalition_value"]      # float
-gc_portf   = cf_data["grand_coalition_portfolios"] # fid -> [practice_idx]
-farmer_ids = cf_data["farmer_ids"]                 # ordered list of fid strings
+char_fn    = cf_data["characteristic_function"]    # frozenset[str] -> float
+gc_key     = cf_data["grand_coalition_key"]         # frozenset of all farmer IDs
+v_gc       = cf_data["grand_coalition_value"]       # float
+gc_portf   = cf_data["grand_coalition_portfolios"]  # fid -> [practice_idx]
+farmer_ids = cf_data["farmer_ids"]                  # ordered list
 N          = len(farmer_ids)
 
-# Ordered standalone values and farm sizes (same order as farmer_ids)
-sv_vec   = np.array([standalone_values[fid]["standalone_value"]    for fid in farmer_ids])
-fs_vec   = np.array([standalone_values[fid]["farm_size"]           for fid in farmer_ids])
-seq_gc   = np.array([
-    standalone_values[fid]["farm_size"]
-    * sum(
-        inp["practices"].set_index("Practice").loc[practice_names[j], "Net_CSP_base"]
-        for j in gc_portf.get(fid, [])
-    )
-    if gc_portf.get(fid)
-    else 0.0
-    for fid in farmer_ids
-])  # tCO2/season per farmer in grand coalition
+sv_vec = np.array([standalone_values[fid]["standalone_value"] for fid in farmer_ids])
+fs_vec = np.array([standalone_values[fid]["farm_size"]        for fid in farmer_ids])
 
-print(f"Grand coalition: {N} farmers")
-print(f"v(Grand)       : {v_gc:,.0f} INR")
-print(f"Sum of ṽ({{i}}) : {sv_vec.sum():,.0f} INR")
-print(f"Coalition surplus above standalone sum: {v_gc - sv_vec.sum():,.0f} INR")
+print(f"Grand coalition : {N} farmers")
+print(f"v(Grand)        : {v_gc:,.0f} INR")
+print(f"Sum of ṽ({{i}})  : {sv_vec.sum():,.0f} INR")
+print(f"Surplus over solo sum: {v_gc - sv_vec.sum():,.0f} INR")
 # Output:
-#   Grand coalition: 15 farmers
+#   Grand coalition : 15 farmers
 
-#   v(Grand)       : 1,499,422 INR
+#   v(Grand)        : 1,499,422 INR
 
-#   Sum of ṽ({i}) : 0 INR
+#   Sum of ṽ({i})  : 0 INR
 
-#   Coalition surplus above standalone sum: 1,499,422 INR
+#   Surplus over solo sum: 1,499,422 INR
 
 
 """
 ## 2. Shared LP infrastructure
 
-All LP-based mechanisms (core check, least core, nucleolus) share the same
-constraint matrix.  We pre-build it once here.
-
-### Constraint matrix $A$ and right-hand side $b$
-
 For every non-empty proper sub-coalition $T \subsetneq S$:
 $$\sum_{i \in T} x_i \geq v(T)$$
-which in matrix form is $A \mathbf{x} \geq \mathbf{b}$ with
-$A_{T,i} = 1$ if $i \in T$, else $0$, and $b_T = v(T)$.
+which in matrix form is $A\mathbf{x} \geq \mathbf{b}$.
 """
 
-# ── Build (A, b) for all non-empty proper sub-coalitions ─────────────────────
-# fid_to_idx: farmer ID string -> integer index into x vector
 fid_to_idx = {fid: i for i, fid in enumerate(farmer_ids)}
 
-# All non-empty subsets of {0,...,N-1}
 def powerset_indices(n: int):
     """Yield all non-empty proper subsets of {0,...,n-1} as sorted tuples."""
-    rng = range(n)
-    for r in range(1, n):   # r = 1 to n-1: proper subsets only
-        for combo in combinations(rng, r):
+    for r in range(1, n):
+        for combo in combinations(range(n), r):
             yield combo
 
-# For each sub-coalition: store (row_index_tuple, v_value)
-# Index tuples are integer indices into the farmer_ids list.
 sub_coalitions: List[Tuple[tuple, float]] = []
-
 for idx_tuple in powerset_indices(N):
-    fid_set   = frozenset(farmer_ids[i] for i in idx_tuple)
-    v_T       = char_fn.get(fid_set, 0.0)
+    fid_set = frozenset(farmer_ids[i] for i in idx_tuple)
+    v_T     = char_fn.get(fid_set, 0.0)
     sub_coalitions.append((idx_tuple, v_T))
 
-M_constr = len(sub_coalitions)   # number of sub-coalition constraints
+M_constr = len(sub_coalitions)
 
-# Build dense A matrix and b vector
 A_sub = np.zeros((M_constr, N), dtype=float)
 b_sub = np.zeros(M_constr,      dtype=float)
-
 for row, (idx_tuple, v_T) in enumerate(sub_coalitions):
     for i in idx_tuple:
         A_sub[row, i] = 1.0
     b_sub[row] = v_T
 
-print(f"Sub-coalition constraints: {M_constr:,}")
-print(f"  (= 2^{N} - 2 = {2**N - 2:,}  non-empty proper subsets)")
+print(f"Sub-coalition constraints : {M_constr:,}")
+print(f"  (= 2^{N} - 2 = {2**N - 2:,} non-empty proper subsets)")
 # Output:
-#   Sub-coalition constraints: 32,766
+#   Sub-coalition constraints : 32,766
 
-#     (= 2^15 - 2 = 32,766  non-empty proper subsets)
+#     (= 2^15 - 2 = 32,766 non-empty proper subsets)
 
 
 """
 ## 3. Mechanism 1 — Core check and Least Core
-"""
 
-"""
-### 3a. Core check (ε = 0)
+**Phase 1:** check if the core is non-empty ($\varepsilon = 0$ feasibility test).
 
-Solve:
-$$\sum_i x_i = v(S), \quad x_i \geq \tilde{v}(\{i\}), \quad \sum_{i\in T} x_i \geq v(T) \; \forall T \subsetneq S$$
-
-If feasible the core is non-empty and any feasible point is a core allocation.
+**Phase 2:** if infeasible, minimise $\varepsilon$ (least core).
 """
 
 def _make_env(silent: bool = True) -> gp.Env:
@@ -5921,130 +5159,82 @@ def check_core_and_least_core(
     n: int,
 ) -> Dict:
     """
-    Phase 1: check if the core is non-empty (ε = 0 feasibility test).
+    Phase 1: feasibility check at ε = 0.
     Phase 2: if infeasible, minimise ε (least core).
 
-    Returns
-    -------
-    dict with keys:
-        core_nonempty   : bool
-        epsilon_star    : float   (0 if core non-empty)
-        allocation      : np.ndarray of shape (n,)  — the x vector
-        stable          : bool  (True if ε* ≤ EPSILON_MAX)
+    Returns dict: core_nonempty, epsilon_star, allocation, stable.
     """
-    # ── Phase 1: feasibility check at ε = 0 ──────────────────────────────────
+    # Phase 1 — core check
     env   = _make_env()
     model = gp.Model("core_check", env=env)
     x     = model.addVars(n, lb=-GRB.INFINITY, name="x")
-
-    # Efficiency
     model.addConstr(gp.quicksum(x[i] for i in range(n)) == v_grand, "efficiency")
-
-    # Individual rationality
     for i in range(n):
         model.addConstr(x[i] >= sv[i], f"IR_{i}")
-
-    # Sub-coalition rationality (no slack)
     for row in range(len(b)):
         lhs = gp.quicksum(A[row, i] * x[i] for i in range(n) if A[row, i] != 0)
         model.addConstr(lhs >= b[row], f"core_{row}")
-
-    # Feasibility check — any objective
     model.setObjective(0, GRB.MINIMIZE)
     model.optimize()
 
     if model.Status == GRB.OPTIMAL:
         alloc = np.array([x[i].X for i in range(n)])
-        model.dispose()
-        env.dispose()
-        return {
-            "core_nonempty" : True,
-            "epsilon_star"  : 0.0,
-            "allocation"    : alloc,
-            "stable"        : True,
-        }
+        model.dispose(); env.dispose()
+        return {"core_nonempty": True, "epsilon_star": 0.0,
+                "allocation": alloc, "stable": True}
 
-    model.dispose()
-    env.dispose()
+    model.dispose(); env.dispose()
 
-    # ── Phase 2: core is empty — compute least core ───────────────────────────
+    # Phase 2 — least core
     env   = _make_env()
     model = gp.Model("least_core", env=env)
     x     = model.addVars(n, lb=-GRB.INFINITY, name="x")
     eps   = model.addVar(lb=0.0, name="epsilon")
-
-    # Efficiency
     model.addConstr(gp.quicksum(x[i] for i in range(n)) == v_grand, "efficiency")
-
-    # Individual rationality (never relaxed — IR is a hard floor)
     for i in range(n):
         model.addConstr(x[i] >= sv[i], f"IR_{i}")
-
-    # Relaxed sub-coalition constraints
     for row in range(len(b)):
         lhs = gp.quicksum(A[row, i] * x[i] for i in range(n) if A[row, i] != 0)
         model.addConstr(lhs >= b[row] - eps, f"lc_{row}")
-
     model.setObjective(eps, GRB.MINIMIZE)
     model.optimize()
 
     if model.Status == GRB.OPTIMAL:
         alloc  = np.array([x[i].X for i in range(n)])
         e_star = eps.X
-        model.dispose()
-        env.dispose()
-        return {
-            "core_nonempty" : False,
-            "epsilon_star"  : e_star,
-            "allocation"    : alloc,
-            "stable"        : e_star <= config.EPSILON_MAX,
-        }
+        model.dispose(); env.dispose()
+        return {"core_nonempty": False, "epsilon_star": e_star,
+                "allocation": alloc, "stable": e_star <= config.EPSILON_MAX}
 
-    model.dispose()
-    env.dispose()
-    raise RuntimeError(f"Least core LP failed with status {model.Status}")
+    status_code = model.Status
+    model.dispose(); env.dispose()
+    raise RuntimeError(f"Least core LP failed with status {status_code}")
 
 
 print("Running core check / least core...")
 t0 = time.perf_counter()
 lc_result = check_core_and_least_core(v_gc, sv_vec, A_sub, b_sub, N)
 print(f"Done in {time.perf_counter()-t0:.2f} s")
-print()
 print(f"Core non-empty : {lc_result['core_nonempty']}")
 print(f"ε*             : {lc_result['epsilon_star']:,.4f} INR")
-print(f"Stable         : {lc_result['stable']}  "
-      f"(threshold ε_max = {config.EPSILON_MAX})")
+print(f"Stable         : {lc_result['stable']}  (ε_max = {config.EPSILON_MAX})")
 # Output:
 #   Running core check / least core...
 
-#   Done in 3.46 s
-
-#   
+#   Done in 3.53 s
 
 #   Core non-empty : True
 
 #   ε*             : 0.0000 INR
 
-#   Stable         : True  (threshold ε_max = 0.0001)
+#   Stable         : True  (ε_max = 0.0001)
 
 
 """
 ## 4. Mechanism 2 — Nucleolus
 
-The nucleolus lexicographically minimises the sorted vector of sub-coalition
-excesses $e(T, \mathbf{x}) = v(T) - \sum_{i \in T} x_i$.
-
-**Algorithm (sequence of LPs):**
-
-1. Solve the least core LP to obtain $\varepsilon_1^*$ (maximum excess minimised).
-2. Fix all constraints that are tight at $\varepsilon_1^*$ (within tolerance); remove
-   them from the active constraint set.
-3. Minimise the maximum excess over the *remaining* constraints, with the fixed
-   constraints enforced as equalities.
-4. Repeat until all constraints are fixed or the allocation is unique.
-
-Because each LP is a small $N$-variable LP (for 15 farmers, $N=15$), this
-converges in at most $2^N - 2$ iterations but typically far fewer.
+Lexicographically minimises the sorted vector of sub-coalition excesses
+$e(T, \mathbf{x}) = v(T) - \sum_{i \in T} x_i$ via iterated least-core LPs.
 """
 
 def compute_nucleolus(
@@ -6058,30 +5248,13 @@ def compute_nucleolus(
     verbose: bool = False,
 ) -> Dict:
     """
-    Compute the nucleolus via iterated least-core LPs (Maschler-Peleg-Shapley
-    sequential reduction).
+    Nucleolus via Maschler-Peleg-Shapley sequential reduction.
 
-    At each iteration:
-      - Minimise ε (the maximum excess of the *active* constraints)
-      - Identify constraints whose excess equals ε* (within tol)
-      - Pin those constraints at equality in all future iterations
-      - Repeat on the remaining active constraints
-
-    Returns
-    -------
-    dict with keys:
-        allocation  : np.ndarray (n,)
-        n_iterations: int
-        epsilon_sequence: list[float]  — ε* at each iteration
+    Returns dict: allocation, n_iterations, epsilon_sequence.
     """
-    M = len(b)   # total number of sub-coalition constraints
-
-    # active[row] = True means this constraint is still being minimised.
-    # Once pinned it becomes an equality and is no longer active.
-    active   = np.ones(M, dtype=bool)
-    # pinned_eps[row] = ε* value at which this constraint was pinned
+    M          = len(b)
+    active     = np.ones(M, dtype=bool)
     pinned_eps = np.full(M, np.nan)
-
     eps_sequence = []
     x_solution   = None
 
@@ -6093,46 +5266,32 @@ def compute_nucleolus(
         env   = _make_env()
         model = gp.Model(f"nucleolus_iter_{iteration}", env=env)
         x     = model.addVars(n, lb=-GRB.INFINITY, name="x")
-        eps   = model.addVar(lb=-GRB.INFINITY, name="eps")  # can be negative
+        eps   = model.addVar(lb=-GRB.INFINITY, name="eps")
 
-        # Efficiency
-        model.addConstr(
-            gp.quicksum(x[i] for i in range(n)) == v_grand,
-            "efficiency"
-        )
-
-        # Individual rationality (hard floor, never relaxed)
+        model.addConstr(gp.quicksum(x[i] for i in range(n)) == v_grand, "efficiency")
         for i in range(n):
             model.addConstr(x[i] >= sv[i], f"IR_{i}")
 
-        # Previously pinned constraints: fix as equalities
-        #   excess(T, x) = v(T) - Σ x_i = pinned_eps[row]
-        #   → Σ_{i∈T} x_i = v(T) - pinned_eps[row]
+        # Pinned constraints → equalities
         for row in range(M):
             if not active[row] and not np.isnan(pinned_eps[row]):
-                lhs = gp.quicksum(
-                    A[row, i] * x[i] for i in range(n) if A[row, i] != 0
-                )
-                rhs = b[row] - pinned_eps[row]
-                model.addConstr(lhs == rhs, f"pinned_{row}")
+                lhs = gp.quicksum(A[row, i] * x[i] for i in range(n) if A[row, i] != 0)
+                model.addConstr(lhs == b[row] - pinned_eps[row], f"pinned_{row}")
 
-        # Active constraints: excess ≤ ε
-        #   v(T) - Σ x_i ≤ ε  →  Σ x_i ≥ v(T) - ε
+        # Active constraints → excess ≤ ε
         for row in range(M):
             if active[row]:
-                lhs = gp.quicksum(
-                    A[row, i] * x[i] for i in range(n) if A[row, i] != 0
-                )
+                lhs = gp.quicksum(A[row, i] * x[i] for i in range(n) if A[row, i] != 0)
                 model.addConstr(lhs >= b[row] - eps, f"active_{row}")
 
         model.setObjective(eps, GRB.MINIMIZE)
         model.optimize()
 
         if model.Status != GRB.OPTIMAL:
-            model.dispose()
-            env.dispose()
+            status_code = model.Status
+            model.dispose(); env.dispose()
             warnings.warn(
-                f"Nucleolus iteration {iteration} returned status {model.Status}. "
+                f"Nucleolus iteration {iteration} returned status {status_code}. "
                 "Returning best available allocation."
             )
             break
@@ -6142,421 +5301,63 @@ def compute_nucleolus(
         eps_sequence.append(eps_val)
 
         if verbose:
-            print(f"  Iter {iteration:3d}: ε* = {eps_val:+.4f}  "
-                  f"active constraints = {n_active}")
+            print(f"  Iter {iteration:3d}: ε* = {eps_val:+.4f}  active = {n_active}")
 
-        # Pin all active constraints whose excess equals ε* (within tolerance)
         new_pinned = 0
         for row in range(M):
             if active[row]:
-                # Compute excess for this constraint at current solution
-                allocation_sum = float(A[row] @ x_vals)
-                excess = b[row] - allocation_sum
+                excess = b[row] - float(A[row] @ x_vals)
                 if abs(excess - eps_val) <= tol:
                     active[row]     = False
                     pinned_eps[row] = eps_val
                     new_pinned     += 1
 
         x_solution = x_vals
-        model.dispose()
-        env.dispose()
+        model.dispose(); env.dispose()
 
         if verbose:
-            print(f"           pinned {new_pinned} constraints this iteration")
+            print(f"           pinned {new_pinned} constraints")
 
-        # Convergence: no more active constraints
         if active.sum() == 0:
             break
 
-    return {
-        "allocation"      : x_solution,
-        "n_iterations"    : len(eps_sequence),
-        "epsilon_sequence": eps_sequence,
-    }
+    return {"allocation": x_solution, "n_iterations": len(eps_sequence),
+            "epsilon_sequence": eps_sequence}
 
 
 print("Running nucleolus (sequence of LPs)...")
 t0 = time.perf_counter()
-nuc_result = compute_nucleolus(
-    v_gc, sv_vec, A_sub, b_sub, N,
-    tol=1e-6, max_iter=200, verbose=True
-)
+nuc_result = compute_nucleolus(v_gc, sv_vec, A_sub, b_sub, N, tol=1e-6, max_iter=200, verbose=True)
 print(f"\nDone in {time.perf_counter()-t0:.2f} s")
-print(f"Iterations        : {nuc_result['n_iterations']}")
-print(f"ε sequence        : {[f'{e:.4f}' for e in nuc_result['epsilon_sequence']]}")
-# Output:
-#   Running nucleolus (sequence of LPs)...
-
-#     Iter   0: ε* = -703.0627  active constraints = 32766
-
-#              pinned 15 constraints this iteration
-
-#     Iter   1: ε* = -1355.2537  active constraints = 32751
-
-#              pinned 1 constraints this iteration
-
-#     Iter   2: ε* = -1358.4634  active constraints = 32750
-
-#              pinned 1 constraints this iteration
-
-#     Iter   3: ε* = -1363.3877  active constraints = 32749
-
-#              pinned 1 constraints this iteration
-
-#     Iter   4: ε* = -1364.7797  active constraints = 32748
-
-#              pinned 1 constraints this iteration
-
-#     Iter   5: ε* = -1367.3614  active constraints = 32747
-
-#              pinned 1 constraints this iteration
-
-#     Iter   6: ε* = -1371.3618  active constraints = 32746
-
-#              pinned 1 constraints this iteration
-
-#     Iter   7: ε* = -1372.4928  active constraints = 32745
-
-#              pinned 1 constraints this iteration
-
-#     Iter   8: ε* = -1373.5504  active constraints = 32744
-
-#              pinned 1 constraints this iteration
-
-#     Iter   9: ε* = -1374.6099  active constraints = 32743
-
-#              pinned 1 constraints this iteration
-
-#     Iter  10: ε* = -1375.3485  active constraints = 32742
-
-#              pinned 1 constraints this iteration
-
-#     Iter  11: ε* = -1377.8593  active constraints = 32741
-
-#              pinned 1 constraints this iteration
-
-#     Iter  12: ε* = -1378.3464  active constraints = 32740
-
-#              pinned 1 constraints this iteration
-
-#     Iter  13: ε* = -1380.3279  active constraints = 32739
-
-#              pinned 1 constraints this iteration
-
-#     Iter  14: ε* = -1381.0830  active constraints = 32738
-
-#              pinned 1 constraints this iteration
-
-#     Iter  15: ε* = -1382.6576  active constraints = 32737
-
-#              pinned 1 constraints this iteration
-
-#     Iter  16: ε* = -1383.5205  active constraints = 32736
-
-#              pinned 1 constraints this iteration
-
-#     Iter  17: ε* = -1384.5754  active constraints = 32735
-
-#              pinned 1 constraints this iteration
-
-#     Iter  18: ε* = -1384.9414  active constraints = 32734
-
-#              pinned 1 constraints this iteration
-
-#     Iter  19: ε* = -1385.0748  active constraints = 32733
-
-#              pinned 1 constraints this iteration
-
-#     Iter  20: ε* = -1385.1319  active constraints = 32732
-
-#              pinned 1 constraints this iteration
-
-#     Iter  21: ε* = -1385.7584  active constraints = 32731
-
-#              pinned 1 constraints this iteration
-
-#     Iter  22: ε* = -1385.8698  active constraints = 32730
-
-#              pinned 1 constraints this iteration
-
-#     Iter  23: ε* = -1386.4512  active constraints = 32729
-
-#              pinned 1 constraints this iteration
-
-#     Iter  24: ε* = -1387.1228  active constraints = 32728
-
-#              pinned 1 constraints this iteration
-
-#     Iter  25: ε* = -1387.4797  active constraints = 32727
-
-#              pinned 1 constraints this iteration
-
-#     Iter  26: ε* = -1387.7397  active constraints = 32726
-
-#              pinned 1 constraints this iteration
-
-#     Iter  27: ε* = -1388.4767  active constraints = 32725
-
-#              pinned 1 constraints this iteration
-
-#     Iter  28: ε* = -1388.5865  active constraints = 32724
-
-#              pinned 1 constraints this iteration
-
-#     Iter  29: ε* = -1389.0496  active constraints = 32723
-
-#              pinned 1 constraints this iteration
-
-#     Iter  30: ε* = -1389.6394  active constraints = 32722
-
-#              pinned 1 constraints this iteration
-
-#     Iter  31: ε* = -1389.6882  active constraints = 32721
-
-#              pinned 1 constraints this iteration
-
-#     Iter  32: ε* = -1390.6748  active constraints = 32720
-
-#              pinned 1 constraints this iteration
-
-#     Iter  33: ε* = -1390.9491  active constraints = 32719
-
-#              pinned 1 constraints this iteration
-
-#     Iter  34: ε* = -1391.3798  active constraints = 32718
-
-#              pinned 1 constraints this iteration
-
-#     Iter  35: ε* = -1391.8582  active constraints = 32717
-
-#              pinned 1 constraints this iteration
-
-#     Iter  36: ε* = -1391.9021  active constraints = 32716
-
-#              pinned 1 constraints this iteration
-
-#     Iter  37: ε* = -1392.2647  active constraints = 32715
-
-#              pinned 1 constraints this iteration
-
-#     Iter  38: ε* = -1392.4282  active constraints = 32714
-
-#              pinned 1 constraints this iteration
-
-#     Iter  39: ε* = -1392.5718  active constraints = 32713
-
-#              pinned 1 constraints this iteration
-
-#     Iter  40: ε* = -1392.7144  active constraints = 32712
-
-#              pinned 1 constraints this iteration
-
-#     Iter  41: ε* = -1393.3655  active constraints = 32711
-
-#              pinned 1 constraints this iteration
-
-#     Iter  42: ε* = -1393.4035  active constraints = 32710
-
-#              pinned 1 constraints this iteration
-
-#     Iter  43: ε* = -1393.7794  active constraints = 32709
-
-#              pinned 1 constraints this iteration
-
-#     Iter  44: ε* = -1394.6399  active constraints = 32708
-
-#              pinned 1 constraints this iteration
-
-#     Iter  45: ε* = -1395.0923  active constraints = 32707
-
-#              pinned 1 constraints this iteration
-
-#     Iter  46: ε* = -1395.4950  active constraints = 32706
-
-#              pinned 1 constraints this iteration
-
-#     Iter  47: ε* = -1395.7848  active constraints = 32705
-
-#              pinned 1 constraints this iteration
-
-#     Iter  48: ε* = -1396.1326  active constraints = 32704
-
-#              pinned 1 constraints this iteration
-
-#     Iter  49: ε* = -1396.5279  active constraints = 32703
-
-#              pinned 1 constraints this iteration
-
-#     Iter  50: ε* = -1396.8481  active constraints = 32702
-
-#              pinned 1 constraints this iteration
-
-#     Iter  51: ε* = -1396.9258  active constraints = 32701
-
-#              pinned 1 constraints this iteration
-
-#     Iter  52: ε* = -1397.1035  active constraints = 32700
-
-#              pinned 1 constraints this iteration
-
-#     Iter  53: ε* = -1397.1489  active constraints = 32699
-
-#              pinned 1 constraints this iteration
-
-#     Iter  54: ε* = -1397.2109  active constraints = 32698
-
-#              pinned 1 constraints this iteration
-
-#     Iter  55: ε* = -1397.7455  active constraints = 32697
-
-#              pinned 1 constraints this iteration
-
-#     Iter  56: ε* = -1397.8195  active constraints = 32696
-
-#              pinned 1 constraints this iteration
-
-#     Iter  57: ε* = -1398.1945  active constraints = 32695
-
-#              pinned 2 constraints this iteration
-
-#     Iter  58: ε* = -1398.4105  active constraints = 32693
-
-#              pinned 1 constraints this iteration
-
-#     Iter  59: ε* = -1399.1225  active constraints = 32692
-
-#              pinned 1 constraints this iteration
-
-#     Iter  60: ε* = -1399.4359  active constraints = 32691
-
-#              pinned 1 constraints this iteration
-
-#     Iter  61: ε* = -1399.6684  active constraints = 32690
-
-#              pinned 2 constraints this iteration
-
-#     Iter  62: ε* = -1399.6781  active constraints = 32688
-
-#              pinned 1 constraints this iteration
-
-#     Iter  63: ε* = -1399.7369  active constraints = 32687
-
-#              pinned 1 constraints this iteration
-
-#     Iter  64: ε* = -1400.0647  active constraints = 32686
-
-#              pinned 1 constraints this iteration
-
-#     Iter  65: ε* = -1400.0734  active constraints = 32685
-
-#              pinned 2 constraints this iteration
-
-#     Iter  66: ε* = -1400.0855  active constraints = 32683
-
-#              pinned 1 constraints this iteration
-
-#     Iter  67: ε* = -1400.5152  active constraints = 32682
-
-#              pinned 1 constraints this iteration
-
-#     Iter  68: ε* = -1400.6955  active constraints = 32681
-
-#              pinned 2 constraints this iteration
-
-#     Iter  69: ε* = -1400.8714  active constraints = 32679
-
-#              pinned 2 constraints this iteration
-
-#     Iter  70: ε* = -1400.9240  active constraints = 32677
-
-#              pinned 1 constraints this iteration
-
-#     Iter  71: ε* = -1401.2502  active constraints = 32676
-
-#              pinned 1 constraints this iteration
-
-#     Iter  72: ε* = -1401.4368  active constraints = 32675
-
-#              pinned 1 constraints this iteration
-
-#     Iter  73: ε* = -1401.7178  active constraints = 32674
-
-#              pinned 1 constraints this iteration
-
-#     Iter  74: ε* = -1401.7512  active constraints = 32673
-
-#              pinned 1 constraints this iteration
-
-#     Iter  75: ε* = -1401.8930  active constraints = 32672
-
-#              pinned 1 constraints this iteration
-
-#     Iter  76: ε* = -1402.0674  active constraints = 32671
-
-#              pinned 1 constraints this iteration
-
-#     Iter  77: ε* = -1402.2095  active constraints = 32670
-
-#              pinned 2 constraints this iteration
-
-#     Iter  78: ε* = -1402.5897  active constraints = 32668
-
-#              pinned 2 constraints this iteration
-
-#     Iter  79: ε* = -1402.8411  active constraints = 32666
-
-#              pinned 2 constraints this iteration
-
+print(f"Iterations   : {nuc_result['n_iterations']}")
+print(f"ε sequence   : {[f'{e:.4f}' for e in nuc_result['epsilon_sequence']]}")
 
 """
 ## 5. Mechanism 3 — Shapley Value
 
-Computed directly from the characteristic function table with no new Gurobi solves.
-
-$$\phi_i = \sum_{T \subseteq S \setminus \{i\}} 
+$$\phi_i = \sum_{T \subseteq S \setminus \{i\}}
 \frac{|T|!\;(|S|-|T|-1)!}{|S|!}\;\bigl[v(T\cup\{i\}) - v(T)\bigr]$$
+
+Computed purely from the characteristic function table — no new Gurobi solves.
 """
 
-import math
-
-def compute_shapley(
-    farmer_ids: List[str],
-    char_fn: Dict[frozenset, float],
-) -> np.ndarray:
-    """
-    Exact Shapley value from the precomputed characteristic function table.
-
-    For N=15, this requires iterating over 2^14 = 16,384 subsets per player,
-    i.e. 15 × 16,384 = 245,760 lookups — fast pure-Python arithmetic.
-
-    Returns
-    -------
-    np.ndarray of shape (N,)
-    """
-    n          = len(farmer_ids)
+def compute_shapley(farmer_ids: List[str], char_fn: Dict) -> np.ndarray:
+    """Exact Shapley value from the characteristic function table."""
+    n           = len(farmer_ids)
     factorial_n = math.factorial(n)
-    shapley    = np.zeros(n)
-
-    fid_set_all = set(farmer_ids)
+    shapley     = np.zeros(n)
 
     for idx_i, fid_i in enumerate(farmer_ids):
-        others = [fid for fid in farmer_ids if fid != fid_i]
+        others       = [fid for fid in farmer_ids if fid != fid_i]
         contribution = 0.0
-
-        # Iterate over all subsets T ⊆ S\{i}
         for r in range(len(others) + 1):
-            weight = (
-                math.factorial(r) * math.factorial(n - r - 1)
-                / factorial_n
-            )
+            weight = math.factorial(r) * math.factorial(n - r - 1) / factorial_n
             for T_tuple in combinations(others, r):
-                T_set     = frozenset(T_tuple)
-                T_plus_i  = frozenset(T_tuple) | frozenset([fid_i])
-                v_T       = char_fn.get(T_set,    0.0)   # empty set → 0
+                T_set      = frozenset(T_tuple)
+                T_plus_i   = T_set | frozenset([fid_i])
+                v_T        = char_fn.get(T_set,    0.0)
                 v_T_plus_i = char_fn.get(T_plus_i, 0.0)
-                marginal   = v_T_plus_i - v_T
-                contribution += weight * marginal
-
+                contribution += weight * (v_T_plus_i - v_T)
         shapley[idx_i] = contribution
 
     return shapley
@@ -6566,34 +5367,156 @@ print("Computing Shapley values...")
 t0 = time.perf_counter()
 shapley_alloc = compute_shapley(farmer_ids, char_fn)
 print(f"Done in {time.perf_counter()-t0:.2f} s")
-
-# Verify efficiency: Σ φ_i = v(S)
 shapley_sum = shapley_alloc.sum()
-print(f"Σ φ_i = {shapley_sum:,.2f}  (v(Grand) = {v_gc:,.2f})  "
-      f"diff = {abs(shapley_sum - v_gc):.4f}")
+print(f"Σ φ_i = {shapley_sum:,.2f}  v(Grand) = {v_gc:,.2f}  diff = {abs(shapley_sum-v_gc):.4f}")
 assert abs(shapley_sum - v_gc) < 1.0, "Shapley efficiency violated!"
 print("Efficiency check: PASS ✓")
 
 """
 ## 6. Mechanisms 4 & 5 — Equal Split and Proportional Split
+
+**Note:** `seq_gc` (sequestration per farmer in grand coalition) is computed
+with pairwise interaction terms in Section 6b below and overrides the
+placeholder here.  The proportional split cell re-runs after 6b.
 """
 
-# ── Equal split ───────────────────────────────────────────────────────────────
 equal_alloc = np.full(N, v_gc / N)
+print(f"Equal split per farmer : {v_gc/N:,.0f} INR")
+# seq_gc and prop_alloc are finalised in cell 6b / 6d below.
 
-# ── Proportional split by sequestration contribution ─────────────────────────
-# x_i = (FS_i * CSP_i(Π_i^co)) / Σ_j(FS_j * CSP_j(Π_j^co)) * v(S)
-# seq_gc[i] was computed in cell 1 (tCO2/season for farmer i in grand coalition)
+"""
+## 6b. Grand-coalition per-farmer actuals
+
+Compute each farmer's **yield revenue** (YR) and **operational cost** (OC)
+under their grand-coalition portfolio, *including pairwise interaction terms*.
+
+These quantities serve two purposes:
+
+1. **Carbon transfer** — the actual cash the coalition manager pays farmer $i$:
+   $$\text{Carbon\_Transfer}_i = x_i - \text{YR}_i + \text{OC}_i$$
+   $x_i$ already embeds YR and OC inside every $v(T)$ that built the LP,
+   so subtracting $\text{YR}_i$ removes money the farmer already collected
+   from the crop market, and adding $\text{OC}_i$ reimburses costs they paid.
+
+2. **Corrected proportional split weight** —
+   $\text{FS}_i \times \text{CSP}_i(\Pi_i^{\text{co}})$ including $\alpha_{jk}$ terms.
+"""
+
+Alpha_mat = inp["Alpha"]
+Beta_mat  = inp["Beta"]
+Gamma_mat = inp["Gamma"]
+
+practices_df_nb04  = inp["practices"]
+M_prac             = len(practice_names)
+
+CSP_base_nb04 = (practices_df_nb04.set_index("Practice")
+                 .reindex(practice_names)["Net_CSP_base"].values)
+OC_base_nb04  = (practices_df_nb04.set_index("Practice")
+                 .reindex(practice_names)["Net_OC_per_ha"].values)
+YLD_base_nb04 = (practices_df_nb04.set_index("Practice")
+                 .reindex(practice_names)["Base_yield_change"].values)
+
+PADDY   = config.PADDY_PRICE
+CCP_val = config.CCP
+
+
+def compute_farmer_actuals(portfolio_idx: list, farm_size: float) -> dict:
+    """
+    YR_i, OC_i, CSP_i for a farmer and portfolio, with pairwise interactions.
+
+    Returns dict: yr_inr, oc_inr, csp_tco2, carbon_rev_inr
+    """
+    adopted = portfolio_idx
+    if not adopted:
+        return {"yr_inr": 0.0, "oc_inr": 0.0, "csp_tco2": 0.0, "carbon_rev_inr": 0.0}
+
+    FS = farm_size
+
+    csp_lin = sum(CSP_base_nb04[j] for j in adopted)
+    oc_lin  = sum(OC_base_nb04[j]  for j in adopted)
+    yld_lin = sum(YLD_base_nb04[j] for j in adopted)
+
+    csp_int = oc_int = yld_int = 0.0
+    for a_idx, j in enumerate(adopted):
+        for k in adopted[a_idx + 1:]:
+            csp_int += Alpha_mat[j, k]
+            oc_int  += Beta_mat[j, k]
+            yld_int += Gamma_mat[j, k]
+
+    csp_total = FS * (csp_lin + csp_int)
+    oc_total  = FS * (oc_lin  + oc_int)
+    yr_total  = FS * PADDY * (yld_lin + yld_int)
+
+    return {"csp_tco2": csp_total, "oc_inr": oc_total,
+            "yr_inr": yr_total, "carbon_rev_inr": csp_total * CCP_val}
+
+
+gc_actuals = {
+    fid: compute_farmer_actuals(gc_portf.get(fid, []), standalone_values[fid]["farm_size"])
+    for fid in farmer_ids
+}
+
+yr_gc_vec = np.array([gc_actuals[fid]["yr_inr"]         for fid in farmer_ids])
+oc_gc_vec = np.array([gc_actuals[fid]["oc_inr"]         for fid in farmer_ids])
+cr_gc_vec = np.array([gc_actuals[fid]["carbon_rev_inr"] for fid in farmer_ids])
+seq_gc    = np.array([gc_actuals[fid]["csp_tco2"]       for fid in farmer_ids])
+
+# Certification cost for grand coalition
+total_ha_gc = fs_vec.sum()
+cert_gc = (config.FIXED_MRV
+           + config.VARIABLE_MRV * (total_ha_gc ** config.DELTA_MRV)
+           + config.FIXED_T
+           + config.VARIABLE_T * N)
+
+carbon_pool = cr_gc_vec.sum() - cert_gc
+recon_vgc   = cr_gc_vec.sum() + yr_gc_vec.sum() - oc_gc_vec.sum() - cert_gc
+
+print("Grand coalition reconciliation")
+print(f"  Σ Carbon rev    : {cr_gc_vec.sum():>15,.0f} INR")
+print(f"  Σ Yield rev     : {yr_gc_vec.sum():>15,.0f} INR")
+print(f"  Σ OC            : {oc_gc_vec.sum():>15,.0f} INR")
+print(f"  Cert costs      : {cert_gc:>15,.0f} INR")
+print(f"  Recon v(Grand)  : {recon_vgc:>15,.0f} INR")
+print(f"  Stored v(Grand) : {v_gc:>15,.0f} INR")
+diff_recon = abs(recon_vgc - v_gc)
+print(f"  Diff            : {diff_recon:>15.2f} INR  "
+      f"({'OK ✓' if diff_recon < 10 else 'MISMATCH — check grand-coalition portfolios'})")
+print()
+print(f"  Carbon pool (manager holds) : {carbon_pool:>15,.0f} INR")
+print(f"  = Σ Carbon rev − cert costs")
+
+"""
+## 6c. Carbon transfer helper
+
+$$\text{Carbon\_Transfer}_i = x_i - \text{YR}_i + \text{OC}_i$$
+
+**Conservation check:** $\sum_i \text{CT}_i = \text{Carbon\_pool}$, because
+$\sum_i x_i = v(S) = \text{Carbon\_pool} + \sum_i(\text{YR}_i - \text{OC}_i)$.
+"""
+
+def carbon_transfers(alloc: np.ndarray) -> np.ndarray:
+    """Actual cash the manager pays each farmer given game-theoretic allocation x."""
+    return alloc - yr_gc_vec + oc_gc_vec
+
+
+def verify_carbon_pool(transfers: np.ndarray, name: str, tol: float = 5.0):
+    diff   = abs(transfers.sum() - carbon_pool)
+    status = "OK ✓" if diff <= tol else f"FAIL (diff={diff:.2f})"
+    print(f"  {name:<15}: Σ transfers = {transfers.sum():>12,.0f}  "
+          f"carbon_pool = {carbon_pool:>12,.0f}  {status}")
+
+"""
+## 6d. Proportional split (uses corrected seq_gc from 6b)
+"""
+
 seq_total = seq_gc.sum()
 if seq_total > 0:
     prop_alloc = (seq_gc / seq_total) * v_gc
 else:
-    # Fallback to equal split if no sequestration (degenerate case)
     prop_alloc = equal_alloc.copy()
     warnings.warn("Total sequestration is zero — proportional split falls back to equal split.")
 
-print(f"Equal split per farmer : {v_gc/N:,.0f} INR")
-print(f"Total seq. (grand coal): {seq_total:.3f} tCO2/season")
+print(f"Total seq. (grand coal) : {seq_total:.3f} tCO2/season")
 print(f"Proportional split range: [{prop_alloc.min():,.0f}, {prop_alloc.max():,.0f}] INR")
 
 """
@@ -6610,38 +5533,29 @@ def verify_allocation(
     n: int,
     tol: float = 1.0,
 ) -> Dict:
-    """
-    Check efficiency, individual rationality, and core constraints
-    for a given allocation vector.
-
-    Returns a summary dict with counts of violations.
-    """
+    """Check efficiency, IR, and core constraints."""
     results = {"mechanism": name}
 
-    # Efficiency
     eff_diff = abs(alloc.sum() - v_grand)
     results["efficiency_ok"]   = eff_diff <= tol
     results["efficiency_diff"] = eff_diff
 
-    # Individual rationality
-    ir_violations  = [i for i in range(n) if alloc[i] < sv[i] - tol]
-    results["IR_ok"]            = len(ir_violations) == 0
-    results["IR_violations"]    = ir_violations
+    ir_violations = [i for i in range(n) if alloc[i] < sv[i] - tol]
+    results["IR_ok"]         = len(ir_violations) == 0
+    results["IR_violations"] = ir_violations
 
-    # Core constraints
     core_violations = []
     max_excess      = -np.inf
     for row in range(len(b)):
-        alloc_sum = float(A[row] @ alloc)
-        excess    = b[row] - alloc_sum   # positive excess = sub-coalition wants to defect
+        alloc_sum  = float(A[row] @ alloc)
+        excess     = b[row] - alloc_sum
         max_excess = max(max_excess, excess)
         if excess > tol:
             core_violations.append(row)
 
-    results["core_ok"]             = len(core_violations) == 0
-    results["n_core_violations"]   = len(core_violations)
-    results["max_excess"]          = max_excess
-
+    results["core_ok"]           = len(core_violations) == 0
+    results["n_core_violations"] = len(core_violations)
+    results["max_excess"]        = max_excess
     return results
 
 
@@ -6658,80 +5572,106 @@ for name, alloc in mechanisms.items():
     if alloc is None:
         print(f"  {name:<15}: allocation is None — skipped")
         continue
-    vr = verify_allocation(alloc, name, v_gc, sv_vec, A_sub, b_sub, N)
-    verification_results[name] = vr
+    verification_results[name] = verify_allocation(
+        alloc, name, v_gc, sv_vec, A_sub, b_sub, N
+    )
 
 print(f"{'Mechanism':<15}  {'Efficient':>9}  {'IR OK':>7}  "
       f"{'Core OK':>8}  {'#Violations':>12}  {'Max Excess':>12}")
 print("-" * 75)
 for name, vr in verification_results.items():
-    print(
-        f"{name:<15}  "
-        f"{'YES' if vr['efficiency_ok'] else 'NO':>9}  "
-        f"{'YES' if vr['IR_ok'] else 'NO':>7}  "
-        f"{'YES' if vr['core_ok'] else 'NO':>8}  "
-        f"{vr['n_core_violations']:>12,}  "
-        f"{vr['max_excess']:>12.2f}"
-    )
+    print(f"{name:<15}  "
+          f"{'YES' if vr['efficiency_ok'] else 'NO':>9}  "
+          f"{'YES' if vr['IR_ok'] else 'NO':>7}  "
+          f"{'YES' if vr['core_ok'] else 'NO':>8}  "
+          f"{vr['n_core_violations']:>12,}  "
+          f"{vr['max_excess']:>12.2f}")
 
-# Report any IR violations by farmer
 print()
 for name, vr in verification_results.items():
     if not vr["IR_ok"]:
         fids = [farmer_ids[i] for i in vr["IR_violations"]]
         print(f"  IR violations in {name}: {fids}")
 
+print()
+print("Carbon pool verification (Σ carbon transfers must equal carbon pool):")
+for name, alloc in mechanisms.items():
+    if alloc is not None:
+        verify_carbon_pool(carbon_transfers(alloc), name)
+
 """
 ## 8. Main comparison table
+
+Two values are shown per mechanism per farmer:
+
+| Column suffix | Meaning |
+|---------------|---------|
+| `_x`        | Total game-theoretic entitlement $x_i$ — used for IR and core checks |
+| `_transfer` | Actual carbon cash from manager: $x_i - \text{YR}_i + \text{OC}_i$ |
+
+The transfer is what field implementation uses.
+The entitlement is what the cooperative-game algorithms produce.
 """
 
 rows = []
 for i, fid in enumerate(farmer_ids):
+    yr_i = yr_gc_vec[i]
+    oc_i = oc_gc_vec[i]
     row = {
         "Farmer"       : fid,
         "Farm_ha"      : round(fs_vec[i], 2),
-        "Standalone"   : round(sv_vec[i], 0),
-        "Least_Core"   : round(mechanisms["Least Core"][i],   0) if mechanisms["Least Core"]   is not None else None,
-        "Nucleolus"    : round(mechanisms["Nucleolus"][i],    0) if mechanisms["Nucleolus"]    is not None else None,
-        "Shapley"      : round(mechanisms["Shapley"][i],      0),
-        "Equal_Split"  : round(mechanisms["Equal Split"][i],  0),
-        "Proportional" : round(mechanisms["Proportional"][i], 0),
+        "Standalone_x" : round(sv_vec[i], 0),
+        "YR_grand_INR" : round(yr_i, 0),
+        "OC_grand_INR" : round(oc_i, 0),
     }
+    for mech_name, col_x, col_ct in [
+        ("Least Core",   "LC_x",   "LC_transfer"),
+        ("Nucleolus",    "Nuc_x",  "Nuc_transfer"),
+        ("Shapley",      "Shap_x", "Shap_transfer"),
+        ("Equal Split",  "ES_x",   "ES_transfer"),
+        ("Proportional", "PS_x",   "PS_transfer"),
+    ]:
+        alloc = mechanisms[mech_name]
+        if alloc is None:
+            row[col_x] = row[col_ct] = None
+        else:
+            xi     = alloc[i]
+            ct     = xi - yr_i + oc_i
+            ir_bad = set(verification_results.get(mech_name, {}).get("IR_violations", []))
+            row[col_x]  = f"{xi:,.0f}" + (" *" if i in ir_bad else "")
+            row[col_ct] = round(ct, 0)
     rows.append(row)
 
 df_alloc = pd.DataFrame(rows)
-
-# Mark IR violations with an asterisk
-for mech_col, mech_name in [
-    ("Least_Core",   "Least Core"),
-    ("Nucleolus",    "Nucleolus"),
-    ("Shapley",      "Shapley"),
-    ("Equal_Split",  "Equal Split"),
-    ("Proportional", "Proportional"),
-]:
-    vr = verification_results.get(mech_name, {})
-    ir_bad = set(vr.get("IR_violations", []))
-    if ir_bad:
-        df_alloc[mech_col] = df_alloc[mech_col].astype(str)
-        for idx_i in ir_bad:
-            df_alloc.at[idx_i, mech_col] = str(df_alloc.at[idx_i, mech_col]) + " *"
-
 pd.set_option("display.max_columns", None)
-pd.set_option("display.width",       180)
+pd.set_option("display.width",       240)
+pd.set_option("display.float_format", lambda x: f"{x:,.0f}")
 display(df_alloc)
 
 print()
-print("* = individual rationality violated (farmer would be better off solo)")
+print("* = individual rationality violated on total entitlement x_i")
 print()
 
-# Footer: column totals
-print("Column totals (should all equal v(Grand) for efficient mechanisms):")
-for col in ["Standalone", "Least_Core", "Nucleolus", "Shapley", "Equal_Split", "Proportional"]:
-    try:
-        total = pd.to_numeric(df_alloc[col].str.replace(" *", "", regex=False), errors="coerce").sum()
-        print(f"  {col:<15}: {total:>15,.0f} INR")
-    except Exception:
-        pass
+# Column totals
+print(f"{'':30s}  {'Σ Total Entitlement':>22}  {'Σ Carbon Transfer':>22}")
+print("-" * 80)
+for mech_name, col_x, col_ct in [
+    ("Least Core",   "LC_x",   "LC_transfer"),
+    ("Nucleolus",    "Nuc_x",  "Nuc_transfer"),
+    ("Shapley",      "Shap_x", "Shap_transfer"),
+    ("Equal Split",  "ES_x",   "ES_transfer"),
+    ("Proportional", "PS_x",   "PS_transfer"),
+]:
+    alloc = mechanisms[mech_name]
+    if alloc is None:
+        continue
+    total_x  = alloc.sum()
+    total_ct = carbon_transfers(alloc).sum()
+    print(f"  {mech_name:<28}  {total_x:>22,.0f}  {total_ct:>22,.0f}")
+
+print()
+print(f"  v(Grand)    = {v_gc:,.0f} INR   ← all Σ entitlements should equal this")
+print(f"  Carbon pool = {carbon_pool:,.0f} INR   ← all Σ transfers should equal this")
 
 """
 ## 9. Excess analysis — who wants to defect and under which mechanism?
@@ -6743,33 +5683,30 @@ def top_excess_coalitions(
     b: np.ndarray,
     sub_coalitions: list,
     farmer_ids: list,
-    top_k: int = 10,
+    top_k: int = 5,
 ) -> pd.DataFrame:
-    """
-    Return the top-k sub-coalitions with highest excess
-    (most likely to defect) under this allocation.
-    """
     excesses = []
     for row, (idx_tuple, v_T) in enumerate(sub_coalitions):
         alloc_sum = float(A[row] @ alloc)
         excess    = v_T - alloc_sum
-        fids      = [farmer_ids[i] for i in idx_tuple]
         excesses.append({
-            "coalition"   : ", ".join(fids),
-            "size"        : len(idx_tuple),
-            "v_T"         : round(v_T, 0),
-            "alloc_sum"   : round(alloc_sum, 0),
-            "excess"      : round(excess, 2),
+            "coalition" : ", ".join(farmer_ids[i] for i in idx_tuple),
+            "size"      : len(idx_tuple),
+            "v_T"       : round(v_T, 0),
+            "alloc_sum" : round(alloc_sum, 0),
+            "excess"    : round(excess, 2),
         })
-    df = pd.DataFrame(excesses).sort_values("excess", ascending=False).head(top_k)
-    return df.reset_index(drop=True)
+    return (pd.DataFrame(excesses)
+            .sort_values("excess", ascending=False)
+            .head(top_k)
+            .reset_index(drop=True))
 
 
 for name in ["Least Core", "Nucleolus", "Shapley"]:
     alloc = mechanisms[name]
     if alloc is None:
         continue
-    df_ex = top_excess_coalitions(alloc, A_sub, b_sub, sub_coalitions, farmer_ids, top_k=5)
+    df_ex = top_excess_coalitions(alloc, A_sub, b_sub, sub_coalitions, farmer_ids)
     print(f"\n{'='*60}")
     print(f"Top-5 highest-excess sub-coalitions under {name}")
     print(f"{'='*60}")
@@ -6779,7 +5716,7 @@ for name in ["Least Core", "Nucleolus", "Shapley"]:
 ## 10. Visualisations
 """
 
-# ── Plot 1: Allocation comparison across mechanisms ───────────────────────────
+# Plot 1: Total entitlement comparison across mechanisms
 fig, axes = plt.subplots(2, 3, figsize=(17, 9))
 axes = axes.flatten()
 
@@ -6791,8 +5728,7 @@ plot_order = [
     ("Equal Split",           equal_alloc),
     ("Proportional",          prop_alloc),
 ]
-
-x_ticks = range(N)
+x_ticks    = range(N)
 fid_labels = [fid.replace("F0", "F") for fid in farmer_ids]
 
 for ax, (title, alloc) in zip(axes, plot_order):
@@ -6800,7 +5736,6 @@ for ax, (title, alloc) in zip(axes, plot_order):
         ax.set_title(f"{title}\n(unavailable)", fontsize=9)
         ax.axis("off")
         continue
-
     colors = ["#2ecc71" if alloc[i] >= sv_vec[i] else "#e74c3c" for i in range(N)]
     ax.bar(x_ticks, alloc, color=colors, edgecolor="white", linewidth=0.4)
     ax.step(x_ticks, sv_vec, where="mid", color="black",
@@ -6808,61 +5743,88 @@ for ax, (title, alloc) in zip(axes, plot_order):
     ax.set_title(title, fontsize=10, fontweight="bold")
     ax.set_xticks(x_ticks)
     ax.set_xticklabels(fid_labels, rotation=45, fontsize=7)
-    ax.set_ylabel("INR / season", fontsize=8)
+    ax.set_ylabel("Total entitlement x_i  [INR/season]", fontsize=8)
     ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"{x:,.0f}"))
     if title != "Standalone (IR floor)":
         ax.legend(fontsize=7)
 
 fig.suptitle(
-    f"Allocation Comparison — Grand Coalition  (v = {v_gc:,.0f} INR/season)",
+    f"Total Entitlement Comparison — Grand Coalition  (v = {v_gc:,.0f} INR/season)",
     fontsize=12, fontweight="bold", y=1.01
 )
 plt.tight_layout()
-plt.savefig(
-    f"{config.PROCESSED_DIR}/nb04_allocation_comparison.png",
-    dpi=150, bbox_inches="tight"
-)
+plt.savefig(f"{config.PROCESSED_DIR}/nb04_entitlement_comparison.png",
+            dpi=150, bbox_inches="tight")
 plt.show()
 print("Figure 1 saved.")
 
-# ── Plot 2: Excess distribution under each mechanism ─────────────────────────
-fig, axes = plt.subplots(1, 3, figsize=(15, 4))
-mech_plot = [("Least Core", lc_result["allocation"]),
-             ("Nucleolus",  nuc_result["allocation"]),
-             ("Shapley",    shapley_alloc)]
+# Plot 2: Carbon transfer comparison (what the manager actually pays)
+fig, axes = plt.subplots(2, 3, figsize=(17, 9))
+axes = axes.flatten()
 
-for ax, (name, alloc) in zip(axes, mech_plot):
-    if alloc is None:
-        ax.set_title(f"{name}\n(unavailable)")
+ct_plot_order = [
+    ("Standalone (IR floor)", sv_vec),   # for reference
+    ("Least Core",   carbon_transfers(lc_result["allocation"])),
+    ("Nucleolus",    carbon_transfers(nuc_result["allocation"])),
+    ("Shapley",      carbon_transfers(shapley_alloc)),
+    ("Equal Split",  carbon_transfers(equal_alloc)),
+    ("Proportional", carbon_transfers(prop_alloc)),
+]
+
+for ax, (title, ct) in zip(axes, ct_plot_order):
+    if ct is None:
         ax.axis("off")
         continue
-    excesses = [b_sub[row] - float(A_sub[row] @ alloc) for row in range(len(b_sub))]
-    ax.hist(excesses, bins=40, color="#3498db", edgecolor="white", linewidth=0.3)
-    ax.axvline(0, color="red",   linewidth=1.5, linestyle="--", label="e=0")
-    ax.axvline(max(excesses), color="orange", linewidth=1, linestyle=":",
-               label=f"max e={max(excesses):.2f}")
-    ax.set_title(f"Excess Distribution — {name}", fontweight="bold", fontsize=10)
-    ax.set_xlabel("Excess  e(T, x) = v(T) − Σ x_i")
-    ax.set_ylabel("Count")
-    ax.legend(fontsize=8)
-    ax.xaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"{x:,.0f}"))
+    colors = ["#3498db" if ct[i] >= 0 else "#e74c3c" for i in range(N)]
+    ax.bar(x_ticks, ct, color=colors, edgecolor="white", linewidth=0.4)
+    ax.axhline(0, color="black", linewidth=0.8, linestyle="--")
+    ax.set_title(f"Carbon Transfer — {title}", fontsize=10, fontweight="bold")
+    ax.set_xticks(x_ticks)
+    ax.set_xticklabels(fid_labels, rotation=45, fontsize=7)
+    ax.set_ylabel("CT_i = x_i − YR_i + OC_i  [INR]", fontsize=8)
+    ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"{x:,.0f}"))
 
-plt.tight_layout()
-plt.savefig(
-    f"{config.PROCESSED_DIR}/nb04_excess_distributions.png",
-    dpi=150, bbox_inches="tight"
+fig.suptitle(
+    f"Carbon Transfer Comparison  (pool = {carbon_pool:,.0f} INR/season)",
+    fontsize=12, fontweight="bold", y=1.01
 )
+plt.tight_layout()
+plt.savefig(f"{config.PROCESSED_DIR}/nb04_carbon_transfer_comparison.png",
+            dpi=150, bbox_inches="tight")
 plt.show()
 print("Figure 2 saved.")
 
-# ── Plot 3: Nucleolus ε sequence (convergence trace) ─────────────────────────
+# Plot 3: Excess distributions under the three cooperative-theory mechanisms
+fig, axes = plt.subplots(1, 3, figsize=(15, 4))
+for ax, (name, alloc) in zip(axes, [
+    ("Least Core", lc_result["allocation"]),
+    ("Nucleolus",  nuc_result["allocation"]),
+    ("Shapley",    shapley_alloc),
+]):
+    if alloc is None:
+        ax.axis("off"); continue
+    excesses = [b_sub[row] - float(A_sub[row] @ alloc) for row in range(len(b_sub))]
+    ax.hist(excesses, bins=40, color="#3498db", edgecolor="white", linewidth=0.3)
+    ax.axvline(0, color="red",    linewidth=1.5, linestyle="--", label="e=0")
+    ax.axvline(max(excesses), color="orange", linewidth=1, linestyle=":",
+               label=f"max={max(excesses):.0f}")
+    ax.set_title(f"Excess Distribution — {name}", fontweight="bold", fontsize=10)
+    ax.set_xlabel("Excess  e(T,x) = v(T) − Σ x_i")
+    ax.set_ylabel("Count")
+    ax.legend(fontsize=8)
+    ax.xaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"{x:,.0f}"))
+plt.tight_layout()
+plt.savefig(f"{config.PROCESSED_DIR}/nb04_excess_distributions.png",
+            dpi=150, bbox_inches="tight")
+plt.show()
+print("Figure 3 saved.")
+
+# Plot 4: Nucleolus ε convergence trace
 if nuc_result["n_iterations"] > 1:
     fig, ax = plt.subplots(figsize=(8, 3))
-    ax.plot(
-        range(1, nuc_result["n_iterations"] + 1),
-        nuc_result["epsilon_sequence"],
-        "o-", color="#8e44ad", linewidth=2, markersize=5
-    )
+    ax.plot(range(1, nuc_result["n_iterations"] + 1),
+            nuc_result["epsilon_sequence"],
+            "o-", color="#8e44ad", linewidth=2, markersize=5)
     ax.axhline(0, color="grey", linewidth=0.8, linestyle="--")
     ax.set_title("Nucleolus: ε* per Iteration", fontweight="bold")
     ax.set_xlabel("Iteration")
@@ -6870,12 +5832,10 @@ if nuc_result["n_iterations"] > 1:
     ax.yaxis.set_major_formatter(mticker.FuncFormatter(lambda x, _: f"{x:,.4f}"))
     ax.set_xticks(range(1, nuc_result["n_iterations"] + 1))
     plt.tight_layout()
-    plt.savefig(
-        f"{config.PROCESSED_DIR}/nb04_nucleolus_convergence.png",
-        dpi=150, bbox_inches="tight"
-    )
+    plt.savefig(f"{config.PROCESSED_DIR}/nb04_nucleolus_convergence.png",
+                dpi=150, bbox_inches="tight")
     plt.show()
-    print("Figure 3 saved.")
+    print("Figure 4 saved.")
 
 """
 ## 11. Summary scorecard
@@ -6888,54 +5848,67 @@ for name in ["Least Core", "Nucleolus", "Shapley", "Equal Split", "Proportional"
     if alloc is None:
         continue
 
-    # Gini coefficient of the allocation (inequality measure)
     a_sorted = np.sort(alloc)
     n_       = len(a_sorted)
-    gini     = (
-        2 * np.sum((np.arange(1, n_+1)) * a_sorted) / (n_ * a_sorted.sum()) - (n_+1)/n_
+    gini = (
+        2 * np.sum(np.arange(1, n_+1) * a_sorted) / (n_ * a_sorted.sum()) - (n_+1)/n_
         if a_sorted.sum() > 0 else 0.0
     )
 
-    # Minimum gain above standalone value (smallholder protection metric)
-    gain_above_sv = alloc - sv_vec
-    min_gain      = gain_above_sv.min()
-    min_gain_fid  = farmer_ids[gain_above_sv.argmin()]
+    gain       = alloc - sv_vec
+    min_gain   = gain.min()
+    min_farmer = farmer_ids[gain.argmin()]
+
+    ct         = carbon_transfers(alloc)
+    min_ct     = ct.min()
+    min_ct_fid = farmer_ids[ct.argmin()]
 
     scorecard_rows.append({
         "Mechanism"       : name,
-        "Efficient"       : "Yes" if vr.get("efficiency_ok", False) else "No",
-        "IR_satisfied"    : "Yes" if vr.get("IR_ok", False) else "No",
-        "Core_satisfied"  : "Yes" if vr.get("core_ok", False) else "No",
+        "Efficient"       : "Yes" if vr.get("efficiency_ok") else "No",
+        "IR_satisfied"    : "Yes" if vr.get("IR_ok")         else "No",
+        "Core_satisfied"  : "Yes" if vr.get("core_ok")       else "No",
         "Core_violations" : vr.get("n_core_violations", "N/A"),
         "Max_excess_INR"  : round(vr.get("max_excess", float("nan")), 2),
         "Gini_coeff"      : round(gini, 4),
-        "Min_gain_INR"    : round(min_gain, 0),
-        "Min_gain_farmer" : min_gain_fid,
+        "Min_gain_x_INR"  : round(min_gain, 0),
+        "Min_gain_farmer" : min_farmer,
+        "Min_CT_INR"      : round(min_ct, 0),
+        "Min_CT_farmer"   : min_ct_fid,
     })
 
 df_scorecard = pd.DataFrame(scorecard_rows)
 display(df_scorecard)
-
 print()
-print("Notes:")
-print("  Gini coefficient: 0 = perfectly equal allocation, 1 = maximally unequal")
-print("  Min gain INR    : smallest (alloc_i - standalone_i) across all farmers")
-print("                    Negative means that farmer would be better off solo")
+print("Min_gain_x   : min(x_i - standalone_i)  — game-theoretic protection")
+print("Min_CT       : min carbon transfer       — smallest actual cash payment")
+print("Negative CT  : manager recovers money from farmer (rare but possible when")
+print("               yield gain is very large and overshoots the entitlement)")
 
 """
 ## 12. Save allocation results
 """
 
 output = {
-    "farmer_ids"       : farmer_ids,
-    "standalone_values": sv_vec,
-    "v_grand"          : v_gc,
+    "farmer_ids"        : farmer_ids,
+    "standalone_values" : sv_vec,
+    "v_grand"           : v_gc,
+    "carbon_pool"       : carbon_pool,
+    "yr_gc_vec"         : yr_gc_vec,
+    "oc_gc_vec"         : oc_gc_vec,
     "allocations": {
         "least_core"   : lc_result["allocation"],
         "nucleolus"    : nuc_result["allocation"],
         "shapley"      : shapley_alloc,
         "equal_split"  : equal_alloc,
         "proportional" : prop_alloc,
+    },
+    "carbon_transfers": {
+        "least_core"   : carbon_transfers(lc_result["allocation"]),
+        "nucleolus"    : carbon_transfers(nuc_result["allocation"]),
+        "shapley"      : carbon_transfers(shapley_alloc),
+        "equal_split"  : carbon_transfers(equal_alloc),
+        "proportional" : carbon_transfers(prop_alloc),
     },
     "least_core_meta": {
         "core_nonempty": lc_result["core_nonempty"],
@@ -6960,10 +5933,11 @@ print()
 print("=" * 60)
 print("NOTEBOOK 04 COMPLETE")
 print("=" * 60)
-print(f"  Grand coalition value    : {v_gc:,.0f} INR")
-print(f"  Core non-empty           : {lc_result['core_nonempty']}")
-print(f"  Least-core ε*            : {lc_result['epsilon_star']:,.4f} INR")
-print(f"  Nucleolus iterations     : {nuc_result['n_iterations']}")
-print(f"  Output file              : {out_path}")
+print(f"  Grand coalition value   : {v_gc:,.0f} INR")
+print(f"  Carbon pool             : {carbon_pool:,.0f} INR")
+print(f"  Core non-empty          : {lc_result['core_nonempty']}")
+print(f"  Least-core ε*           : {lc_result['epsilon_star']:,.4f} INR")
+print(f"  Nucleolus iterations    : {nuc_result['n_iterations']}")
+print(f"  Output                  : {out_path}")
 
 
