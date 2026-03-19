@@ -12,7 +12,7 @@ PROJECT_ROOT = CURRENT_DIR.parent
 # EXPERIMENT CONFIGURATION
 # CHANGE THIS for every new ablation. 
 # Examples: "Reference_Run", "High_Budget_CF2", "2023-10-27_Test1"
-EXPERIMENT_NAME = "Experiment_01_Baseline" 
+EXPERIMENT_NAME = "Experiment_CF1_MRV_point_8" 
 
 # Paths
 # Inputs always come from the same place (unless you want to version inputs too)
@@ -41,10 +41,12 @@ STANDALONE_PKL         = f"{PROCESSED_DIR}/standalone_values.pkl"
 CHARACTERISTIC_FN_PKL  = f"{PROCESSED_DIR}/characteristic_function.pkl"
 
 # Carbon market
-CCP = 1500          # INR / tCO2e  — carbon credit price
+CCP = 3000          # INR / tCO2e  — carbon credit price, base value 1500
 
 #  Farm economics 
 PADDY_PRICE = 22_000    # INR / ton — farm-gate paddy price
+
+BUDGET_MULTIPLIER = 1.0  #the present base value is 3.5k, so change accordingly
 
 # FOR notebooks/notebook_03_coalition_enumeration.ipynb
 CF_RULE = 'CF1' #CHANGE TO CF_2 or CF_3 as needed 
@@ -52,7 +54,7 @@ CF_RULE = 'CF1' #CHANGE TO CF_2 or CF_3 as needed
 #  MRV (Measurement, Reporting & Verification) costs
 FIXED_MRV = 5_000       # INR — flat cost regardless of coalition size or area.
 VARIABLE_MRV = 2_000    # INR / ha^DELTA_MRV — scales with total certified area.
-DELTA_MRV = 0.7         # Exponent on total area in the MRV cost formula.
+DELTA_MRV = 0.8        # Exponent on total area in the MRV cost formula. basr 0.7
 
 # Transaction / registry costs
 FIXED_T = 2_000         # INR — flat registry/platform fee per certification.
