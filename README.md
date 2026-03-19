@@ -77,7 +77,7 @@ Takes the characteristic function values from Notebook 03 and solves the allocat
 
 ---
 
-## Notes for Collaborators
+## Notes
 
 - All monetary values are in **Indian Rupees (INR)** per season unless otherwise noted.
 - Farm sizes are in **hectares (ha)**; carbon sequestration figures are in **tCO₂/acre/year** (note the unit mismatch — conversion is applied in preprocessing).
