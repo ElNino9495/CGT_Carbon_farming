@@ -1,21 +1,13 @@
 Practice,Net_CSP_base,Net_OC_per_ha,Base_yield_change
-Zero Tillage (ZT),1.2,-3500,0.05
 Crop Residue Retention,1.1,-3500,0.15
-Reduced / Minimum Tillage,0.32,-2000,0.0
-Puddling Reduction,0.25,-2000,-0.1
+Reduced / Minimum Tillage,0.32,-2000,-0.1
 Mid-Season Drainage (MSD),0.4,-2000,-0.1
-Alternate Wetting and Drying (AWD),0.55,-2000,0.0
+Alternate Wetting and Drying (AWD),0.55,-2000,0.05
 System of Rice Intensification (SRI) Water Management,0.6,0,0.3
-Balanced Inorganic NPK Fertilisation,0.25,0,0.2
 Optimised / Variable-Rate N Application,0.35,3000,0.1
 Integrated Nutrient Management (INM) – Organic + Inorganic,0.85,0,0.1
-Green Manure Incorporation,0.45,-2000,0.2
-Farmyard Manure (FYM) Application,0.33,0,0.1
-Compost Application,0.5,3000,0.12
-Biochar Application,2.2,8000,0.3
-Rice Straw Incorporation with N Fertiliser,0.95,-2000,0.2
-Crop Rotation and Diversification,1.1,0,0.15
+Manure Application,0.5,3000,0.12
+Biochar Application,2.2,10000,0.3
+Raised Bed Cultivation,1.5,15000,0.45
 Early-Maturing / Low-Emission Variety Selection,0.3,-2000,0.0
-High-Biomass / Deep-Root Variety Selection,0.7,-2000,0.2
-Deep Placement of N Fertiliser,0.3,0,0.25
-Raised Bed + Zero Tillage System,2.5,3000,0.1
+High-Biomass / Deep-Root Variety Selection,0.7,-2000,0.1

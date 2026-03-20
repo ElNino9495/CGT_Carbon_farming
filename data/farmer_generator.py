@@ -57,7 +57,7 @@ def generate_farmers_df(
     max_ha: float = 2.00,
     round_decimals: int = 2,
     budget_per_ha: float = 3500.0,          # INR/ha/season
-    budget_noise_pct: float = 0.10,         # ±10%
+    budget_noise_pct: float = 0.20,         # ±10%
 ) -> pd.DataFrame:
     """Return a farmers DataFrame with farm size + budget."""
     rng = np.random.default_rng(seed)
@@ -90,7 +90,7 @@ def generate_farmers_df(
 def main():
     # ---- Edit parameters here if needed ----
     params = dict(
-        n_farmers=15,
+        n_farmers=25,
         seed=42,
         mu=-0.5,
         sigma=1.0,
@@ -98,7 +98,7 @@ def main():
         max_ha=2.00,
         round_decimals=2,
         budget_per_ha=3500.0,
-        budget_noise_pct=0.10,
+        budget_noise_pct=0.20,
     )
 
     out_dir = Path("synthetic_salm_data")

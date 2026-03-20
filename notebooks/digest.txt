@@ -1,5 +1,6 @@
 Directory structure:
 └── notebooks/
+    ├── analysis.ipynb
     ├── config.py
     ├── launch_experiments.py
     ├── notebook_01_data_ingestion.ipynb
@@ -11,6 +12,242 @@ Directory structure:
     ├── notebook_04_surplus_allocation.ipynb
     ├── notebook_04_surplus_allocation.py
     └── run_experiment.py
+
+================================================
+FILE: analysis.ipynb
+================================================
+# Jupyter notebook converted to Python script.
+
+import pickle
+from pathlib import Path
+import os
+import numpy as np
+import pandas as pd
+from IPython.display import display
+
+
+# Paste the absolute or relative path to your specific experiment folder here
+# Using ".." to go up one level from 'notebooks/' to the project root
+EXPERIMENT_FOLDER = Path("../data/processed/CF1_delta06/") 
+
+# Load the pickle files
+data = {}
+for pkl_name in ["standalone_values.pkl", "characteristic_function.pkl", "allocation_results.pkl"]:
+    file_path = EXPERIMENT_FOLDER / pkl_name
+    # Resolve to absolute path to verify exactly where it is looking
+    if file_path.resolve().exists():
+        with open(file_path, "rb") as f:
+            data[pkl_name] = pickle.load(f)
+    else:
+        print(f"Warning: {pkl_name} not found at {file_path.resolve()}")
+
+summary = {"Experiment": EXPERIMENT_FOLDER.name}
+
+# Stage 02: Solo Optimisation Summary
+if "standalone_values.pkl" in data:
+    sv = data["standalone_values.pkl"]
+    statuses = [r["status"] for r in sv.values()]
+    svs = [r["standalone_value"] for r in sv.values()]
+    
+    summary["N_optimal_solo"] = sum(1 for s in statuses if s == "optimal")
+    summary["N_profitable_solo"] = sum(1 for r in sv.values() if r["raw_obj_value"] > 0)
+    summary["Total_Solo_Value_INR"] = round(sum(svs))
+
+# Stage 03: Coalition Enumeration Summary
+if "characteristic_function.pkl" in data:
+    cf = data["characteristic_function.pkl"]
+    summary["v_Grand_INR"] = round(cf.get("grand_coalition_value", 0))
+    
+    all_vals = np.array(list(cf.get("characteristic_function", {}).values()))
+    summary["N_Positive_Subcoalitions"] = (all_vals > 0).sum()
+
+# Stage 04: Allocation and Stability Summary
+if "allocation_results.pkl" in data:
+    alloc = data["allocation_results.pkl"]
+    lc_meta = alloc.get("least_core_meta", {})
+    verif = alloc.get("verification", {})
+    
+    summary["Coop_Gain_INR"] = round(alloc.get("v_grand", 0) - sum(svs)) if "standalone_values.pkl" in data else np.nan
+    summary["Core_Nonempty"] = lc_meta.get("core_nonempty")
+    summary["LC_Epsilon_Star"] = round(lc_meta.get("epsilon_star", float('nan')), 2)
+    summary["Shapley_Violations"] = verif.get("Shapley", {}).get("n_core_violations")
+    summary["Equal_Split_Violations"] = verif.get("Equal Split", {}).get("n_core_violations")
+
+df_summary = pd.DataFrame([summary])
+display(df_summary)
+# Output:
+#       Experiment  N_optimal_solo  N_profitable_solo  Total_Solo_Value_INR  \
+
+#   0  CF1_delta06               0                  0                     0   
+
+#   
+
+#      v_Grand_INR  N_Positive_Subcoalitions  Coop_Gain_INR  Core_Nonempty  \
+
+#   0      1229884                     13415        1229884           True   
+
+#   
+
+#      LC_Epsilon_Star  Shapley_Violations  Equal_Split_Violations  
+
+#   0              0.0                2684                    9974  
+
+if "allocation_results.pkl" in data:
+    res = data["allocation_results.pkl"]
+    farmer_ids = res["farmer_ids"]
+    sv_vec = res["standalone_values"]
+    allocs = res.get("allocations", {})
+    
+    # Extract mechanisms safely
+    lc = allocs.get("least_core", [np.nan]*len(farmer_ids))
+    nuc = allocs.get("nucleolus", [np.nan]*len(farmer_ids))
+    shp = allocs.get("shapley", [np.nan]*len(farmer_ids))
+    es = allocs.get("equal_split", [np.nan]*len(farmer_ids))
+    ps = allocs.get("proportional", [np.nan]*len(farmer_ids))
+
+    rows = []
+    for i, fid in enumerate(farmer_ids):
+        rows.append({
+            "Farmer_ID": fid,
+            "Standalone_Value": round(sv_vec[i], 2),
+            "Least_Core": round(lc[i], 2),
+            "Nucleolus": round(nuc[i], 2),
+            "Shapley": round(shp[i], 2),
+            "Equal_Split": round(es[i], 2),
+            "Proportional": round(ps[i], 2)
+        })
+        
+    df_allocations = pd.DataFrame(rows)
+    
+    # Add a totals row
+    totals = df_allocations.sum(numeric_only=True)
+    totals["Farmer_ID"] = "TOTAL"
+    df_allocations.loc[len(df_allocations)] = totals
+    
+    display(df_allocations)
+else:
+    print("allocation_results.pkl not loaded. Cannot display per-farmer allocations.")
+# Output:
+#      Farmer_ID  Standalone_Value  Least_Core   Nucleolus     Shapley  \
+
+#   0      F0001               0.0    76867.73    75954.75    84920.29   
+
+#   1      F0002               0.0    19243.80    18370.61     7012.23   
+
+#   2      F0003               0.0   120306.85   119371.96   149278.46   
+
+#   3      F0004               0.0   145665.64   144853.07   140349.89   
+
+#   4      F0005               0.0    64553.27    63683.58    57027.80   
+
+#   5      F0006               0.0    40958.71    40083.85    31853.08   
+
+#   6      F0007               0.0    56020.78    55187.87    46883.98   
+
+#   7      F0008               0.0    23983.32    23091.00     9468.32   
+
+#   8      F0009               0.0   137196.81   136359.61   134378.74   
+
+#   9      F0010               0.0   123990.75   123147.08   124633.82   
+
+#   10     F0011               0.0    60786.42    59907.74    52469.23   
+
+#   11     F0012               0.0   162896.82   175050.01   238283.76   
+
+#   12     F0013               0.0    90950.89    90113.21    73918.55   
+
+#   13     F0014               0.0    24000.46    23091.00    13563.80   
+
+#   14     F0015               0.0    82461.30    81618.21    65841.59   
+
+#   15     TOTAL               0.0  1229883.55  1229883.55  1229883.54   
+
+#   
+
+#       Equal_Split  Proportional  
+
+#   0      81992.24      76056.15  
+
+#   1      81992.24      19477.79  
+
+#   2      81992.24     118721.79  
+
+#   3      81992.24     143764.67  
+
+#   4      81992.24      63998.47  
+
+#   5      81992.24      40810.62  
+
+#   6      81992.24      55650.84  
+
+#   7      81992.24      24115.36  
+
+#   8      81992.24     135417.04  
+
+#   9      81992.24     122431.85  
+
+#   10     81992.24      60288.41  
+
+#   11     81992.24     173445.12  
+
+#   12     81992.24      89968.86  
+
+#   13     81992.24      24115.36  
+
+#   14     81992.24      81621.23  
+
+#   15   1229883.60    1229883.56  
+
+pkl_path = EXPERIMENT_FOLDER / "allocation_results.pkl"
+
+if pkl_path.exists():
+    with open(pkl_path, "rb") as f:
+        res = pickle.load(f)
+
+    # Extract core variables
+    v_gc = res.get("v_grand", np.nan)
+    sv_vec = res.get("standalone_values", np.array([]))
+    lc_meta = res.get("least_core_meta", {})
+    verif = res.get("verification", {})
+
+    # Helper for extracting max excess safely
+    def max_excess(name):
+        v = verif.get(name, {}).get("max_excess", float("nan"))
+        return round(v, 2) if isinstance(v, float) else np.nan
+
+    # 2. Build the exact row you requested
+    summary = {
+        "Experiment": EXPERIMENT_FOLDER.name,
+        "v_Grand_INR": round(v_gc) if not np.isnan(v_gc) else np.nan,
+        "Coop_Gain_INR": round(v_gc - sv_vec.sum()) if len(sv_vec) > 0 else np.nan,
+        "Core_nonempty": lc_meta.get("core_nonempty", False),
+        "LC_slack_eps": round(lc_meta.get("epsilon_star", float("nan")), 2),
+        "Shap_viol": verif.get("Shapley", {}).get("n_core_violations", "N/A"),
+        "Shap_max_excess": max_excess("Shapley"),
+        "ES_viol": verif.get("Equal Split", {}).get("n_core_violations", "N/A"),
+    }
+
+    # 3. Display as a Pandas DataFrame
+    df_stage04 = pd.DataFrame([summary])
+    display(df_stage04)
+    
+    # Optional: If you want the LaTeX code directly for your paper:
+    # print(df_stage04.to_latex(index=False))
+
+else:
+    print(f"File not found: {pkl_path.resolve()}")
+# Output:
+#       Experiment  v_Grand_INR  Coop_Gain_INR  Core_nonempty  LC_slack_eps  \
+
+#   0  CF1_delta06      1229884        1229884           True           0.0   
+
+#   
+
+#      Shap_viol  Shap_max_excess  ES_viol  
+
+#   0       2684         99396.99     9974  
+
+
 
 ================================================
 FILE: config.py
@@ -47,8 +284,14 @@ def _env(key: str, default):
     if raw is None:
         return default
     if isinstance(default, float): return float(raw)
-    if isinstance(default, int):   return int(raw)
+    if isinstance(default, int):
+        try:
+            return int(raw)
+        except ValueError:
+            # Handle float strings like "1500.0" passed to int params
+            return int(float(raw))
     return raw  # str
+
 
 # =============================================================================
 #  CONFIGURATION PARAMETERS
@@ -67,7 +310,7 @@ CF_RULE = _env("CF_RULE", 'CF1')     # CHANGE TO CF2 or CF3 as needed
 
 # MRV (Measurement, Reporting & Verification) costs
 FIXED_MRV    = _env("FIXED_MRV",    5_000)  # INR — flat cost regardless of coalition size or area.
-VARIABLE_MRV = _env("VARIABLE_MRV", 4_000)  # INR / ha^DELTA_MRV — scales with total certified area base as 2k.
+VARIABLE_MRV = _env("VARIABLE_MRV", 2_000)  # INR / ha^DELTA_MRV — scales with total certified area base as 2k.
 DELTA_MRV    = _env("DELTA_MRV",    0.0)    # Exponent on total area in the MRV cost formula. base 0.7
 
 # Transaction / registry costs
@@ -157,7 +400,7 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 #                        base: 5000   lower → easier solo participation
 #
 #  variable_mrv      — variable MRV rate (INR / ha^delta_mrv)
-#                        base: 4000   higher → stronger coalition incentive
+#                        base: 2000   higher → stronger coalition incentive
 #
 #  fixed_t           — flat transaction / registry fee per certification (INR)
 #                        base: 2000
@@ -182,44 +425,17 @@ from concurrent.futures import ProcessPoolExecutor, as_completed
 experiments = [
     # (name, cf_rule, ccp, delta_mrv, fixed_mrv, variable_mrv, fixed_t, variable_t, budget_mult, paddy_price, n_jobs)
     
-    # ── CF1 × DELTA_MRV 0.0 → 1.0 ────────────────────────────────────────────
-    ("CF1_delta00", "CF1", 1500, 0.0, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF1_delta01", "CF1", 1500, 0.1, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF1_delta02", "CF1", 1500, 0.2, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF1_delta03", "CF1", 1500, 0.3, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF1_delta04", "CF1", 1500, 0.4, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF1_delta05", "CF1", 1500, 0.5, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF1_delta06", "CF1", 1500, 0.6, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF1_delta07", "CF1", 1500, 0.7, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF1_delta08", "CF1", 1500, 0.8, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF1_delta09", "CF1", 1500, 0.9, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF1_delta10", "CF1", 1500, 1.0, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    # ── CF1 × CCP 1500–3000 (Fixed: Delta 0.7, MRV 5000/2000, T 2000/500) ────────────────
+    ("CF1_ccp1500", "CF1", 1500, 0.7, 5000, 2000, 2000, 500, 1.0, 22000, 4),
+    ("CF1_ccp2000", "CF1", 2000, 0.7, 5000, 2000, 2000, 500, 1.0, 22000, 4),
+    ("CF1_ccp2500", "CF1", 2500, 0.7, 5000, 2000, 2000, 500, 1.0, 22000, 4),
+    ("CF1_ccp3000", "CF1", 3000, 0.7, 5000, 2000, 2000, 500, 1.0, 22000, 4),
 
-    # ── CF2 × DELTA_MRV 0.0 → 1.0 ────────────────────────────────────────────
-    ("CF2_delta00", "CF2", 1500, 0.0, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF2_delta01", "CF2", 1500, 0.1, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF2_delta02", "CF2", 1500, 0.2, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF2_delta03", "CF2", 1500, 0.3, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF2_delta04", "CF2", 1500, 0.4, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF2_delta05", "CF2", 1500, 0.5, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF2_delta06", "CF2", 1500, 0.6, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF2_delta07", "CF2", 1500, 0.7, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF2_delta08", "CF2", 1500, 0.8, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF2_delta09", "CF2", 1500, 0.9, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF2_delta10", "CF2", 1500, 1.0, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-
-    # ── CF3 × DELTA_MRV 0.0 → 1.0 ────────────────────────────────────────────
-    ("CF3_delta00", "CF3", 1500, 0.0, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF3_delta01", "CF3", 1500, 0.1, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF3_delta02", "CF3", 1500, 0.2, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF3_delta03", "CF3", 1500, 0.3, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF3_delta04", "CF3", 1500, 0.4, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF3_delta05", "CF3", 1500, 0.5, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF3_delta06", "CF3", 1500, 0.6, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF3_delta07", "CF3", 1500, 0.7, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF3_delta08", "CF3", 1500, 0.8, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF3_delta09", "CF3", 1500, 0.9, 5000, 4000, 2000, 500, 1.0, 22000, 4),
-    ("CF3_delta10", "CF3", 1500, 1.0, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    # ── CF2 × CCP 1500–3000 (Fixed: Delta 0.7, MRV 5000/2000, T 2000/500) ────────────────
+    ("CF2_ccp1500", "CF2", 1500, 0.7, 5000, 2000, 2000, 500, 1.0, 22000, 4),
+    ("CF2_ccp2000", "CF2", 2000, 0.7, 5000, 2000, 2000, 500, 1.0, 22000, 4),
+    ("CF2_ccp2500", "CF2", 2500, 0.7, 5000, 2000, 2000, 500, 1.0, 22000, 4),
+    ("CF2_ccp3000", "CF2", 3000, 0.7, 5000, 2000, 2000, 500, 1.0, 22000, 4),
 ]
 
 def run_one(exp):
@@ -227,8 +443,11 @@ def run_one(exp):
      fixed_mrv, variable_mrv, fixed_t, variable_t,
      budget_multiplier, paddy_price, n_jobs) = exp
 
+    from pathlib import Path
+    script_path = Path(__file__).resolve().parent / "run_experiment.py"
+
     result = subprocess.run([
-        sys.executable, "run_experiment.py",
+        sys.executable, str(script_path),
         "--name",              name,
         "--cf_rule",           cf_rule,
         "--ccp",               str(ccp),
@@ -245,7 +464,7 @@ def run_one(exp):
 
 
 if __name__ == "__main__":
-    MAX_PARALLEL = 3   # tune to: floor(total_cores / n_jobs)
+    MAX_PARALLEL = 10   # tune to: floor(total_cores / n_jobs)
 
     print(f"Launching {len(experiments)} experiments, {MAX_PARALLEL} at a time...\n")
 

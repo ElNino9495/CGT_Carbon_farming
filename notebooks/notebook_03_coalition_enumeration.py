@@ -266,10 +266,10 @@ def solve_coalition(
     for i in s_indices:
         FS = fl[i][1]
         for j in range(m):
-            coeff = FS * (csp[j] * CCP + yld[j] * PADDY - oc[j])
+            coeff = FS * csp[j] * CCP          # carbon revenue only
             obj_terms.append(coeff * x[i][j])
         for j, k in compat:
-            coeff = FS * (alpha[j, k] * CCP + gamma[j, k] * PADDY - beta[j, k])
+            coeff = FS * alpha[j, k] * CCP     # sequestration synergy only
             obj_terms.append(coeff * z[i][(j, k)])
 
     model.setObjective(gp.quicksum(obj_terms) - cert, GRB.MAXIMIZE)

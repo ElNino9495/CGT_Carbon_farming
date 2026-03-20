@@ -16,6 +16,105 @@ Directory structure:
     │   │   ├── gamma_yield.csv
     │   │   └── practices.csv
     │   └── processed/
+    │       ├── CF1_delta00/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF1_delta01/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF1_delta02/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF1_delta03/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF1_delta04/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF1_delta05/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF1_delta06/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF1_delta07/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF1_delta08/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF1_delta09/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF1_delta10/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF2_delta00/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF2_delta01/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF2_delta02/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF2_delta03/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF2_delta04/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF2_delta05/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF2_delta06/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF2_delta07/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF2_delta08/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF2_delta09/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF2_delta10/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF3_delta00/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF3_delta01/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF3_delta02/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF3_delta03/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF3_delta04/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF3_delta05/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF3_delta06/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF3_delta07/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF3_delta08/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF3_delta09/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
+    │       ├── CF3_delta10/
+    │       │   ├── optimization_inputs.pkl
+    │       │   └── standalone_values.pkl
     │       ├── Experiment_01_Baseline/
     │       │   ├── allocation_results.pkl
     │       │   ├── characteristic_function.pkl
@@ -101,17 +200,20 @@ Directory structure:
     │           ├── characteristic_function.pkl
     │           ├── optimization_inputs.pkl
     │           └── standalone_values.pkl
-    └── notebooks/
-        ├── config.py
-        ├── notebook_01_data_ingestion.ipynb
-        ├── notebook_01_data_ingestion.py
-        ├── notebook_02_solo_optimisation.ipynb
-        ├── notebook_02_solo_optimisation.py
-        ├── notebook_03_coalition_enumeration.ipynb
-        ├── notebook_03_coalition_enumeration.py
-        ├── notebook_04_surplus_allocation.ipynb
-        ├── notebook_04_surplus_allocation.py
-        └── run_experiment.py
+    ├── notebooks/
+    │   ├── config.py
+    │   ├── launch_experiments.py
+    │   ├── notebook_01_data_ingestion.ipynb
+    │   ├── notebook_01_data_ingestion.py
+    │   ├── notebook_02_solo_optimisation.ipynb
+    │   ├── notebook_02_solo_optimisation.py
+    │   ├── notebook_03_coalition_enumeration.ipynb
+    │   ├── notebook_03_coalition_enumeration.py
+    │   ├── notebook_04_surplus_allocation.ipynb
+    │   ├── notebook_04_surplus_allocation.py
+    │   └── run_experiment.py
+    └── synthetic_salm_data/
+        └── farmers.csv
 
 ================================================
 FILE: README.md
@@ -122,111 +224,117 @@ This repository contains a Cooperative Game Theory (CGT) framework for optimizin
 
 ---
 
-## Repository Structure
+## Directory Structure
 
 ```
-├── config.py                          # Central configuration file
 ├── data/
 │   ├── Dataset_INR/                   # Raw input CSVs (farmers, practices, interaction matrices)
 │   ├── processed/                     # Output directory — one subfolder per experiment
-│   ├── farmer_generator.py            # Generates synthetic farmer profiles (budgets, sizes)
-│   └── data_generator.py              # Generates practice interaction matrices (α, β, γ)
+│   ├── farmer_generator.py            # Generates synthetic farmer profiles
+│   └── data_generator.py              # Generates practice interaction matrices
 └── notebooks/
-    ├── 01_Data_Ingestion_and_Preprocessing.ipynb
-    ├── 02_Phase1_Solo_Optimisation.ipynb
-    ├── 03_Phase1_Characteristic_Function.ipynb
-    └── 04_Phase2_Allocation.ipynb
+    ├── config.py                      # Central configuration file
+    ├── launch_experiments.py          # Master script for launching batch experiments
+    ├── run_experiment.py              # Script to run a single experiment end-to-end
+    ├── notebook_01_data_ingestion.py  # Data extraction & validation
+    ├── notebook_02_solo_optimisation.py # Phase 1: Solo optimization
+    ├── notebook_03_coalition_enumeration.py # Phase 1: Coalition formation
+    ├── notebook_04_surplus_allocation.py # Phase 2: Allocation mechanisms
+    └── ...                            # Original Jupyter notebooks (.ipynb)
 ```
-
-| Notebook | Purpose |
-|----------|---------|
-| `01` | Ingests raw CSVs and creates a frozen input snapshot |
-| `02` | Solves the individual MILP for each farmer (Disagreement Point) |
-| `03` | Enumerates all $2^N$ coalitions and computes $v(S)$ |
-| `04` | Computes Core, Shapley, Nucleolus allocations and stability plots |
 
 ---
 
-## How to Run an Experiment (Ablation Study)
+## Running Experiments
 
-To run a new experiment (e.g., testing "High Budget" vs "Low Budget" or comparing CF1 vs CF2 rules), follow this workflow. Each experiment is fully isolated and reproducible.
+This framework supports both **automated batch processing** (for ablation studies) and **manual interactive execution** (for debugging).
 
-### Step 1 — Configure the run
+### 1. Automated Batch Experiments (Recommended)
 
-Open `config.py` and edit the **Experiment Configuration** section:
+Use `launch_experiments.py` to run multiple experiments in parallel. This is ideal for sensitivity analysis (e.g., varying Carbon Credit Price or MRV costs).
 
-```python
-# 1. Name your experiment — this creates a unique folder for all results.
-EXPERIMENT_NAME = "HighBudget_CF2_Run"
-
-# 2. Select the Coalition Feasibility Rule.
-CF_RULE = "CF2"   # "CF1", "CF2", or "CF3"
-```
-
-### Step 2 — Generate or modify input data (optional)
-
-Only needed if you are changing the "physics" of the problem — e.g., farmer budgets, farm sizes, or global prices.
-
-1. Open `data/farmer_generator.py` and edit the parameters in `main()`:
+**Step 1:** Open `notebooks/launch_experiments.py` and modify the `experiments` list. Each tuple defines a unique configuration:
 
 ```python
-# Example: doubling the per-hectare budget
-budget_per_ha = 7000.0
+experiments = [
+    # (name, cf_rule, ccp, delta_mrv, fixed_mrv, var_mrv, fixed_t, var_t, budget, paddy, n_jobs)
+    ("CF1_delta00", "CF1", 1500, 0.0, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ...
+]
 ```
 
-2. Run the generator from a terminal:
+**Step 2:** Run the launcher from the root directory:
 
 ```bash
-python data/farmer_generator.py
+python notebooks/launch_experiments.py
 ```
 
-> **Note:** This overwrites the CSVs in `Dataset_INR/`. This is safe because Step 3 will save a frozen snapshot of the data into your experiment folder before anything is modified.
+This script manages parallel execution using `ProcessPoolExecutor`, running multiple experiments concurrently based on available CPU cores.
 
-### Step 3 — Execute the pipeline
+### 2. Single Experiment via CLI
 
-Run the four notebooks **in numerical order**. Each notebook reads `EXPERIMENT_NAME` from `config.py` and automatically reads from / writes to the correct experiment subfolder under `data/processed/`.
+Use `run_experiment.py` to run a specific configuration without editing files. This is useful for testing a single scenario.
 
-**`01_Data_Ingestion_and_Preprocessing.ipynb`**
-- Reads raw CSVs from `Dataset_INR/`
-- Validates matrices (symmetry, zero diagonal, no NaNs)
-- Saves `optimization_inputs.pkl` to `data/processed/HighBudget_CF2_Run/`
-- ✅ Your inputs are now frozen — future CSV changes won't affect this experiment.
+```bash
+python notebooks/run_experiment.py \
+  --name "My_Test_Run" \
+  --cf_rule "CF1" \
+  --ccp 2000 \
+  --delta_mrv 0.7 \
+  --n_jobs 4
+```
 
-**`02_Phase1_Solo_Optimisation.ipynb`**
-- Solves the individual MILP for each farmer using the frozen inputs
-- Computes each farmer's standalone value $\tilde{v}(\{i\})$ (IR floor)
-- Saves `standalone_values.pkl` to the experiment folder
+This script automatically executes the four pipeline steps in order (`01` -> `02` -> `03` -> `04`) using the provided parameters.
 
-**`03_Phase1_Characteristic_Function.ipynb`**
-- Enumerates all $2^N$ coalitions and solves a joint MILP per coalition
-- Uses the `CF_RULE` defined in Step 1
-- Saves `characteristic_function.pkl`
-- ⚠️ Computationally intensive for $N > 15$ — parallelised via `joblib`
+### 3. Manual / Interactive Execution
 
-**`04_Phase2_Allocation.ipynb`**
-- Loads the characteristic function and computes five allocation mechanisms:
-  - Least Core, Nucleolus, Shapley Value, Equal Split, Proportional Split
-- Computes per-farmer carbon transfers (actual manager payouts)
-- Saves `allocation_results.pkl` and generates all stability and comparison plots
+You can still run the Jupyter notebooks interactively. This is useful for debugging logic or inspecting intermediate dataframes.
+
+1. Open `notebooks/config.py` and set your desired parameters (e.g., `EXPERIMENT_NAME`, `CF_RULE`, `CCP`).
+2. Run the notebooks in sequential order:
+    - `01_Data_Ingestion_and_Preprocessing.ipynb`
+    - `02_Phase1_Solo_Optimisation.ipynb`
+    - `03_Phase1_Characteristic_Function.ipynb`
+    - `04_Phase2_Allocation.ipynb`
 
 ---
 
-## Key Configuration Parameters (`config.py`)
+## Configuration System
+
+The project uses a hierarchical configuration system:
+
+1. **`notebooks/config.py`**: Defines all default values, types, and derived constants.
+2. **Environment Variables**: Can override any value in `config.py` at runtime. The key is usually the parameter name (e.g., `CCP`, `DELTA_MRV`, `EXPERIMENT_NAME`).
+
+When using `launch_experiments.py` or `run_experiment.py`, the scripts automatically handle these environment variable overrides for you.
+
+### Key Configuration Parameters
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `EXPERIMENT_NAME` | `str` | Name of the subfolder in `processed/` where all results are stored |
-| `CF_RULE` | `str` | `"CF1"` — Pooled residual (linear; most permissive) <br> `"CF2"` — Area-weighted per-farmer share (linear; stricter) <br> `"CF3"` — Sequestration-weighted per-farmer share (non-convex; strictest) |
-| `CCP` | `float` | Carbon credit price (INR / tCO₂e) |
-| `PADDY_PRICE` | `float` | Farm-gate paddy price (INR / ton) |
-| `FIXED_MRV` | `float` | Flat MRV cost per certification (INR) |
-| `VARIABLE_MRV` | `float` | Variable MRV rate (INR / ha^δ) |
-| `DELTA_MRV` | `float` | MRV scale exponent — values < 1 produce economies of scale |
-| `FIXED_T` | `float` | Flat transaction / registry fee per certification (INR) |
-| `VARIABLE_T` | `float` | Per-member transaction cost (INR / farmer) |
-| `GUROBI_TIME_LIMIT` | `int` | Solver time limit per coalition solve (seconds) |
-| `GUROBI_MIP_GAP` | `float` | Relative MIP optimality gap |
-| `N_JOBS` | `int` | Parallel workers for coalition enumeration (`-1` = all CPU cores) |
+| `EXPERIMENT_NAME` | `str` | Name of the output subfolder in `data/processed/` |
+| `CF_RULE` | `str` | **Coalition Feasibility Rule**:<br>`CF1` (Pooled residual; linear), `CF2` (Area-weighted; strict), `CF3` (Sequestration-weighted; strictest) |
+| `CCP` | `float` | **Carbon Credit Price** (INR / tCO₂e). |
+| `DELTA_MRV` | `float` | **MRV Scale Exponent** (0.0 = const, 1.0 = linear). Values < 1 imply economies of scale. |
+| `FIXED_MRV` | `float` | Flat MRV cost per certification event (INR). |
+| `VARIABLE_MRV` | `float` | Variable MRV rate (INR / ha^δ). |
+| `FIXED_T` | `float` | Flat transaction/registry fee (INR). |
+| `VARIABLE_T` | `float` | Per-member transaction cost (INR / farmer). |
+| `BUDGET_MULTIPLIER`| `float` | Scaling factor for farmer budgets (1.0 = base). |
+| `PADDY_PRICE` | `float` | Farm-gate paddy price (INR / ton). |
+| `N_JOBS` | `int` | Parallel workers for coalition enumeration (-1 = all cores). |
+
+---
+
+## Outputs
+
+All results are saved in `data/processed/<EXPERIMENT_NAME>/`.
+
+- **`optimization_inputs.pkl`**: Frozen copy of input data.
+- **`standalone_values.pkl`**: Results from Solo Optimization (Phase 1).
+- **`characteristic_function.pkl`**: Results from Coalition Enumeration (Phase 1).
+- **`allocation_results.pkl`**: Final allocations from Phase 2.
+- **`plots/`**: Stability analysis and allocation plots (generated by Phase 2).
 
 ---
 
@@ -234,11 +342,11 @@ Run the four notebooks **in numerical order**. Each notebook reads `EXPERIMENT_N
 
 - Python 3.9+
 - Gurobi Optimizer (valid licence required — academic licences available free at [gurobi.com](https://www.gurobi.com))
-- Key Python libraries:
+- Key Dependencies:
+  ```bash
+  pip install gurobipy pandas numpy matplotlib joblib tqdm
+  ```
 
-```bash
-pip install gurobipy pandas numpy matplotlib joblib tqdm
-```
 
 
 ================================================
@@ -1827,28 +1935,28 @@ Outputs
 practices.csv
     Per-practice base data: CSP, OC, yield change. One row per practice.
 
-alpha_carbon.csv       (20 x 20)
+alpha_carbon.csv       (15 x 15)
     Carbon sequestration interaction matrix, α_jk.
     Units: tCO2e / ha / season.
     Positive = synergy, negative = antagonism, 0 = incompatible or diagonal.
 
-beta_cost.csv          (20 x 20)
+beta_cost.csv          (15 x 15)
     Operational cost interaction matrix, β_jk.
     Units: INR / ha / season.
     Negative = cost saving synergy, positive = cost burden.
 
-gamma_yield.csv        (20 x 20)
+gamma_yield.csv        (15 x 15)
     Yield interaction matrix, γ_jk.
     Units: tons / ha / season.
     Positive = extra yield gain, negative = extra yield loss.
     Multiply by PADDY_PRICE_INR_PER_TON to convert to revenue in the optimizer.
 
-delta_incompatibility.csv  (20 x 20)
+delta_incompatibility.csv  (15 x 15)
     Binary incompatibility matrix, Δ_jk.
     1 = practices j and k cannot be co-adopted (enforced as hard constraint).
     0 = compatible.
 
-farmer_csp.csv         (n_farmers x 20)
+farmer_csp.csv         (n_farmers x 15)
     Farmer-specific realised sequestration, CSP_ij.
     Units: tCO2e / ha / season.
     Currently set equal to the uniform base (CSP_ij = CSP_j for all i).
@@ -1881,37 +1989,22 @@ PADDY_PRICE_INR_PER_TON = 22_000   # INR per ton of paddy — for reference only
 # =============================================================================
 # 1. PRACTICES — base data
 # =============================================================================
-# Net_OC_per_ha : INR / ha / season
-#   Negative values mean the practice saves money vs. conventional tillage.
-#   Applied linearly: total_OC_j = Net_OC_per_ha_j * FS_i
-#
-# Net_CSP_base  : tCO2e / ha / season (uniform across farmers)
-#
-# Base_yield_change : tons / ha / season
-#   Positive = net yield gain from adopting this practice alone.
-#   Converted to INR in the optimizer: revenue = FS_i * yield_change * 22000.
 
 practices_data = {
-    # Practice name                                    : (Net_CSP_base, Net_OC_per_ha, Base_yield_change)
-    "Zero Tillage (ZT)":                               (1.20,  -3500,  0.05),
     "Crop Residue Retention":                          (1.10,  -3500,  0.15),
-    "Reduced / Minimum Tillage":                       (0.32,  -2000,  0.00),
-    "Puddling Reduction":                              (0.25,  -2000, -0.10),
+    "Reduced / Minimum Tillage":                       (0.32,  -2000,  -0.10),
     "Mid-Season Drainage (MSD)":                       (0.40,  -2000, -0.10),
     "Alternate Wetting and Drying (AWD)":              (0.55,  -2000,  0.00),
     "System of Rice Intensification (SRI) Water Management": (0.60, 0,  0.30),
-    "Balanced Inorganic NPK Fertilisation":            (0.25,      0,  0.20),
     "Optimised / Variable-Rate N Application":         (0.35,   3000,  0.10),
     "Integrated Nutrient Management (INM) – Organic + Inorganic": (0.85, 0, 0.10),
-    "Green Manure Incorporation":                      (0.45,  -2000,  0.20),
     "Farmyard Manure (FYM) Application":               (0.33,      0,  0.10),
     "Compost Application":                             (0.50,   3000,  0.12),
     "Biochar Application":                             (2.20,   8000,  0.30),
     "Rice Straw Incorporation with N Fertiliser":      (0.95,  -2000,  0.20),
     "Crop Rotation and Diversification":               (1.10,      0,  0.15),
     "Early-Maturing / Low-Emission Variety Selection": (0.30,  -2000,  0.00),
-    "High-Biomass / Deep-Root Variety Selection":      (0.70,  -2000,  0.20),
-    "Deep Placement of N Fertiliser":                  (0.30,      0,  0.25),
+    "High-Biomass / Deep-Root Variety Selection":      (0.70,  -2000,  0.10),
     "Raised Bed + Zero Tillage System":                (2.50,   3000,  0.10),
 }
 
@@ -1956,35 +2049,18 @@ def set_cat(p1, p2, cat, reason):
 
 # Incompatible pairs (hard constraint — Δ_jk = 1)
 for p1, p2, reason in [
-    (
-        "Zero Tillage (ZT)",
-        "Raised Bed + Zero Tillage System",
-        "Raised Bed + ZT subsumes ZT; co-adoption double-counts sequestration.",
-    ),
-    (
-        "Balanced Inorganic NPK Fertilisation",
-        "Integrated Nutrient Management (INM) – Organic + Inorganic",
-        "INM already includes balanced inorganic NPK; co-adoption double-counts.",
-    ),
+    # (Removed previous incompatible pairs; left structure for future additions)
 ]:
     set_cat(p1, p2, "X", reason)
 
 # Strong positive pairs
 for p1, p2, reason in [
-    ("Zero Tillage (ZT)", "Crop Residue Retention",
-     "Core conservation-agriculture synergy; residue mulch preserved under undisturbed soil."),
-    ("Zero Tillage (ZT)", "Integrated Nutrient Management (INM) – Organic + Inorganic",
-     "ZT protects soil aggregates while INM replenishes active carbon pools."),
     ("Crop Residue Retention", "Alternate Wetting and Drying (AWD)",
      "AWD mitigates the CH4 amplification that residue retention creates under full flooding."),
     ("Mid-Season Drainage (MSD)", "Biochar Application",
      "Biochar compensates SOC loss from drainage while MSD suppresses CH4."),
     ("Alternate Wetting and Drying (AWD)", "Early-Maturing / Low-Emission Variety Selection",
      "Shorter submergence period amplifies AWD's CH4-reduction benefit."),
-    ("Balanced Inorganic NPK Fertilisation", "Farmyard Manure (FYM) Application",
-     "NPK + FYM improves labile C and nutrient use efficiency."),
-    ("Integrated Nutrient Management (INM) – Organic + Inorganic", "Green Manure Incorporation",
-     "Green manure sustains active and passive C pools alongside INM."),
     ("System of Rice Intensification (SRI) Water Management",
      "Integrated Nutrient Management (INM) – Organic + Inorganic",
      "SRI × INM: high-efficiency combination for soil health, yield, and CSP."),
@@ -1996,10 +2072,6 @@ for p1, p2, reason in [
 for p1, p2, reason in [
     ("Reduced / Minimum Tillage", "Crop Residue Retention",
      "Reduced tillage preserves residue-derived SOC."),
-    ("Puddling Reduction", "Zero Tillage (ZT)",
-     "Both reduce soil structural disturbance and protect SOC."),
-    ("Puddling Reduction", "Crop Residue Retention",
-     "Residue retention plus less aggressive wet tillage lowers GHG burden."),
     ("Mid-Season Drainage (MSD)", "Optimised / Variable-Rate N Application",
      "Named synergy for net GHG balance under drainage."),
     ("System of Rice Intensification (SRI) Water Management",
@@ -2010,21 +2082,11 @@ for p1, p2, reason in [
      "SRI synergistic with organic amendments."),
     ("System of Rice Intensification (SRI) Water Management", "Compost Application",
      "SRI synergistic with organic amendments."),
-    ("System of Rice Intensification (SRI) Water Management", "Green Manure Incorporation",
-     "SRI synergistic with organic amendments."),
     ("System of Rice Intensification (SRI) Water Management",
      "Early-Maturing / Low-Emission Variety Selection",
      "SRI synergistic with improved varieties."),
-    ("Balanced Inorganic NPK Fertilisation", "Deep Placement of N Fertiliser",
-     "Improved N placement enhances balanced nutrient management."),
-    ("Optimised / Variable-Rate N Application", "Deep Placement of N Fertiliser",
-     "Both improve N-use efficiency and reduce losses."),
-    ("Biochar Application", "Deep Placement of N Fertiliser",
-     "Biochar and deep N placement jointly improve nutrient retention."),
     ("Crop Rotation and Diversification", "Compost Application",
      "Diversified systems and organic amendments reinforce soil-carbon building."),
-    ("Crop Rotation and Diversification", "Green Manure Incorporation",
-     "Green manure fits naturally into diversified rotations."),
     ("Crop Rotation and Diversification", "Farmyard Manure (FYM) Application",
      "Diversification and organic matter addition are complementary."),
     ("Crop Rotation and Diversification",
@@ -2033,8 +2095,6 @@ for p1, p2, reason in [
     ("Rice Straw Incorporation with N Fertiliser",
      "Optimised / Variable-Rate N Application",
      "Better N timing improves residue decomposition management."),
-    ("Rice Straw Incorporation with N Fertiliser", "Deep Placement of N Fertiliser",
-     "Improved N placement supports residue incorporation efficiency."),
     ("High-Biomass / Deep-Root Variety Selection",
      "Alternate Wetting and Drying (AWD)",
      "Positive interaction with AWD-type water management."),
@@ -2053,10 +2113,6 @@ for p1, p2, reason in [
         set_cat(p1, p2, "neg", reason)
 
 # ── 2b. Sampling distributions ────────────────────────────────────────────────
-# Alpha: tCO2e/ha/season  — interaction is a second-order effect on top of base CSP (0.25–2.5)
-# Beta : INR/ha/season    — scaled by FS_i in the optimizer (consistent with linear OC)
-# Gamma: tons/ha/season   — second-order effect; base yield changes are 0.00–0.30 t/ha
-
 dist_params = {
     "Alpha": {
         "strong_pos": {"mean":  0.16, "sd": 0.04},
@@ -2065,7 +2121,6 @@ dist_params = {
         "zero_like":  {"mean":  0.00, "sd": 0.015},
     },
     "Beta": {
-        # Negative = cost-saving synergy, Positive = extra cost burden
         "strong_pos": {"mean": -220.0, "sd":  50.0},
         "pos":        {"mean":  -90.0, "sd":  35.0},
         "neg":        {"mean":  120.0, "sd":  40.0},
@@ -2091,7 +2146,6 @@ for p1, p2 in combinations(practices, 2):
 
     if cat == "X":
         Delta[i, j] = Delta[j, i] = 1
-        # α, β, γ remain 0 — incompatible pairs never contribute to the objective
     else:
         a = float(np.clip(rng.normal(dist_params["Alpha"][cat]["mean"],
                                      dist_params["Alpha"][cat]["sd"]),  *ALPHA_CLIP))
@@ -2132,23 +2186,6 @@ print(f"  Strong-pos pairs    : {sum(1 for v in pair_category.values() if v == '
 print(f"  Moderate-pos pairs  : {sum(1 for v in pair_category.values() if v == 'pos')}")
 print(f"  Negative pairs      : {sum(1 for v in pair_category.values() if v == 'neg')}")
 print(f"  Zero-like pairs     : {sum(1 for v in pair_category.values() if v == 'zero_like')}")
-print(f"\nFiles written to: {OUT_DIR.resolve()}")
-print("  practices.csv")
-print("  alpha_carbon.csv")
-print("  beta_cost.csv")
-print("  gamma_yield.csv")
-print("  delta_incompatibility.csv")
-print("\nNOTE: CSP_ij = CSP_j for all farmers (uniform sequestration).")
-print("      The optimizer reads CSP_j directly from practices.csv.")
-print("      If soil survey data becomes available, add a farmer_csp.csv")
-print("      and update the optimizer to read it instead.")
-print("\nStill needed before running the optimizer (define in config.py):")
-print("  CCP          — carbon credit price       (INR / tCO2e)")
-print("  Fixed_MRV    — flat MRV cost             (INR)")
-print("  Variable_MRV — variable MRV rate         (INR / ha^delta)")
-print("  delta        — MRV scale exponent        (suggested: 0.6–0.8)")
-print("  Fixed_T      — flat transaction cost     (INR)")
-print("  Variable_T   — per-farmer transaction cost (INR / farmer)")
 
 
 ================================================
@@ -2213,7 +2250,7 @@ def generate_farmers_df(
     max_ha: float = 2.00,
     round_decimals: int = 2,
     budget_per_ha: float = 3500.0,          # INR/ha/season
-    budget_noise_pct: float = 0.10,         # ±10%
+    budget_noise_pct: float = 0.20,         # ±10%
 ) -> pd.DataFrame:
     """Return a farmers DataFrame with farm size + budget."""
     rng = np.random.default_rng(seed)
@@ -2246,7 +2283,7 @@ def generate_farmers_df(
 def main():
     # ---- Edit parameters here if needed ----
     params = dict(
-        n_farmers=15,
+        n_farmers=25,
         seed=42,
         mu=-0.5,
         sigma=1.0,
@@ -2254,7 +2291,7 @@ def main():
         max_ha=2.00,
         round_decimals=2,
         budget_per_ha=3500.0,
-        budget_noise_pct=0.10,
+        budget_noise_pct=0.20,
     )
 
     out_dir = Path("synthetic_salm_data")
@@ -2280,21 +2317,21 @@ if __name__ == "__main__":
 FILE: data/Dataset_INR/15_farmers.csv
 ================================================
 Farmer_ID,Farm_Size_ha,Budget_per_ha_INR_per_season,Budget_total_INR_per_season
-F0001,0.82,3697.01,3031.55
-F0002,0.21,3324.54,698.15
-F0003,1.28,3724.59,4767.47
-F0004,1.55,3273.99,5074.69
-F0005,0.69,3401.63,2347.13
-F0006,0.44,3430.75,1509.53
-F0007,0.6,3359.66,2015.79
-F0008,0.26,3152.35,819.61
-F0009,1.46,3314.86,4839.69
-F0010,1.32,3386.36,4469.99
-F0011,0.65,3369.54,2190.2
-F0012,1.87,3699.89,6918.79
-F0013,0.97,3183.16,3087.66
-F0014,0.26,3422.26,889.79
-F0015,0.88,3176.26,2795.11
+F0001,0.82,3894.03,3193.1
+F0002,0.21,3149.07,661.31
+F0003,1.28,3949.18,5054.95
+F0004,1.55,3047.99,4724.38
+F0005,0.69,3303.26,2279.25
+F0006,0.44,3361.51,1479.06
+F0007,0.6,3219.31,1931.59
+F0008,0.26,2804.7,729.22
+F0009,1.46,3129.71,4569.38
+F0010,1.32,3272.71,4319.98
+F0011,0.65,3239.07,2105.4
+F0012,1.87,3899.78,7292.58
+F0013,0.97,2866.31,2780.33
+F0014,0.26,3344.53,869.58
+F0015,0.88,2852.52,2510.22
 
 
 
@@ -2302,139 +2339,119 @@ F0015,0.88,3176.26,2795.11
 FILE: data/Dataset_INR/25_farmers.csv
 ================================================
 Farmer_ID,Farm_Size_ha,Budget_per_ha_INR_per_season,Budget_total_INR_per_season
-F0001,0.82,3697.01,3031.55
-F0002,0.21,3324.54,698.15
-F0003,1.28,3724.59,4767.47
-F0004,1.55,3273.99,5074.69
-F0005,0.69,3401.63,2347.13
-F0006,0.44,3430.75,1509.53
-F0007,0.6,3359.66,2015.79
-F0008,0.26,3152.35,819.61
-F0009,1.46,3314.86,4839.69
-F0010,1.32,3386.36,4469.99
-F0011,0.65,3369.54,2190.2
-F0012,1.87,3699.89,6918.79
-F0013,0.97,3183.16,3087.66
-F0014,0.26,3422.26,889.79
-F0015,0.88,3176.26,2795.11
-F0016,0.23,3801.45,874.33
-F0017,1.46,3703.15,5406.59
-F0018,0.58,3837.51,2225.76
-F0019,0.5,3787.11,1893.56
-F0020,0.31,3371.07,1045.03
-F0021,0.52,3634.11,1889.74
-F0022,0.4,3364.59,1345.84
-F0023,0.43,3771.75,1621.85
-F0024,1.03,3437.53,3540.65
-F0025,0.87,3413.12,2969.42
+F0001,0.82,3894.03,3193.1
+F0002,0.21,3149.07,661.31
+F0003,1.28,3949.18,5054.95
+F0004,1.55,3047.99,4724.38
+F0005,0.69,3303.26,2279.25
+F0006,0.44,3361.51,1479.06
+F0007,0.6,3219.31,1931.59
+F0008,0.26,2804.7,729.22
+F0009,1.46,3129.71,4569.38
+F0010,1.32,3272.71,4319.98
+F0011,0.65,3239.07,2105.4
+F0012,1.87,3899.78,7292.58
+F0013,0.97,2866.31,2780.33
+F0014,0.26,3344.53,869.58
+F0015,0.88,2852.52,2510.22
+F0016,0.23,4102.91,943.67
+F0017,1.46,3906.29,5703.19
+F0018,0.58,4175.03,2421.52
+F0019,0.5,4074.22,2037.11
+F0020,0.31,3242.14,1005.06
+F0021,0.52,3768.22,1959.47
+F0022,0.4,3229.18,1291.67
+F0023,0.43,4043.5,1738.7
+F0024,1.03,3375.05,3476.31
+F0025,0.87,3326.24,2893.83
 
 
 
 ================================================
 FILE: data/Dataset_INR/alpha_carbon.csv
 ================================================
-,Zero Tillage (ZT),Crop Residue Retention,Reduced / Minimum Tillage,Puddling Reduction,Mid-Season Drainage (MSD),Alternate Wetting and Drying (AWD),System of Rice Intensification (SRI) Water Management,Balanced Inorganic NPK Fertilisation,Optimised / Variable-Rate N Application,Integrated Nutrient Management (INM) – Organic + Inorganic,Green Manure Incorporation,Farmyard Manure (FYM) Application,Compost Application,Biochar Application,Rice Straw Incorporation with N Fertiliser,Crop Rotation and Diversification,Early-Maturing / Low-Emission Variety Selection,High-Biomass / Deep-Root Variety Selection,Deep Placement of N Fertiliser,Raised Bed + Zero Tillage System
-Zero Tillage (ZT),0.0,0.17218868319017724,0.014108470745868207,0.08383521209501857,-0.012795658913603701,0.0009904604634182407,-0.012889386943248574,0.013176754519609087,-0.010213943166059121,0.14286688711347573,0.005481660965461175,0.032124714013056915,-0.012206590923718166,-0.001709211864823126,0.009758891817370515,-0.009982645609330414,0.003280328950935194,0.010183703446078423,0.009469323387578105,0.0
-Crop Residue Retention,0.17218868319017724,0.0,0.06588882037121614,0.12484823933703187,-0.02524304657423707,0.18344889325437114,-0.005230876083726564,-0.002869564873224223,-0.01379178429002417,0.010357280311016523,0.00938385590951005,-0.009928889115999769,-0.017937594683835593,0.00018741178091531143,0.009980776634591793,-0.0011957731635959857,-0.019840494185316034,-0.013582185830400911,-0.005343959565921388,-0.00308156336801445
-Reduced / Minimum Tillage,0.014108470745868207,0.06588882037121614,0.0,0.012604622061860932,0.0035660340349841684,0.0010819426157080427,0.00032778218285164316,-0.015352462389327973,0.020387813628606546,0.021949543368293425,-0.013898639121082874,0.009527264202216064,-0.015233686218113123,0.029950963375376796,-0.014843071800477961,-0.01219411642965489,-0.002111863296245779,-0.0023795225555803246,-0.007294618636099963,0.0019541178220932875
-Puddling Reduction,0.08383521209501857,0.12484823933703187,0.012604622061860932,0.0,-0.01777415649625537,0.031927045986527465,-0.013543907671305396,-0.002349568464871356,0.006691083022231208,-0.01916906361479429,0.0023998742036015737,0.019590026125602372,0.016594330650898333,0.002748516558328592,0.024763918983468743,-0.005747809817039816,-0.013420905284337396,-7.682800080106943e-05,0.02111222791970575,-0.030752581515465338
-Mid-Season Drainage (MSD),-0.012795658913603701,-0.02524304657423707,0.0035660340349841684,-0.01777415649625537,0.0,-0.01828219590635442,0.013738538135340195,-0.007262541500003677,0.09614346311011779,-0.010439139175060546,0.0026486003768056653,0.003423424952083577,-0.0127986502583823,0.13637171944146054,-0.010936257566154127,-0.002439988808173615,-0.013152911672513822,-0.09934090490781981,-0.016451783676819594,-0.017573499432380124
-Alternate Wetting and Drying (AWD),0.0009904604634182407,0.18344889325437114,0.0010819426157080427,0.031927045986527465,-0.01828219590635442,0.0,0.13186092933216778,0.01166006364092616,-0.002007344467740617,-0.0039958123501343265,0.007073077838177085,0.005276346125988052,-0.01082337050314271,-0.02813663382138811,-0.011445858145421513,0.003941238377207078,0.19709753926232723,0.06585425577650153,-0.004382567787053325,0.0022884376815370286
-System of Rice Intensification (SRI) Water Management,-0.012889386943248574,-0.005230876083726564,0.00032778218285164316,-0.013543907671305396,0.013738538135340195,0.13186092933216778,0.0,-0.0035527539676452635,-0.005578718719819347,0.2290940085665674,0.07014424330631319,0.06996631482932371,0.13196934816229833,0.02615901789251688,-0.004448564303020625,0.014843759018922795,0.07428046827484522,0.027309692364702022,-0.0010042975934730126,0.022668426499150823
-Balanced Inorganic NPK Fertilisation,0.013176754519609087,-0.002869564873224223,-0.015352462389327973,-0.002349568464871356,-0.007262541500003677,0.01166006364092616,-0.0035527539676452635,0.0,-0.015205760496605982,0.0,-0.010067104160948716,0.18435045888897758,0.0010805035984886688,-0.03094857415207114,-0.023723915991809133,0.01269875978765106,0.016027073339835576,0.004055148589225888,0.07542432402642923,-0.015878041229676138
-Optimised / Variable-Rate N Application,-0.010213943166059121,-0.01379178429002417,0.020387813628606546,0.006691083022231208,0.09614346311011779,-0.002007344467740617,-0.005578718719819347,-0.015205760496605982,0.0,-0.011153823432188462,0.0126657778572798,0.012851909738497902,0.034914796505191276,0.024063815422757113,0.1192865205458158,-0.024019169056782804,0.007862817642191565,-0.03465155154948966,0.09378157315149835,0.011401996280637806
-Integrated Nutrient Management (INM) – Organic + Inorganic,0.14286688711347573,0.010357280311016523,0.021949543368293425,-0.01916906361479429,-0.010439139175060546,-0.0039958123501343265,0.2290940085665674,0.0,-0.011153823432188462,0.0,0.13181306948520471,0.012307927131261281,-0.003987581878730685,-0.02989590556581234,-0.03500424179772457,0.07145347800852277,0.019915291984015374,0.001381899876511638,-0.022208047688475244,0.012053775290679023
-Green Manure Incorporation,0.005481660965461175,0.00938385590951005,-0.013898639121082874,0.0023998742036015737,0.0026486003768056653,0.007073077838177085,0.07014424330631319,-0.010067104160948716,0.0126657778572798,0.13181306948520471,0.0,0.005892412023898784,-0.0019662997603158987,-0.009075010692130965,-0.009814249150313332,0.08985986006847443,-0.005141792262965689,-0.00497232258145882,-0.001967062953050174,0.031154707935806294
-Farmyard Manure (FYM) Application,0.032124714013056915,-0.009928889115999769,0.009527264202216064,0.019590026125602372,0.003423424952083577,0.005276346125988052,0.06996631482932371,0.18435045888897758,0.012851909738497902,0.012307927131261281,0.005892412023898784,0.0,0.016143602361995784,-0.000387942719307846,-0.023843512399634535,0.06623974145182002,0.01658990054860947,-0.006106173545254876,0.009287566754630898,-0.01712907339213606
-Compost Application,-0.012206590923718166,-0.017937594683835593,-0.015233686218113123,0.016594330650898333,-0.0127986502583823,-0.01082337050314271,0.13196934816229833,0.0010805035984886688,0.034914796505191276,-0.003987581878730685,-0.0019662997603158987,0.016143602361995784,0.0,0.0033461961393791264,0.00871165642994695,0.056615528098237416,0.009983778544701437,-0.004293731003335377,0.014033206881977239,-0.029862179926859966
-Biochar Application,-0.001709211864823126,0.00018741178091531143,0.029950963375376796,0.002748516558328592,0.13637171944146054,-0.02813663382138811,0.02615901789251688,-0.03094857415207114,0.024063815422757113,-0.02989590556581234,-0.009075010692130965,-0.000387942719307846,0.0033461961393791264,0.0,0.013427774729575289,-0.04446793256762477,0.00652326407195471,-0.02341437529491664,0.07741698044536854,0.010024890271619954
-Rice Straw Incorporation with N Fertiliser,0.009758891817370515,0.009980776634591793,-0.014843071800477961,0.024763918983468743,-0.010936257566154127,-0.011445858145421513,-0.004448564303020625,-0.023723915991809133,0.1192865205458158,-0.03500424179772457,-0.009814249150313332,-0.023843512399634535,0.00871165642994695,0.013427774729575289,0.0,0.02443405421435987,0.020036765044803492,-0.0066380356783827575,0.08774686469968086,-0.014116831438874374
-Crop Rotation and Diversification,-0.009982645609330414,-0.0011957731635959857,-0.01219411642965489,-0.005747809817039816,-0.002439988808173615,0.003941238377207078,0.014843759018922795,0.01269875978765106,-0.024019169056782804,0.07145347800852277,0.08985986006847443,0.06623974145182002,0.056615528098237416,-0.04446793256762477,0.02443405421435987,0.0,-0.023486386082707714,0.01721718991100345,-0.025297022268511528,-0.0026883993817463235
-Early-Maturing / Low-Emission Variety Selection,0.003280328950935194,-0.019840494185316034,-0.002111863296245779,-0.013420905284337396,-0.013152911672513822,0.19709753926232723,0.07428046827484522,0.016027073339835576,0.007862817642191565,0.019915291984015374,-0.005141792262965689,0.01658990054860947,0.009983778544701437,0.00652326407195471,0.020036765044803492,-0.023486386082707714,0.0,0.0030508236092991513,0.009939989555782259,0.004446270012129892
-High-Biomass / Deep-Root Variety Selection,0.010183703446078423,-0.013582185830400911,-0.0023795225555803246,-7.682800080106943e-05,-0.09934090490781981,0.06585425577650153,0.027309692364702022,0.004055148589225888,-0.03465155154948966,0.001381899876511638,-0.00497232258145882,-0.006106173545254876,-0.004293731003335377,-0.02341437529491664,-0.0066380356783827575,0.01721718991100345,0.0030508236092991513,0.0,-0.004606248275018651,-0.01866707681401613
-Deep Placement of N Fertiliser,0.009469323387578105,-0.005343959565921388,-0.007294618636099963,0.02111222791970575,-0.016451783676819594,-0.004382567787053325,-0.0010042975934730126,0.07542432402642923,0.09378157315149835,-0.022208047688475244,-0.001967062953050174,0.009287566754630898,0.014033206881977239,0.07741698044536854,0.08774686469968086,-0.025297022268511528,0.009939989555782259,-0.004606248275018651,0.0,0.005014426927465717
-Raised Bed + Zero Tillage System,0.0,-0.00308156336801445,0.0019541178220932875,-0.030752581515465338,-0.017573499432380124,0.0022884376815370286,0.022668426499150823,-0.015878041229676138,0.011401996280637806,0.012053775290679023,0.031154707935806294,-0.01712907339213606,-0.029862179926859966,0.010024890271619954,-0.014116831438874374,-0.0026883993817463235,0.004446270012129892,-0.01866707681401613,0.005014426927465717,0.0
+,Crop Residue Retention,Reduced / Minimum Tillage,Mid-Season Drainage (MSD),Alternate Wetting and Drying (AWD),System of Rice Intensification (SRI) Water Management,Optimised / Variable-Rate N Application,Integrated Nutrient Management (INM) – Organic + Inorganic,Farmyard Manure (FYM) Application,Compost Application,Biochar Application,Rice Straw Incorporation with N Fertiliser,Crop Rotation and Diversification,Early-Maturing / Low-Emission Variety Selection,High-Biomass / Deep-Root Variety Selection,Raised Bed + Zero Tillage System
+Crop Residue Retention,0.0,0.08914151239263295,0.014108470745868207,0.16511361612669143,-0.012795658913603701,0.0009904604634182407,-0.012889386943248574,0.013176754519609087,-0.010213943166059121,-0.006424917332446608,0.005481660965461175,0.032124714013056915,-0.012206590923718166,-0.001709211864823126,0.009758891817370515
+Reduced / Minimum Tillage,0.08914151239263295,0.0,-0.009982645609330414,0.003280328950935194,0.010183703446078423,0.009469323387578105,-0.0070555898143919325,0.022424119668515936,-0.02524304657423707,0.008793334970389172,-0.005230876083726564,-0.002869564873224223,-0.01379178429002417,0.010357280311016523,0.00938385590951005
+Mid-Season Drainage (MSD),0.014108470745868207,-0.009982645609330414,0.0,-0.009928889115999769,-0.017937594683835593,0.08037482356183062,0.009980776634591793,-0.0011957731635959857,-0.019840494185316034,0.12378083778559756,-0.005343959565921388,-0.00308156336801445,0.012604622061860932,-0.06524528795335445,0.0010819426157080427
+Alternate Wetting and Drying (AWD),0.16511361612669143,0.003280328950935194,-0.009928889115999769,0.0,0.08065556436570329,-0.015352462389327973,0.020387813628606546,0.021949543368293425,-0.013898639121082874,-0.05729698106371192,-0.015233686218113123,0.029950963375376796,0.12041847519872544,0.05561176714069022,-0.002111863296245779
+System of Rice Intensification (SRI) Water Management,-0.012795658913603701,0.010183703446078423,-0.017937594683835593,0.08065556436570329,0.0,-0.0023795225555803246,0.14054768363706677,0.08390823564418658,0.04445168700748926,0.031927045986527465,-0.013543907671305396,-0.002349568464871356,0.09338216604446242,-0.01916906361479429,0.0023998742036015737
+Optimised / Variable-Rate N Application,0.0009904604634182407,0.009469323387578105,0.08037482356183062,-0.015352462389327973,-0.0023795225555803246,0.0,0.019590026125602372,0.016594330650898333,0.002748516558328592,0.024763918983468743,0.06850438036592037,-0.013420905284337396,-7.682800080106943e-05,0.02111222791970575,-0.030752581515465338
+Integrated Nutrient Management (INM) – Organic + Inorganic,-0.012889386943248574,-0.0070555898143919325,0.009980776634591793,0.020387813628606546,0.14054768363706677,0.019590026125602372,0.0,-0.01828219590635442,0.013738538135340195,-0.007262541500003677,0.00807173155505889,0.05912172164987891,0.0026486003768056653,0.003423424952083577,-0.0127986502583823
+Farmyard Manure (FYM) Application,0.013176754519609087,0.022424119668515936,-0.0011957731635959857,0.021949543368293425,0.08390823564418658,0.016594330650898333,-0.01828219590635442,0.0,-0.008860605209452296,-0.010936257566154127,-0.002439988808173615,0.05369417665497236,-0.02200567868086486,-0.016451783676819594,-0.017573499432380124
+Compost Application,-0.010213943166059121,-0.02524304657423707,-0.019840494185316034,-0.013898639121082874,0.04445168700748926,0.002748516558328592,0.013738538135340195,-0.008860605209452296,0.0,0.025930464666083886,0.01166006364092616,0.07598531106451877,-0.0039958123501343265,0.007073077838177085,0.005276346125988052
+Biochar Application,-0.006424917332446608,0.008793334970389172,0.12378083778559756,-0.05729698106371192,0.031927045986527465,0.024763918983468743,-0.007262541500003677,-0.010936257566154127,0.025930464666083886,0.0,-0.01082337050314271,0.03139752463395892,-0.011445858145421513,0.003941238377207078,0.01391157722337271
+Rice Straw Incorporation with N Fertiliser,0.005481660965461175,-0.005230876083726564,-0.005343959565921388,-0.015233686218113123,-0.013543907671305396,0.06850438036592037,0.00807173155505889,-0.002439988808173615,0.01166006364092616,-0.01082337050314271,0.0,-0.007072872111749234,-0.004382567787053325,0.0022884376815370286,-0.0035527539676452635
+Crop Rotation and Diversification,0.032124714013056915,-0.002869564873224223,-0.00308156336801445,0.029950963375376796,-0.002349568464871356,-0.013420905284337396,0.05912172164987891,0.05369417665497236,0.07598531106451877,0.03139752463395892,-0.007072872111749234,0.0,-0.005578718719819347,0.025910253212462774,-0.004927878346843408
+Early-Maturing / Low-Emission Variety Selection,-0.012206590923718166,-0.01379178429002417,0.012604622061860932,0.12041847519872544,0.09338216604446242,-7.682800080106943e-05,0.0026486003768056653,-0.02200567868086486,-0.0039958123501343265,-0.011445858145421513,-0.004382567787053325,-0.005578718719819347,0.0,-0.00501684258533815,0.02598467408114916
+High-Biomass / Deep-Root Variety Selection,-0.001709211864823126,0.010357280311016523,-0.06524528795335445,0.05561176714069022,-0.01916906361479429,0.02111222791970575,0.003423424952083577,-0.016451783676819594,0.007073077838177085,0.003941238377207078,0.0022884376815370286,0.025910253212462774,-0.00501684258533815,0.0,0.02615901789251688
+Raised Bed + Zero Tillage System,0.009758891817370515,0.00938385590951005,0.0010819426157080427,-0.002111863296245779,0.0023998742036015737,-0.030752581515465338,-0.0127986502583823,-0.017573499432380124,0.005276346125988052,0.01391157722337271,-0.0035527539676452635,-0.004927878346843408,0.02598467408114916,0.02615901789251688,0.0
 
 
 
 ================================================
 FILE: data/Dataset_INR/beta_cost.csv
 ================================================
-,Zero Tillage (ZT),Crop Residue Retention,Reduced / Minimum Tillage,Puddling Reduction,Mid-Season Drainage (MSD),Alternate Wetting and Drying (AWD),System of Rice Intensification (SRI) Water Management,Balanced Inorganic NPK Fertilisation,Optimised / Variable-Rate N Application,Integrated Nutrient Management (INM) – Organic + Inorganic,Green Manure Incorporation,Farmyard Manure (FYM) Application,Compost Application,Biochar Application,Rice Straw Incorporation with N Fertiliser,Crop Rotation and Diversification,Early-Maturing / Low-Emission Variety Selection,High-Biomass / Deep-Root Variety Selection,Deep Placement of N Fertiliser,Raised Bed + Zero Tillage System
-Zero Tillage (ZT),0.0,-271.9992053120248,-48.77587971634591,-101.06849073202538,21.984949371570714,28.18103017420082,9.218769602062471,-1.2481477746563223,30.563533466850757,-237.60667752441148,10.31831528989971,-10.160375409615389,15.39948556438739,-21.0039119240632,18.581354280086057,5.804033076667994,21.785719448704747,1.6894767372222865,-36.42889549639166,0.0
-Crop Residue Retention,-271.9992053120248,0.0,-112.36072468851697,-120.30408904926351,-8.372125749644372,-184.43867101035724,-11.55879481661418,-31.892158083448045,12.4290186013441,-10.681316158413356,-7.73366349300596,-9.076346164126795,12.174312019639546,12.018666472647723,-2.4621371127355904,-42.18336084895075,-24.931170690037042,-9.454063850984742,18.437889211677163,-23.75055137276453
-Reduced / Minimum Tillage,-48.77587971634591,-112.36072468851697,0.0,-43.183010579808716,-14.85374889241986,-13.23731772659506,40.044472283022884,4.481890873907904,20.877781147864464,-29.719076358071273,-9.745245078894198,-5.5555674274693345,7.8378461862548825,72.84656165018323,-53.30115701828273,-10.383931504492134,26.64950576969109,-25.89134382064529,-1.3445637704580122,24.56848777557644
-Puddling Reduction,-101.06849073202538,-120.30408904926351,-43.183010579808716,0.0,-24.127919055809297,-20.534666980609654,23.289325321856104,-1.0190631533858507,-11.3745870085195,4.3146979430529875,-2.965958152747064,5.484562534096408,10.718910961540336,-30.611725793012507,43.09164301958243,36.53610730605506,16.08316986722611,-4.0860724631128145,2.2646226725436387,-1.2179600482529487
-Mid-Season Drainage (MSD),21.984949371570714,-8.372125749644372,-14.85374889241986,-24.127919055809297,0.0,-21.95380917321877,-33.1598179434891,-8.191827359049022,-43.19106623950397,-5.596470422012488,-27.109701805834163,62.93685093834801,-7.184584038729403,-204.21974982048297,-16.353661001694913,-26.560360296489076,-2.3565638563139246,205.16988448113193,45.92283820803285,-9.206223919700763
-Alternate Wetting and Drying (AWD),28.18103017420082,-184.43867101035724,-13.23731772659506,-20.534666980609654,-21.95380917321877,0.0,-124.53999774498831,10.869151861665467,-34.37239520924955,5.804247240656399,25.317895445495715,1.328883689446684,7.9123565418327,182.9341960990097,-27.810286799585448,12.00358508479027,-197.27898308928187,-80.76989784752182,-2.5872067016490212,36.78729932482893
-System of Rice Intensification (SRI) Water Management,9.218769602062471,-11.55879481661418,40.044472283022884,23.289325321856104,-33.1598179434891,-124.53999774498831,0.0,4.412810534311174,-43.918044561964564,-296.6930702458069,-92.14635210400965,-44.498439185536455,-48.79058388578072,10.97482896845747,1.6636453964801206,-29.45759057787164,-49.00635172864382,18.26936727846612,-29.300179814870397,15.938345272442401
-Balanced Inorganic NPK Fertilisation,-1.2481477746563223,-31.892158083448045,4.481890873907904,-1.0190631533858507,-8.191827359049022,10.869151861665467,4.412810534311174,0.0,0.8195523219065198,0.0,7.800236788781096,-334.564475429905,10.347257134317326,-14.77758562977764,36.89872620133772,-14.273591538044863,5.821950503429209,-21.583631618484542,-76.58121474762767,-3.125225757989441
-Optimised / Variable-Rate N Application,30.563533466850757,12.4290186013441,20.877781147864464,-11.3745870085195,-43.19106623950397,-34.37239520924955,-43.918044561964564,0.8195523219065198,0.0,-20.556250432258008,0.2856513890164833,21.045501672251547,-5.129042221651105,-11.442485773920641,-146.0790839370624,-19.853407250635595,6.906854483213844,1.3588396347595566,-65.43162308225554,5.73028435287671
-Integrated Nutrient Management (INM) – Organic + Inorganic,-237.60667752441148,-10.681316158413356,-29.719076358071273,4.3146979430529875,-5.596470422012488,5.804247240656399,-296.6930702458069,0.0,-20.556250432258008,0.0,-228.98057069157292,-9.843529305614302,-2.938554183203259,-32.41180820186902,-16.956611003879416,-83.07734713203517,-1.7284483681534888,-20.934955595686553,-22.20334634334131,43.01924577914959
-Green Manure Incorporation,10.31831528989971,-7.73366349300596,-9.745245078894198,-2.965958152747064,-27.109701805834163,25.317895445495715,-92.14635210400965,7.800236788781096,0.2856513890164833,-228.98057069157292,0.0,-26.01359847893836,-45.77264564618826,-13.347505959338864,10.69726101737293,-77.33273511249047,-36.9214454211433,27.864811114434424,8.719397351157378,1.7345283783194676
-Farmyard Manure (FYM) Application,-10.160375409615389,-9.076346164126795,-5.5555674274693345,5.484562534096408,62.93685093834801,1.328883689446684,-44.498439185536455,-334.564475429905,21.045501672251547,-9.843529305614302,-26.01359847893836,0.0,-21.14152581918368,7.84770528643884,-51.82458589978229,-100.26170553270667,-24.05227790854068,-7.109095951002378,-8.481462097100383,0.15847655905671104
-Compost Application,15.39948556438739,12.174312019639546,7.8378461862548825,10.718910961540336,-7.184584038729403,7.9123565418327,-48.79058388578072,10.347257134317326,-5.129042221651105,-2.938554183203259,-45.77264564618826,-21.14152581918368,0.0,35.83036266515432,-1.4195798598172884,-74.93945243648564,27.13217511114775,11.349139482717401,-45.78515210537809,-37.376520755680126
-Biochar Application,-21.0039119240632,12.018666472647723,72.84656165018323,-30.611725793012507,-204.21974982048297,182.9341960990097,10.97482896845747,-14.77758562977764,-11.442485773920641,-32.41180820186902,-13.347505959338864,7.84770528643884,35.83036266515432,0.0,-17.98700583211976,-13.587387698315863,-13.989307151237238,-7.433084067440886,-62.32178574084718,-17.209307055768985
-Rice Straw Incorporation with N Fertiliser,18.581354280086057,-2.4621371127355904,-53.30115701828273,43.09164301958243,-16.353661001694913,-27.810286799585448,1.6636453964801206,36.89872620133772,-146.0790839370624,-16.956611003879416,10.69726101737293,-51.82458589978229,-1.4195798598172884,-17.98700583211976,0.0,-24.253737991285316,-4.783599667376507,36.376139406767784,-35.23486924155335,-11.21410520070886
-Crop Rotation and Diversification,5.804033076667994,-42.18336084895075,-10.383931504492134,36.53610730605506,-26.560360296489076,12.00358508479027,-29.45759057787164,-14.273591538044863,-19.853407250635595,-83.07734713203517,-77.33273511249047,-100.26170553270667,-74.93945243648564,-13.587387698315863,-24.253737991285316,0.0,15.936772566278037,-59.85650762251179,-20.655736659098814,-6.3344392237003735
-Early-Maturing / Low-Emission Variety Selection,21.785719448704747,-24.931170690037042,26.64950576969109,16.08316986722611,-2.3565638563139246,-197.27898308928187,-49.00635172864382,5.821950503429209,6.906854483213844,-1.7284483681534888,-36.9214454211433,-24.05227790854068,27.13217511114775,-13.989307151237238,-4.783599667376507,15.936772566278037,0.0,-25.213401048577694,9.625948441402524,50.87683256827668
-High-Biomass / Deep-Root Variety Selection,1.6894767372222865,-9.454063850984742,-25.89134382064529,-4.0860724631128145,205.16988448113193,-80.76989784752182,18.26936727846612,-21.583631618484542,1.3588396347595566,-20.934955595686553,27.864811114434424,-7.109095951002378,11.349139482717401,-7.433084067440886,36.376139406767784,-59.85650762251179,-25.213401048577694,0.0,-18.838189508934448,-22.21993283077296
-Deep Placement of N Fertiliser,-36.42889549639166,18.437889211677163,-1.3445637704580122,2.2646226725436387,45.92283820803285,-2.5872067016490212,-29.300179814870397,-76.58121474762767,-65.43162308225554,-22.20334634334131,8.719397351157378,-8.481462097100383,-45.78515210537809,-62.32178574084718,-35.23486924155335,-20.655736659098814,9.625948441402524,-18.838189508934448,0.0,1.2785514638040447
-Raised Bed + Zero Tillage System,0.0,-23.75055137276453,24.56848777557644,-1.2179600482529487,-9.206223919700763,36.78729932482893,15.938345272442401,-3.125225757989441,5.73028435287671,43.01924577914959,1.7345283783194676,0.15847655905671104,-37.376520755680126,-17.209307055768985,-11.21410520070886,-6.3344392237003735,50.87683256827668,-22.21993283077296,1.2785514638040447,0.0
+,Crop Residue Retention,Reduced / Minimum Tillage,Mid-Season Drainage (MSD),Alternate Wetting and Drying (AWD),System of Rice Intensification (SRI) Water Management,Optimised / Variable-Rate N Application,Integrated Nutrient Management (INM) – Organic + Inorganic,Farmyard Manure (FYM) Application,Compost Application,Biochar Application,Rice Straw Incorporation with N Fertiliser,Crop Rotation and Diversification,Early-Maturing / Low-Emission Variety Selection,High-Biomass / Deep-Root Variety Selection,Raised Bed + Zero Tillage System
+Crop Residue Retention,0.0,-126.39944371841734,-48.77587971634591,-235.8121296171791,21.984949371570714,28.18103017420082,9.218769602062471,-1.2481477746563223,30.563533466850757,-8.80333876220574,10.31831528989971,-10.160375409615389,15.39948556438739,-21.0039119240632,18.581354280086057
+Reduced / Minimum Tillage,-126.39944371841734,0.0,5.804033076667994,21.785719448704747,1.6894767372222865,-36.42889549639166,-15.971946206083548,-21.64577789233108,-8.372125749644372,17.780664494821373,-11.55879481661418,-31.892158083448045,12.4290186013441,-10.681316158413356,-7.73366349300596
+Mid-Season Drainage (MSD),-48.77587971634591,5.804033076667994,0.0,-9.076346164126795,12.174312019639546,-73.17386693829319,-2.4621371127355904,-42.18336084895075,-24.931170690037042,-238.90812770196948,18.437889211677163,-23.75055137276453,-43.183010579808716,96.23400177212822,-13.23731772659506
+Alternate Wetting and Drying (AWD),-235.8121296171791,21.785719448704747,-9.076346164126795,0.0,-33.93773880376796,4.481890873907904,20.877781147864464,-29.719076358071273,-9.745245078894198,111.11109211604906,7.8378461862548825,72.84656165018323,-326.6023140365655,-104.53750410628899,26.64950576969109
+System of Rice Intensification (SRI) Water Management,21.984949371570714,1.6894767372222865,12.174312019639546,-33.93773880376796,0.0,-25.89134382064529,-222.68912754091602,-55.60411711419299,-123.77908667813301,-20.534666980609654,23.289325321856104,-1.0190631533858507,-105.9244218119273,4.3146979430529875,-2.965958152747064
+Optimised / Variable-Rate N Application,28.18103017420082,-36.42889549639166,-73.17386693829319,4.481890873907904,-25.89134382064529,0.0,5.484562534096408,10.718910961540336,-30.611725793012507,43.09164301958243,-38.84944977152293,16.08316986722611,-4.0860724631128145,2.2646226725436387,-1.2179600482529487
+Integrated Nutrient Management (INM) – Organic + Inorganic,9.218769602062471,-15.971946206083548,-2.4621371127355904,20.877781147864464,-222.68912754091602,5.484562534096408,0.0,-21.95380917321877,-33.1598179434891,-8.191827359049022,33.43495268606859,-97.83505859081748,-27.109701805834163,62.93685093834801,-7.184584038729403
+Farmyard Manure (FYM) Application,-1.2481477746563223,-21.64577789233108,-42.18336084895075,-29.719076358071273,-55.60411711419299,10.718910961540336,-21.95380917321877,0.0,7.890125089758512,-16.353661001694913,-26.560360296489076,-93.29918939883949,53.23117780070745,45.92283820803285,-9.206223919700763
+Compost Application,30.563533466850757,-8.372125749644372,-24.931170690037042,-9.745245078894198,-123.77908667813301,-30.611725793012507,-33.1598179434891,7.890125089758512,0.0,-24.671426960705936,10.869151861665467,-138.12135329294938,5.804247240656399,25.317895445495715,1.328883689446684
+Biochar Application,-8.80333876220574,17.780664494821373,-238.90812770196948,111.11109211604906,-20.534666980609654,43.09164301958243,-8.191827359049022,-16.353661001694913,-24.671426960705936,0.0,7.9123565418327,39.33387256188106,-27.810286799585448,12.00358508479027,11.360508455359074
+Rice Straw Incorporation with N Fertiliser,10.31831528989971,-11.55879481661418,18.437889211677163,7.8378461862548825,23.289325321856104,-38.84944977152293,33.43495268606859,-26.560360296489076,10.869151861665467,7.9123565418327,0.0,6.59293010891299,-2.5872067016490212,36.78729932482893,4.412810534311174
+Crop Rotation and Diversification,-10.160375409615389,-31.892158083448045,-23.75055137276453,72.84656165018323,-1.0190631533858507,16.08316986722611,-97.83505859081748,-93.29918939883949,-138.12135329294938,39.33387256188106,6.59293010891299,0.0,-43.918044561964564,-38.34653512290344,-1.5331086457211824
+Early-Maturing / Low-Emission Variety Selection,15.39948556438739,12.4290186013441,-43.183010579808716,-326.6023140365655,-105.9244218119273,-4.0860724631128145,-27.109701805834163,53.23117780070745,5.804247240656399,-27.810286799585448,-2.5872067016490212,-43.918044561964564,0.0,32.501114867473966,29.43529722444234
+High-Biomass / Deep-Root Variety Selection,-21.0039119240632,-10.681316158413356,96.23400177212822,-104.53750410628899,4.3146979430529875,2.2646226725436387,62.93685093834801,45.92283820803285,25.317895445495715,12.00358508479027,36.78729932482893,-38.34653512290344,32.501114867473966,0.0,10.97482896845747
+Raised Bed + Zero Tillage System,18.581354280086057,-7.73366349300596,-13.23731772659506,26.64950576969109,-2.965958152747064,-1.2179600482529487,-7.184584038729403,-9.206223919700763,1.328883689446684,11.360508455359074,4.412810534311174,-1.5331086457211824,29.43529722444234,10.97482896845747,0.0
 
 
 
 ================================================
 FILE: data/Dataset_INR/delta_incompatibility.csv
 ================================================
-,Zero Tillage (ZT),Crop Residue Retention,Reduced / Minimum Tillage,Puddling Reduction,Mid-Season Drainage (MSD),Alternate Wetting and Drying (AWD),System of Rice Intensification (SRI) Water Management,Balanced Inorganic NPK Fertilisation,Optimised / Variable-Rate N Application,Integrated Nutrient Management (INM) – Organic + Inorganic,Green Manure Incorporation,Farmyard Manure (FYM) Application,Compost Application,Biochar Application,Rice Straw Incorporation with N Fertiliser,Crop Rotation and Diversification,Early-Maturing / Low-Emission Variety Selection,High-Biomass / Deep-Root Variety Selection,Deep Placement of N Fertiliser,Raised Bed + Zero Tillage System
-Zero Tillage (ZT),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1
-Crop Residue Retention,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Reduced / Minimum Tillage,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Puddling Reduction,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Mid-Season Drainage (MSD),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Alternate Wetting and Drying (AWD),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-System of Rice Intensification (SRI) Water Management,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Balanced Inorganic NPK Fertilisation,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0
-Optimised / Variable-Rate N Application,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Integrated Nutrient Management (INM) – Organic + Inorganic,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0
-Green Manure Incorporation,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Farmyard Manure (FYM) Application,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Compost Application,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Biochar Application,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Rice Straw Incorporation with N Fertiliser,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Crop Rotation and Diversification,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Early-Maturing / Low-Emission Variety Selection,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-High-Biomass / Deep-Root Variety Selection,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Deep Placement of N Fertiliser,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-Raised Bed + Zero Tillage System,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+,Crop Residue Retention,Reduced / Minimum Tillage,Mid-Season Drainage (MSD),Alternate Wetting and Drying (AWD),System of Rice Intensification (SRI) Water Management,Optimised / Variable-Rate N Application,Integrated Nutrient Management (INM) – Organic + Inorganic,Farmyard Manure (FYM) Application,Compost Application,Biochar Application,Rice Straw Incorporation with N Fertiliser,Crop Rotation and Diversification,Early-Maturing / Low-Emission Variety Selection,High-Biomass / Deep-Root Variety Selection,Raised Bed + Zero Tillage System
+Crop Residue Retention,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Reduced / Minimum Tillage,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Mid-Season Drainage (MSD),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Alternate Wetting and Drying (AWD),0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+System of Rice Intensification (SRI) Water Management,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Optimised / Variable-Rate N Application,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Integrated Nutrient Management (INM) – Organic + Inorganic,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Farmyard Manure (FYM) Application,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Compost Application,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Biochar Application,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Rice Straw Incorporation with N Fertiliser,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Crop Rotation and Diversification,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Early-Maturing / Low-Emission Variety Selection,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+High-Biomass / Deep-Root Variety Selection,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+Raised Bed + Zero Tillage System,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 
 
 
 ================================================
 FILE: data/Dataset_INR/gamma_yield.csv
 ================================================
-,Zero Tillage (ZT),Crop Residue Retention,Reduced / Minimum Tillage,Puddling Reduction,Mid-Season Drainage (MSD),Alternate Wetting and Drying (AWD),System of Rice Intensification (SRI) Water Management,Balanced Inorganic NPK Fertilisation,Optimised / Variable-Rate N Application,Integrated Nutrient Management (INM) – Organic + Inorganic,Green Manure Incorporation,Farmyard Manure (FYM) Application,Compost Application,Biochar Application,Rice Straw Incorporation with N Fertiliser,Crop Rotation and Diversification,Early-Maturing / Low-Emission Variety Selection,High-Biomass / Deep-Root Variety Selection,Deep Placement of N Fertiliser,Raised Bed + Zero Tillage System
-Zero Tillage (ZT),0.0,0.12251353587419372,-0.013021795068623181,0.04966397684991423,0.0077779193542894835,0.004675093422520456,-0.009588826008289988,-0.0018486236354526057,-0.0015452948206880217,0.11596927556660047,0.004308210030078827,-0.005122427290715373,0.011289722927208916,-0.008244812156912395,0.00543154268305195,0.0011668580914072824,0.002235955487746823,0.0028911939868998416,-0.0031967121635730136,0.0
-Crop Residue Retention,0.12251353587419372,0.0,0.04449715497546633,0.06936556709182962,0.001627530651050056,0.12380041705599776,0.00857975881257154,-0.011332872140034807,0.0014242573607056526,0.0015853969107671422,0.004567752375574115,-0.003817378939983291,-0.004694023402027239,0.004465311760299441,-0.004232983120441538,-0.014471124724230873,0.003997742267234366,0.012992282977860654,-0.00933617680009877,-0.003390330759005625
-Reduced / Minimum Tillage,-0.013021795068623181,0.04449715497546633,0.0,0.004344236435458573,-0.014460578543884547,0.0023267621135470394,-0.0023935562747302427,0.0021999668397176516,0.0035687105914950935,-0.006397515327497477,-0.013766861475563089,-0.014708062945026579,0.008381265678943811,0.004144094332759964,0.002677114623438358,-0.006120967990598081,0.0015704856744534462,-0.01674682944704357,0.01767929913579883,-0.00499295598539152
-Puddling Reduction,0.04966397684991423,0.06936556709182962,0.004344236435458573,0.0,-0.007252260645357532,0.008384892037363449,0.0038495096610586315,-0.0065478769542939045,-0.012256057637672482,0.01579091256410435,0.002858261396025429,-0.004109272308337372,0.01535755991995992,-0.01368159199245665,-0.0017951921328260064,-0.011070456820434879,-0.0039460512285958965,0.003375745487989336,0.006439387932768579,-0.008432302702928711
-Mid-Season Drainage (MSD),0.0077779193542894835,0.001627530651050056,-0.014460578543884547,-0.007252260645357532,0.0,-0.0033412344070081206,0.00030631492594417444,0.010027578253046041,0.046909886415001996,0.002424967912712216,0.0009048978162787422,0.0187684461128167,-0.014634420018370032,0.13617560862664702,-0.02147289029738655,-0.005294394273660737,-0.017577283913566312,-0.07574845162548062,0.029050671692404068,0.0034155555094050956
-Alternate Wetting and Drying (AWD),0.004675093422520456,0.12380041705599776,0.0023267621135470394,0.008384892037363449,-0.0033412344070081206,0.0,0.04509444308115781,-0.0037615607123009927,-0.0023817374397466524,-0.00555327218819016,0.0015542932766846604,8.439309141418043e-07,-0.0009728659841348947,-0.04228306894886999,0.011911429530888652,-0.017445859869741925,0.06668707946756566,0.051049335967124874,-0.0025197737820688536,-0.025666584409312975
-System of Rice Intensification (SRI) Water Management,-0.009588826008289988,0.00857975881257154,-0.0023935562747302427,0.0038495096610586315,0.00030631492594417444,0.04509444308115781,0.0,0.002959939896870995,0.0032799548371410963,0.12591484041094567,0.02894202978592102,0.06165310483975414,0.058781733578591525,0.00827988176797059,-0.006974238233002769,0.007823503424176613,0.0650173797746252,-0.01572040255653241,-0.005182798423662747,-0.006989304285787463
-Balanced Inorganic NPK Fertilisation,-0.0018486236354526057,-0.011332872140034807,0.0021999668397176516,-0.0065478769542939045,0.010027578253046041,-0.0037615607123009927,0.002959939896870995,0.0,-0.012165601493811278,0.0,0.011553120361066963,0.1091310018709078,0.016162096816512074,0.005909063227933546,0.003683566127006584,0.008137636899662105,0.0023440089269869593,-0.0014752868024035294,0.0699964849382059,0.014814555476589733
-Optimised / Variable-Rate N Application,-0.0015452948206880217,0.0014242573607056526,0.0035687105914950935,-0.012256057637672482,0.046909886415001996,-0.0023817374397466524,0.0032799548371410963,-0.012165601493811278,0.0,0.0020230619183119357,0.013289605904369893,0.005541165013240933,-0.02003522292066514,0.0010788044434303305,0.024967055717877214,0.0043963660601699355,-0.014127658838923664,-0.0047177603363833575,0.05276482864117364,0.005300647056014667
-Integrated Nutrient Management (INM) – Organic + Inorganic,0.11596927556660047,0.0015853969107671422,-0.006397515327497477,0.01579091256410435,0.002424967912712216,-0.00555327218819016,0.12591484041094567,0.0,0.0020230619183119357,0.0,0.10590328289970873,0.005211672557321126,0.00829519042024073,-0.014821853974428208,0.0074943389972774044,0.07178434993421585,0.013535858895693973,-0.0059440035219873524,-0.003580166880744292,-0.0138218151537704
-Green Manure Incorporation,0.004308210030078827,0.004567752375574115,-0.013766861475563089,0.002858261396025429,0.0009048978162787422,0.0015542932766846604,0.02894202978592102,0.011553120361066963,0.013289605904369893,0.10590328289970873,0.0,0.00474697088463202,0.009282969915684844,-0.010697524112896898,-0.0018924434093640552,0.07641323311056335,0.010672224165719831,0.003833771131824704,0.019510125601262997,0.0016019059331707532
-Farmyard Manure (FYM) Application,-0.005122427290715373,-0.003817378939983291,-0.014708062945026579,-0.004109272308337372,0.0187684461128167,8.439309141418043e-07,0.06165310483975414,0.1091310018709078,0.005541165013240933,0.005211672557321126,0.00474697088463202,0.0,0.003330703726182551,-0.008333688059494058,-0.011173841129896079,0.08874462324859034,0.0034770845245095695,0.0018532564941538203,0.010638515327343586,0.025976737265958325
-Compost Application,0.011289722927208916,-0.004694023402027239,0.008381265678943811,0.01535755991995992,-0.014634420018370032,-0.0009728659841348947,0.058781733578591525,0.016162096816512074,-0.02003522292066514,0.00829519042024073,0.009282969915684844,0.003330703726182551,0.0,0.0009152017817320818,-0.0017040758116420444,0.032969256216284645,0.0036653140723722994,-0.0030867305554641263,-0.0033560736811864625,0.013638622298139095
-Biochar Application,-0.008244812156912395,0.004465311760299441,0.004144094332759964,-0.01368159199245665,0.13617560862664702,-0.04228306894886999,0.00827988176797059,0.005909063227933546,0.0010788044434303305,-0.014821853974428208,-0.010697524112896898,-0.008333688059494058,0.0009152017817320818,0.0,-0.01502503456040897,0.024204150122474025,0.004650802095003063,0.000994774730157385,0.05689290452472105,0.008978154084105482
-Rice Straw Incorporation with N Fertiliser,0.00543154268305195,-0.004232983120441538,0.002677114623438358,-0.0017951921328260064,-0.02147289029738655,0.011911429530888652,-0.006974238233002769,0.003683566127006584,0.024967055717877214,0.0074943389972774044,-0.0018924434093640552,-0.011173841129896079,-0.0017040758116420444,-0.01502503456040897,0.0,-0.008876956557145597,0.01403821392066557,0.0013148581680545218,0.04276459045111658,0.004523339506431387
-Crop Rotation and Diversification,0.0011668580914072824,-0.014471124724230873,-0.006120967990598081,-0.011070456820434879,-0.005294394273660737,-0.017445859869741925,0.007823503424176613,0.008137636899662105,0.0043963660601699355,0.07178434993421585,0.07641323311056335,0.08874462324859034,0.032969256216284645,0.024204150122474025,-0.008876956557145597,0.0,-0.005387713176177433,-0.007865657751041687,0.0024766590110894314,-0.001591848713800608
-Early-Maturing / Low-Emission Variety Selection,0.002235955487746823,0.003997742267234366,0.0015704856744534462,-0.0039460512285958965,-0.017577283913566312,0.06668707946756566,0.0650173797746252,0.0023440089269869593,-0.014127658838923664,0.013535858895693973,0.010672224165719831,0.0034770845245095695,0.0036653140723722994,0.004650802095003063,0.01403821392066557,-0.005387713176177433,0.0,0.007068496408990508,0.005565334427512632,-0.000870941710525099
-High-Biomass / Deep-Root Variety Selection,0.0028911939868998416,0.012992282977860654,-0.01674682944704357,0.003375745487989336,-0.07574845162548062,0.051049335967124874,-0.01572040255653241,-0.0014752868024035294,-0.0047177603363833575,-0.0059440035219873524,0.003833771131824704,0.0018532564941538203,-0.0030867305554641263,0.000994774730157385,0.0013148581680545218,-0.007865657751041687,0.007068496408990508,0.0,-0.010322626705778368,-0.0007068038165207131
-Deep Placement of N Fertiliser,-0.0031967121635730136,-0.00933617680009877,0.01767929913579883,0.006439387932768579,0.029050671692404068,-0.0025197737820688536,-0.005182798423662747,0.0699964849382059,0.05276482864117364,-0.003580166880744292,0.019510125601262997,0.010638515327343586,-0.0033560736811864625,0.05689290452472105,0.04276459045111658,0.0024766590110894314,0.005565334427512632,-0.010322626705778368,0.0,-0.00765535277429713
-Raised Bed + Zero Tillage System,0.0,-0.003390330759005625,-0.00499295598539152,-0.008432302702928711,0.0034155555094050956,-0.025666584409312975,-0.006989304285787463,0.014814555476589733,0.005300647056014667,-0.0138218151537704,0.0016019059331707532,0.025976737265958325,0.013638622298139095,0.008978154084105482,0.004523339506431387,-0.001591848713800608,-0.000870941710525099,-0.0007068038165207131,-0.00765535277429713,0.0
+,Crop Residue Retention,Reduced / Minimum Tillage,Mid-Season Drainage (MSD),Alternate Wetting and Drying (AWD),System of Rice Intensification (SRI) Water Management,Optimised / Variable-Rate N Application,Integrated Nutrient Management (INM) – Organic + Inorganic,Farmyard Manure (FYM) Application,Compost Application,Biochar Application,Rice Straw Incorporation with N Fertiliser,Crop Rotation and Diversification,Early-Maturing / Low-Emission Variety Selection,High-Biomass / Deep-Root Variety Selection,Raised Bed + Zero Tillage System
+Crop Residue Retention,0.0,0.06500902391612914,-0.013021795068623181,0.09949596527487134,0.0077779193542894835,0.004675093422520456,-0.009588826008289988,-0.0018486236354526057,-0.0015452948206880217,0.005323091855533487,0.004308210030078827,-0.005122427290715373,0.011289722927208916,-0.008244812156912395,0.00543154268305195
+Reduced / Minimum Tillage,0.06500902391612914,0.0,0.0011668580914072824,0.002235955487746823,0.0028911939868998416,-0.0031967121635730136,-0.0027514225122668374,0.009682783545914809,0.001627530651050056,0.007933472351999253,0.00857975881257154,-0.011332872140034807,0.0014242573607056526,0.0015853969107671422,0.004567752375574115
+Mid-Season Drainage (MSD),-0.013021795068623181,0.0011668580914072824,0.0,-0.003817378939983291,-0.004694023402027239,0.058930623520598885,-0.004232983120441538,-0.014471124724230873,0.003997742267234366,0.13897684893358198,-0.00933617680009877,-0.003390330759005625,0.004344236435458573,-0.07892115708776909,0.0023267621135470394
+Alternate Wetting and Drying (AWD),0.09949596527487134,0.002235955487746823,-0.003817378939983291,0.0,0.045212887450539516,0.0021999668397176516,0.0035687105914950935,-0.006397515327497477,-0.013766861475563089,-0.07941612589005316,0.008381265678943811,0.004144094332759964,0.10803134387031507,0.03775806401880384,0.0015704856744534462
+System of Rice Intensification (SRI) Water Management,0.0077779193542894835,0.0028911939868998416,-0.004694023402027239,0.045212887450539516,0.0,-0.01674682944704357,0.15,0.040014088029216965,0.03549547870928494,0.008384892037363449,0.0038495096610586315,-0.0065478769542939045,0.02548788472465504,0.01579091256410435,0.002858261396025429
+Optimised / Variable-Rate N Application,0.004675093422520456,-0.0031967121635730136,0.058930623520598885,0.0021999668397176516,-0.01674682944704357,0.0,-0.004109272308337372,0.01535755991995992,-0.01368159199245665,-0.0017951921328260064,0.027859086359130245,-0.0039460512285958965,0.003375745487989336,0.006439387932768579,-0.008432302702928711
+Integrated Nutrient Management (INM) – Organic + Inorganic,-0.009588826008289988,-0.0027514225122668374,-0.004232983120441538,0.0035687105914950935,0.15,-0.004109272308337372,0.0,-0.0033412344070081206,0.00030631492594417444,0.010027578253046041,-0.0015450567924990047,0.05484993582542443,0.0009048978162787422,0.0187684461128167,-0.014634420018370032
+Farmyard Manure (FYM) Application,-0.0018486236354526057,0.009682783545914809,-0.014471124724230873,-0.006397515327497477,0.040014088029216965,0.01535755991995992,-0.0033412344070081206,0.0,0.012058536208882337,-0.02147289029738655,-0.005294394273660737,0.014845432172867379,-0.01287422581274031,0.029050671692404068,0.0034155555094050956
+Compost Application,-0.0015452948206880217,0.001627530651050056,0.003997742267234366,-0.013766861475563089,0.03549547870928494,-0.01368159199245665,0.00030631492594417444,0.012058536208882337,0.0,-0.0024527784594210976,-0.0037615607123009927,0.0452365251205067,-0.00555327218819016,0.0015542932766846604,8.439309141418043e-07
+Biochar Application,0.005323091855533487,0.007933472351999253,0.13897684893358198,-0.07941612589005316,0.008384892037363449,-0.0017951921328260064,0.010027578253046041,-0.02147289029738655,-0.0024527784594210976,0.0,-0.0009728659841348947,0.003858465525565008,0.011911429530888652,-0.017445859869741925,-0.01110430684414478
+Rice Straw Incorporation with N Fertiliser,0.004308210030078827,0.00857975881257154,-0.00933617680009877,0.008381265678943811,0.0038495096610586315,0.027859086359130245,-0.0015450567924990047,-0.005294394273660737,-0.0037615607123009927,-0.0009728659841348947,0.0,0.0005246679835624363,-0.0025197737820688536,-0.025666584409312975,0.002959939896870995
+Crop Rotation and Diversification,-0.005122427290715373,-0.011332872140034807,-0.003390330759005625,0.004144094332759964,-0.0065478769542939045,-0.0039460512285958965,0.05484993582542443,0.014845432172867379,0.0452365251205067,0.003858465525565008,0.0005246679835624363,0.0,0.0032799548371410963,0.008638280136981882,-0.010528985107039491
+Early-Maturing / Low-Emission Variety Selection,0.011289722927208916,0.0014242573607056526,0.004344236435458573,0.10803134387031507,0.02548788472465504,0.003375745487989336,0.0009048978162787422,-0.01287422581274031,-0.00555327218819016,0.011911429530888652,-0.0025197737820688536,0.0032799548371410963,0.0,0.00582655241987707,0.004390866789295762
+High-Biomass / Deep-Root Variety Selection,-0.008244812156912395,0.0015853969107671422,-0.07892115708776909,0.03775806401880384,0.01579091256410435,0.006439387932768579,0.0187684461128167,0.029050671692404068,0.0015542932766846604,-0.017445859869741925,-0.025666584409312975,0.008638280136981882,0.00582655241987707,0.0,0.00827988176797059
+Raised Bed + Zero Tillage System,0.00543154268305195,0.004567752375574115,0.0023267621135470394,0.0015704856744534462,0.002858261396025429,-0.008432302702928711,-0.014634420018370032,0.0034155555094050956,8.439309141418043e-07,-0.01110430684414478,0.002959939896870995,-0.010528985107039491,0.004390866789295762,0.00827988176797059,0.0
 
 
 
@@ -2442,27 +2459,418 @@ Raised Bed + Zero Tillage System,0.0,-0.003390330759005625,-0.00499295598539152,
 FILE: data/Dataset_INR/practices.csv
 ================================================
 Practice,Net_CSP_base,Net_OC_per_ha,Base_yield_change
-Zero Tillage (ZT),1.2,-3500,0.05
 Crop Residue Retention,1.1,-3500,0.15
-Reduced / Minimum Tillage,0.32,-2000,0.0
-Puddling Reduction,0.25,-2000,-0.1
+Reduced / Minimum Tillage,0.32,-2000,-0.1
 Mid-Season Drainage (MSD),0.4,-2000,-0.1
 Alternate Wetting and Drying (AWD),0.55,-2000,0.0
 System of Rice Intensification (SRI) Water Management,0.6,0,0.3
-Balanced Inorganic NPK Fertilisation,0.25,0,0.2
 Optimised / Variable-Rate N Application,0.35,3000,0.1
 Integrated Nutrient Management (INM) – Organic + Inorganic,0.85,0,0.1
-Green Manure Incorporation,0.45,-2000,0.2
 Farmyard Manure (FYM) Application,0.33,0,0.1
 Compost Application,0.5,3000,0.12
 Biochar Application,2.2,8000,0.3
 Rice Straw Incorporation with N Fertiliser,0.95,-2000,0.2
 Crop Rotation and Diversification,1.1,0,0.15
 Early-Maturing / Low-Emission Variety Selection,0.3,-2000,0.0
-High-Biomass / Deep-Root Variety Selection,0.7,-2000,0.2
-Deep Placement of N Fertiliser,0.3,0,0.25
+High-Biomass / Deep-Root Variety Selection,0.7,-2000,0.1
 Raised Bed + Zero Tillage System,2.5,3000,0.1
 
+
+
+================================================
+FILE: data/processed/CF1_delta00/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta00/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta01/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta01/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta02/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta02/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta03/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta03/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta04/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta04/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta05/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta05/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta06/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta06/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta07/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta07/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta08/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta08/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta09/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta09/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta10/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF1_delta10/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta00/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta00/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta01/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta01/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta02/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta02/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta03/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta03/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta04/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta04/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta05/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta05/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta06/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta06/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta07/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta07/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta08/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta08/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta09/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta09/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta10/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF2_delta10/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta00/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta00/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta01/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta01/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta02/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta02/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta03/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta03/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta04/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta04/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta05/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta05/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta06/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta06/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta07/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta07/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta08/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta08/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta09/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta09/standalone_values.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta10/optimization_inputs.pkl
+================================================
+[Binary file]
+
+
+================================================
+FILE: data/processed/CF3_delta10/standalone_values.pkl
+================================================
+[Binary file]
 
 
 ================================================
@@ -2908,8 +3316,14 @@ def _env(key: str, default):
     if raw is None:
         return default
     if isinstance(default, float): return float(raw)
-    if isinstance(default, int):   return int(raw)
+    if isinstance(default, int):
+        try:
+            return int(raw)
+        except ValueError:
+            # Handle float strings like "1500.0" passed to int params
+            return int(float(raw))
     return raw  # str
+
 
 # =============================================================================
 #  CONFIGURATION PARAMETERS
@@ -2986,6 +3400,138 @@ def transaction_cost(n_farmers: int) -> float:
 def certification_cost(total_ha: float, n_farmers: int) -> float:
     """Combined MRV + transaction cost for a coalition."""
     return mrv_cost(total_ha) + transaction_cost(n_farmers)
+
+
+================================================
+FILE: notebooks/launch_experiments.py
+================================================
+# launch_experiments.py
+import subprocess, sys
+from concurrent.futures import ProcessPoolExecutor, as_completed
+
+# =============================================================================
+#  EVERY KNOB YOU CAN TURN
+# =============================================================================
+#
+#  name              — unique experiment folder name (string)
+#  cf_rule           — "CF1" | "CF2" | "CF3"
+#                        CF1: pooled residual (most permissive, always linear)
+#                        CF2: area-weighted per-farmer share (linear, stricter)
+#                        CF3: sequestration-weighted share (bilinear, strictest)
+#
+#  ccp               — carbon credit price (INR / tCO2e)
+#                        base: 1500   range tested: 1000–5000
+#
+#  delta_mrv         — MRV scale exponent on total coalition area
+#                        0.0  → flat MRV (no economies of scale)
+#                        0.6  → moderate economies of scale
+#                        0.7  → base value
+#                        1.0  → fully linear (no scale benefit)
+#
+#  fixed_mrv         — flat MRV cost per certification event (INR)
+#                        base: 5000   lower → easier solo participation
+#
+#  variable_mrv      — variable MRV rate (INR / ha^delta_mrv)
+#                        base: 4000   higher → stronger coalition incentive
+#
+#  fixed_t           — flat transaction / registry fee per certification (INR)
+#                        base: 2000
+#
+#  variable_t        — per-member transaction cost (INR / farmer)
+#                        base: 500    higher → penalises large coalitions
+#
+#  budget_multiplier — scales every farmer's Budget_total_INR_per_season
+#                        1.0 → base budgets from CSV
+#                        2.0 → double budgets (farmers can afford more practices)
+#                        0.5 → half budgets (tighter feasibility)
+#
+#  paddy_price       — farm-gate paddy price (INR / ton)
+#                        base: 22000  affects yield revenue in objective
+#
+#  n_jobs            — joblib workers inside notebook_03 coalition enumeration
+#                        set < total_cores / max_workers to avoid CPU contention
+#                        e.g. 16-core machine, 3 parallel experiments → n_jobs=5
+#
+# =============================================================================
+
+experiments = [
+    # (name, cf_rule, ccp, delta_mrv, fixed_mrv, variable_mrv, fixed_t, variable_t, budget_mult, paddy_price, n_jobs)
+    
+    # ── CF1 × DELTA_MRV 0.0 → 1.0 ────────────────────────────────────────────
+    ("CF1_delta00", "CF1", 1500, 0.0, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF1_delta01", "CF1", 1500, 0.1, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF1_delta02", "CF1", 1500, 0.2, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF1_delta03", "CF1", 1500, 0.3, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF1_delta04", "CF1", 1500, 0.4, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF1_delta05", "CF1", 1500, 0.5, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF1_delta06", "CF1", 1500, 0.6, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF1_delta07", "CF1", 1500, 0.7, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF1_delta08", "CF1", 1500, 0.8, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF1_delta09", "CF1", 1500, 0.9, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF1_delta10", "CF1", 1500, 1.0, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+
+    # ── CF2 × DELTA_MRV 0.0 → 1.0 ────────────────────────────────────────────
+    ("CF2_delta00", "CF2", 1500, 0.0, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF2_delta01", "CF2", 1500, 0.1, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF2_delta02", "CF2", 1500, 0.2, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF2_delta03", "CF2", 1500, 0.3, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF2_delta04", "CF2", 1500, 0.4, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF2_delta05", "CF2", 1500, 0.5, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF2_delta06", "CF2", 1500, 0.6, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF2_delta07", "CF2", 1500, 0.7, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF2_delta08", "CF2", 1500, 0.8, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF2_delta09", "CF2", 1500, 0.9, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF2_delta10", "CF2", 1500, 1.0, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+
+    # ── CF3 × DELTA_MRV 0.0 → 1.0 ────────────────────────────────────────────
+    ("CF3_delta00", "CF3", 1500, 0.0, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF3_delta01", "CF3", 1500, 0.1, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF3_delta02", "CF3", 1500, 0.2, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF3_delta03", "CF3", 1500, 0.3, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF3_delta04", "CF3", 1500, 0.4, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF3_delta05", "CF3", 1500, 0.5, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF3_delta06", "CF3", 1500, 0.6, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF3_delta07", "CF3", 1500, 0.7, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF3_delta08", "CF3", 1500, 0.8, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF3_delta09", "CF3", 1500, 0.9, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ("CF3_delta10", "CF3", 1500, 1.0, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+]
+
+def run_one(exp):
+    (name, cf_rule, ccp, delta_mrv,
+     fixed_mrv, variable_mrv, fixed_t, variable_t,
+     budget_multiplier, paddy_price, n_jobs) = exp
+
+    from pathlib import Path
+    script_path = Path(__file__).resolve().parent / "run_experiment.py"
+
+    result = subprocess.run([
+        sys.executable, str(script_path),
+        "--name",              name,
+        "--cf_rule",           cf_rule,
+        "--ccp",               str(ccp),
+        "--delta_mrv",         str(delta_mrv),
+        "--fixed_mrv",         str(fixed_mrv),
+        "--variable_mrv",      str(variable_mrv),
+        "--fixed_t",           str(fixed_t),
+        "--variable_t",        str(variable_t),
+        "--budget_multiplier", str(budget_multiplier),
+        "--paddy_price",       str(paddy_price),
+        "--n_jobs",            str(n_jobs),
+    ])
+    return name, result.returncode == 0
+
+
+if __name__ == "__main__":
+    MAX_PARALLEL = 3   # tune to: floor(total_cores / n_jobs)
+
+    print(f"Launching {len(experiments)} experiments, {MAX_PARALLEL} at a time...\n")
+
+    with ProcessPoolExecutor(max_workers=MAX_PARALLEL) as pool:
+        futures = {pool.submit(run_one, exp): exp[0] for exp in experiments}
+        for f in as_completed(futures):
+            name, ok = f.result()
+            print(f"{'✓ OK  ' if ok else '✗ FAIL'}: {name}")
 
 
 ================================================
@@ -3736,6 +4282,8 @@ print()
 ================================================
 FILE: notebooks/notebook_01_data_ingestion.py
 ================================================
+
+
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -3767,6 +4315,10 @@ import pandas as pd
 # Make sure config.py is importable regardless of working directory
 sys.path.insert(0, str(Path.cwd()))
 import config
+try:
+    display
+except NameError:
+    def display(x): print(x.to_string() if hasattr(x, "to_string") else str(x))
 
 # Create processed output directory if it doesn't exist
 Path(config.PROCESSED_DIR).mkdir(parents=True, exist_ok=True)
@@ -3774,6 +4326,7 @@ Path(config.PROCESSED_DIR).mkdir(parents=True, exist_ok=True)
 print("Python path OK")
 print(f"Data directory   : {config.DATA_DIR}")
 print(f"Processed dir    : {config.PROCESSED_DIR}")
+
 
 
 # ## 1. Load farmer data
@@ -4989,6 +5542,8 @@ print()
 ================================================
 FILE: notebooks/notebook_02_solo_optimisation.py
 ================================================
+
+
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -5052,6 +5607,10 @@ Path(config.PROCESSED_DIR).mkdir(parents=True, exist_ok=True)
 
 print(config.PROCESSED_DIR_PATH)
 
+try:
+    display
+except NameError:
+    def display(x): print(x.to_string() if hasattr(x, "to_string") else str(x))
 
 # ## 1. Load processed inputs
 
@@ -6769,6 +7328,7 @@ print("Ready for Notebook 04 — Surplus Allocation")
 ================================================
 FILE: notebooks/notebook_03_coalition_enumeration.py
 ================================================
+
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -6842,6 +7402,11 @@ sys.path.insert(0, str(Path.cwd()))
 import config
 
 Path(config.PROCESSED_DIR).mkdir(parents=True, exist_ok=True)
+
+try:
+    display
+except NameError:
+    def display(x): print(x.to_string() if hasattr(x, "to_string") else str(x))
 
 
 # In[2]:
@@ -9670,6 +10235,8 @@ print(f"  Output                  : {out_path}")
 ================================================
 FILE: notebooks/notebook_04_surplus_allocation.py
 ================================================
+
+
 #!/usr/bin/env python
 # coding: utf-8
 
@@ -9731,7 +10298,10 @@ import config
 print(f"Gurobi  : {gp.gurobi.version()}")
 print(f"numpy   : {np.__version__}")
 
-
+try:
+    display
+except NameError:
+    def display(x): print(x.to_string() if hasattr(x, "to_string") else str(x))
 # ## 1. Load all inputs
 
 # In[2]:
@@ -10723,7 +11293,7 @@ if __name__ == "__main__":
     # Pass overrides via environment variables — read in config.py
     env_overrides = {f"EXP_{k}": str(v) for k, v in make_config_overrides(args).items()}
 
-    notebooks_dir = Path("notebooks")
+    notebooks_dir = Path(__file__).resolve().parent
     scripts = [
         notebooks_dir / "notebook_01_data_ingestion.py",
         notebooks_dir / "notebook_02_solo_optimisation.py",
@@ -10739,4 +11309,36 @@ if __name__ == "__main__":
             sys.exit(1)
 
     print(f"\n[{args.name}] Complete.")
+
+
+================================================
+FILE: synthetic_salm_data/farmers.csv
+================================================
+Farmer_ID,Farm_Size_ha,Budget_per_ha_INR_per_season,Budget_total_INR_per_season
+F0001,0.82,3894.03,3193.1
+F0002,0.21,3149.07,661.31
+F0003,1.28,3949.18,5054.95
+F0004,1.55,3047.99,4724.38
+F0005,0.69,3303.26,2279.25
+F0006,0.44,3361.51,1479.06
+F0007,0.6,3219.31,1931.59
+F0008,0.26,2804.7,729.22
+F0009,1.46,3129.71,4569.38
+F0010,1.32,3272.71,4319.98
+F0011,0.65,3239.07,2105.4
+F0012,1.87,3899.78,7292.58
+F0013,0.97,2866.31,2780.33
+F0014,0.26,3344.53,869.58
+F0015,0.88,2852.52,2510.22
+F0016,0.23,4102.91,943.67
+F0017,1.46,3906.29,5703.19
+F0018,0.58,4175.03,2421.52
+F0019,0.5,4074.22,2037.11
+F0020,0.31,3242.14,1005.06
+F0021,0.52,3768.22,1959.47
+F0022,0.4,3229.18,1291.67
+F0023,0.43,4043.5,1738.7
+F0024,1.03,3375.05,3476.31
+F0025,0.87,3326.24,2893.83
+
 

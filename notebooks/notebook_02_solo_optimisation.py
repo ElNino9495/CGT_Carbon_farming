@@ -274,18 +274,7 @@ def solve_solo_farmer(
         name="budget"
     )
 
-    # ── Constraint 2: CSP per hectare upper bound ────────────────────
-    # sum_j CSP_base[j] * x[j] + sum_(j,k) Alpha[j,k] * z[j,k] <= 5
-    #
-    # This ensures that total CSP per-hectare from selected portfolio is at most 5.
-    csp_expr = (
-        gp.quicksum(CSP_base[j] * x[j] for j in range(M))
-        + gp.quicksum(Alpha[j, k] * z[(j, k)] for j, k in compatible_pairs)
-    )
-    model.addConstr(
-        csp_expr <= 4.0,
-        name="csp_max_per_hectare"
-    )
+
 
     # ── Solve ─────────────────────────────────────────────────────────
     model.optimize()

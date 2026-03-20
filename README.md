@@ -4,111 +4,117 @@ This repository contains a Cooperative Game Theory (CGT) framework for optimizin
 
 ---
 
-## Repository Structure
+## Directory Structure
 
 ```
-├── config.py                          # Central configuration file
 ├── data/
 │   ├── Dataset_INR/                   # Raw input CSVs (farmers, practices, interaction matrices)
 │   ├── processed/                     # Output directory — one subfolder per experiment
-│   ├── farmer_generator.py            # Generates synthetic farmer profiles (budgets, sizes)
-│   └── data_generator.py              # Generates practice interaction matrices (α, β, γ)
+│   ├── farmer_generator.py            # Generates synthetic farmer profiles
+│   └── data_generator.py              # Generates practice interaction matrices
 └── notebooks/
-    ├── 01_Data_Ingestion_and_Preprocessing.ipynb
-    ├── 02_Phase1_Solo_Optimisation.ipynb
-    ├── 03_Phase1_Characteristic_Function.ipynb
-    └── 04_Phase2_Allocation.ipynb
+    ├── config.py                      # Central configuration file
+    ├── launch_experiments.py          # Master script for launching batch experiments
+    ├── run_experiment.py              # Script to run a single experiment end-to-end
+    ├── notebook_01_data_ingestion.py  # Data extraction & validation
+    ├── notebook_02_solo_optimisation.py # Phase 1: Solo optimization
+    ├── notebook_03_coalition_enumeration.py # Phase 1: Coalition formation
+    ├── notebook_04_surplus_allocation.py # Phase 2: Allocation mechanisms
+    └── ...                            # Original Jupyter notebooks (.ipynb)
 ```
-
-| Notebook | Purpose |
-|----------|---------|
-| `01` | Ingests raw CSVs and creates a frozen input snapshot |
-| `02` | Solves the individual MILP for each farmer (Disagreement Point) |
-| `03` | Enumerates all $2^N$ coalitions and computes $v(S)$ |
-| `04` | Computes Core, Shapley, Nucleolus allocations and stability plots |
 
 ---
 
-## How to Run an Experiment (Ablation Study)
+## Running Experiments
 
-To run a new experiment (e.g., testing "High Budget" vs "Low Budget" or comparing CF1 vs CF2 rules), follow this workflow. Each experiment is fully isolated and reproducible.
+This framework supports both **automated batch processing** (for ablation studies) and **manual interactive execution** (for debugging).
 
-### Step 1 — Configure the run
+### 1. Automated Batch Experiments (Recommended)
 
-Open `config.py` and edit the **Experiment Configuration** section:
+Use `launch_experiments.py` to run multiple experiments in parallel. This is ideal for sensitivity analysis (e.g., varying Carbon Credit Price or MRV costs).
 
-```python
-# 1. Name your experiment — this creates a unique folder for all results.
-EXPERIMENT_NAME = "HighBudget_CF2_Run"
-
-# 2. Select the Coalition Feasibility Rule.
-CF_RULE = "CF2"   # "CF1", "CF2", or "CF3"
-```
-
-### Step 2 — Generate or modify input data (optional)
-
-Only needed if you are changing the "physics" of the problem — e.g., farmer budgets, farm sizes, or global prices.
-
-1. Open `data/farmer_generator.py` and edit the parameters in `main()`:
+**Step 1:** Open `notebooks/launch_experiments.py` and modify the `experiments` list. Each tuple defines a unique configuration:
 
 ```python
-# Example: doubling the per-hectare budget
-budget_per_ha = 7000.0
+experiments = [
+    # (name, cf_rule, ccp, delta_mrv, fixed_mrv, var_mrv, fixed_t, var_t, budget, paddy, n_jobs)
+    ("CF1_delta00", "CF1", 1500, 0.0, 5000, 4000, 2000, 500, 1.0, 22000, 4),
+    ...
+]
 ```
 
-2. Run the generator from a terminal:
+**Step 2:** Run the launcher from the root directory:
 
 ```bash
-python data/farmer_generator.py
+python notebooks/launch_experiments.py
 ```
 
-> **Note:** This overwrites the CSVs in `Dataset_INR/`. This is safe because Step 3 will save a frozen snapshot of the data into your experiment folder before anything is modified.
+This script manages parallel execution using `ProcessPoolExecutor`, running multiple experiments concurrently based on available CPU cores.
 
-### Step 3 — Execute the pipeline
+### 2. Single Experiment via CLI
 
-Run the four notebooks **in numerical order**. Each notebook reads `EXPERIMENT_NAME` from `config.py` and automatically reads from / writes to the correct experiment subfolder under `data/processed/`.
+Use `run_experiment.py` to run a specific configuration without editing files. This is useful for testing a single scenario.
 
-**`01_Data_Ingestion_and_Preprocessing.ipynb`**
-- Reads raw CSVs from `Dataset_INR/`
-- Validates matrices (symmetry, zero diagonal, no NaNs)
-- Saves `optimization_inputs.pkl` to `data/processed/HighBudget_CF2_Run/`
-- ✅ Your inputs are now frozen — future CSV changes won't affect this experiment.
+```bash
+python notebooks/run_experiment.py \
+  --name "My_Test_Run" \
+  --cf_rule "CF1" \
+  --ccp 2000 \
+  --delta_mrv 0.7 \
+  --n_jobs 4
+```
 
-**`02_Phase1_Solo_Optimisation.ipynb`**
-- Solves the individual MILP for each farmer using the frozen inputs
-- Computes each farmer's standalone value $\tilde{v}(\{i\})$ (IR floor)
-- Saves `standalone_values.pkl` to the experiment folder
+This script automatically executes the four pipeline steps in order (`01` -> `02` -> `03` -> `04`) using the provided parameters.
 
-**`03_Phase1_Characteristic_Function.ipynb`**
-- Enumerates all $2^N$ coalitions and solves a joint MILP per coalition
-- Uses the `CF_RULE` defined in Step 1
-- Saves `characteristic_function.pkl`
-- ⚠️ Computationally intensive for $N > 15$ — parallelised via `joblib`
+### 3. Manual / Interactive Execution
 
-**`04_Phase2_Allocation.ipynb`**
-- Loads the characteristic function and computes five allocation mechanisms:
-  - Least Core, Nucleolus, Shapley Value, Equal Split, Proportional Split
-- Computes per-farmer carbon transfers (actual manager payouts)
-- Saves `allocation_results.pkl` and generates all stability and comparison plots
+You can still run the Jupyter notebooks interactively. This is useful for debugging logic or inspecting intermediate dataframes.
+
+1. Open `notebooks/config.py` and set your desired parameters (e.g., `EXPERIMENT_NAME`, `CF_RULE`, `CCP`).
+2. Run the notebooks in sequential order:
+    - `01_Data_Ingestion_and_Preprocessing.ipynb`
+    - `02_Phase1_Solo_Optimisation.ipynb`
+    - `03_Phase1_Characteristic_Function.ipynb`
+    - `04_Phase2_Allocation.ipynb`
 
 ---
 
-## Key Configuration Parameters (`config.py`)
+## Configuration System
+
+The project uses a hierarchical configuration system:
+
+1. **`notebooks/config.py`**: Defines all default values, types, and derived constants.
+2. **Environment Variables**: Can override any value in `config.py` at runtime. The key is usually the parameter name (e.g., `CCP`, `DELTA_MRV`, `EXPERIMENT_NAME`).
+
+When using `launch_experiments.py` or `run_experiment.py`, the scripts automatically handle these environment variable overrides for you.
+
+### Key Configuration Parameters
 
 | Parameter | Type | Description |
 |-----------|------|-------------|
-| `EXPERIMENT_NAME` | `str` | Name of the subfolder in `processed/` where all results are stored |
-| `CF_RULE` | `str` | `"CF1"` — Pooled residual (linear; most permissive) <br> `"CF2"` — Area-weighted per-farmer share (linear; stricter) <br> `"CF3"` — Sequestration-weighted per-farmer share (non-convex; strictest) |
-| `CCP` | `float` | Carbon credit price (INR / tCO₂e) |
-| `PADDY_PRICE` | `float` | Farm-gate paddy price (INR / ton) |
-| `FIXED_MRV` | `float` | Flat MRV cost per certification (INR) |
-| `VARIABLE_MRV` | `float` | Variable MRV rate (INR / ha^δ) |
-| `DELTA_MRV` | `float` | MRV scale exponent — values < 1 produce economies of scale |
-| `FIXED_T` | `float` | Flat transaction / registry fee per certification (INR) |
-| `VARIABLE_T` | `float` | Per-member transaction cost (INR / farmer) |
-| `GUROBI_TIME_LIMIT` | `int` | Solver time limit per coalition solve (seconds) |
-| `GUROBI_MIP_GAP` | `float` | Relative MIP optimality gap |
-| `N_JOBS` | `int` | Parallel workers for coalition enumeration (`-1` = all CPU cores) |
+| `EXPERIMENT_NAME` | `str` | Name of the output subfolder in `data/processed/` |
+| `CF_RULE` | `str` | **Coalition Feasibility Rule**:<br>`CF1` (Pooled residual; linear), `CF2` (Area-weighted; strict), `CF3` (Sequestration-weighted; strictest) |
+| `CCP` | `float` | **Carbon Credit Price** (INR / tCO₂e). |
+| `DELTA_MRV` | `float` | **MRV Scale Exponent** (0.0 = const, 1.0 = linear). Values < 1 imply economies of scale. |
+| `FIXED_MRV` | `float` | Flat MRV cost per certification event (INR). |
+| `VARIABLE_MRV` | `float` | Variable MRV rate (INR / ha^δ). |
+| `FIXED_T` | `float` | Flat transaction/registry fee (INR). |
+| `VARIABLE_T` | `float` | Per-member transaction cost (INR / farmer). |
+| `BUDGET_MULTIPLIER`| `float` | Scaling factor for farmer budgets (1.0 = base). |
+| `PADDY_PRICE` | `float` | Farm-gate paddy price (INR / ton). |
+| `N_JOBS` | `int` | Parallel workers for coalition enumeration (-1 = all cores). |
+
+---
+
+## Outputs
+
+All results are saved in `data/processed/<EXPERIMENT_NAME>/`.
+
+- **`optimization_inputs.pkl`**: Frozen copy of input data.
+- **`standalone_values.pkl`**: Results from Solo Optimization (Phase 1).
+- **`characteristic_function.pkl`**: Results from Coalition Enumeration (Phase 1).
+- **`allocation_results.pkl`**: Final allocations from Phase 2.
+- **`plots/`**: Stability analysis and allocation plots (generated by Phase 2).
 
 ---
 
@@ -116,8 +122,7 @@ Run the four notebooks **in numerical order**. Each notebook reads `EXPERIMENT_N
 
 - Python 3.9+
 - Gurobi Optimizer (valid licence required — academic licences available free at [gurobi.com](https://www.gurobi.com))
-- Key Python libraries:
-
-```bash
-pip install gurobipy pandas numpy matplotlib joblib tqdm
-```
+- Key Dependencies:
+  ```bash
+  pip install gurobipy pandas numpy matplotlib joblib tqdm
+  ```
